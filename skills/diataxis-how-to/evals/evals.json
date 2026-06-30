@@ -1,0 +1,54 @@
+{
+  "skill_name": "diataxis-how-to",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a how-to guide for rotating a production API key without taking the service down.",
+      "expected_output": "A task-oriented Diataxis how-to: a goal-stating title, a short context line, prerequisites, ordered real-command action steps, and a completion line — no teaching or theory.",
+      "files": [],
+      "expectations": [
+        "Title states the goal directly in the form 'How to <accomplish X>'",
+        "Has a Prerequisites section naming the assumed starting state and access",
+        "Uses numbered action steps with real, runnable commands, each doing one thing",
+        "Contains no concept teaching, background theory, or exhaustive option catalogs",
+        "Includes MIF frontmatter with type: procedural and passes mif-validate --level 1",
+        "Ends at task completion with no placeholder text like TODO or 'configure as needed'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I wrote this how-to but reviewers say it reads like a tutorial with a lot of background. Show me what's wrong and a corrected version.",
+      "expected_output": "Identifies mode-mixing (tutorial hand-holding and explanation/reference content inside a how-to) and rewrites it as a lean ordered task recipe.",
+      "files": [],
+      "expectations": [
+        "Names the specific Diataxis violations (beginner reassurance, theory dumps, full option lists)",
+        "Explains a how-to is task-oriented, distinct from tutorial, reference, and explanation",
+        "Produces a corrected how-to with a goal title, prerequisites, and ordered real-command steps",
+        "Moves 'why it works' content out to a linked explanation rather than inlining it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Turn these scratch deployment notes into a proper how-to guide for rolling back a bad release.",
+      "expected_output": "A conformant how-to derived from the notes: a goal-stating title, prerequisites, verifiable numbered command steps, and a completion line.",
+      "files": [],
+      "expectations": [
+        "Reorders the notes into a strictly ordered sequence of action steps",
+        "Adds a goal-stating title and a Prerequisites section for the assumed starting state",
+        "Each step is a single real command or action with a checkable result",
+        "Emits MIF-conformant frontmatter (type: procedural) and the body passes mif-validate"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Should this content be a how-to, a tutorial, or reference? It helps an experienced engineer accomplish a specific deployment task they already understand.",
+      "expected_output": "Recommends a how-to because the reader is competent and has a known goal, and explains the Diataxis distinction.",
+      "files": [],
+      "expectations": [
+        "Recommends the how-to mode for a competent reader accomplishing a known task",
+        "Contrasts with tutorial (a beginner learning by doing) and reference (looking up facts)",
+        "Offers to draft the how-to following the task-oriented goal-title-then-steps pattern"
+      ]
+    }
+  ]
+}

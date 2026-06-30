@@ -1,0 +1,39 @@
+{
+  "skill_name": "kiro-requirements",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write the Kiro requirements.md for a profile avatar upload feature.",
+      "expected_output": "Numbered requirements, each a user story with EARS acceptance criteria including error paths.",
+      "files": [],
+      "expectations": [
+        "Each requirement has a user story (As a / I want / so that)",
+        "Acceptance criteria are written in EARS (WHEN/IF/WHILE ... SHALL)",
+        "Covers unhappy paths (size limit, format) with IF/THEN criteria",
+        "Requirements are numbered and the doc passes mif-validate --level 1 (type: semantic)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "These requirements are bullet points like 'handle errors appropriately'. Make them Kiro-conformant.",
+      "expected_output": "Rewrites them as numbered user stories with EARS acceptance criteria.",
+      "files": [],
+      "expectations": [
+        "Converts vague bullets into numbered requirements",
+        "Adds a user story and EARS criteria per requirement",
+        "Makes each criterion individually testable"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Why does Kiro put requirements in EARS and number them?",
+      "expected_output": "Explains numbering enables traceability to design/tasks and EARS makes criteria testable.",
+      "files": [],
+      "expectations": [
+        "Explains numbering enables design.md and tasks.md to trace to requirements",
+        "Explains EARS makes acceptance criteria unambiguous and testable",
+        "Notes requirements.md is the first of the three Kiro documents"
+      ]
+    }
+  ]
+}

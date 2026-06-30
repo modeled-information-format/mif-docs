@@ -1,0 +1,12 @@
+{
+  "recipe": "architecture",
+  "description": "Decompose a subject into a narrative architecture doc plus its diagrams.",
+  "decomposition": "subject -> {arc42-arch-doc, c4-model-diagram}",
+  "members": [
+    { "skill": "arc42-arch-doc", "covers": "the 12-section architecture narrative" },
+    { "skill": "c4-model-diagram", "covers": "context/container/component diagrams" }
+  ],
+  "crossLinks": [
+    { "from": "arc42-arch-doc", "type": "relates-to", "to": "c4-model-diagram" }
+  ]
+}

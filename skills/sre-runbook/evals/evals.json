@@ -1,0 +1,54 @@
+{
+  "skill_name": "sre-runbook",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our payments-api just started paging on a p99 latency SLO burn. Write the on-call runbook for this alert.",
+      "expected_output": "A tactical SRE runbook scoped to the one latency alert, with all seven sections (Overview, Prerequisites & Access, Detection, Diagnosis, Remediation, Escalation, Verification & Rollback), concrete commands, and MIF frontmatter.",
+      "files": [],
+      "expectations": [
+        "Contains all seven canonical sections in order: Overview, Prerequisites & Access, Detection, Diagnosis, Remediation, Escalation, Verification & Rollback",
+        "Detection states a measurable trigger (an alert name plus a threshold/SLO), not a vague symptom",
+        "Remediation steps are numbered with a concrete command and an expected result for each",
+        "Includes an explicit Rollback path for undoing the remediation",
+        "Emits MIF frontmatter with type: procedural and passes mif-validate --level 1",
+        "Contains no placeholder text like TODO or 'investigate as appropriate'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this runbook draft. The triage section just says 'investigate the issue and check the dashboards', there's no detection threshold, and no rollback. Tell me what's wrong and fix it.",
+      "expected_output": "Identifies the missing measurable detection trigger, the non-actionable diagnosis, and the absent rollback, then rewrites them as concrete commands with expected results and an explicit undo path.",
+      "files": [],
+      "expectations": [
+        "Flags 'investigate the issue' as non-actionable and replaces it with ordered triage commands that show how to read each output",
+        "Adds a measurable Detection trigger (alert name plus threshold/SLO)",
+        "Adds a Verification & Rollback section with an explicit pass condition and undo steps",
+        "References the 5 A's (Actionable/Accurate/Authoritative/Accessible/Adaptable) when explaining the gaps"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Should this be a runbook or a playbook? It's about coordinating comms, roles, and multiple teams during any major checkout outage.",
+      "expected_output": "Recommends a playbook because the scope is strategic and multi-team, and explains that a runbook is the tactical fix for one specific alert.",
+      "files": [],
+      "expectations": [
+        "Recommends a playbook for the strategic, multi-team coordination scope",
+        "Explains a runbook is tactical and scoped to one named alert/condition",
+        "Offers to draft a runbook for a specific alert if the user wants the tactical procedure"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn these scratch notes from our last incident into a proper runbook: 'queue depth alert fired, checked consumer lag with kafka cli, scaled consumers from 4 to 8, lag drained, watched it for 10 min'.",
+      "expected_output": "A conformant runbook for the queue-depth alert derived from the notes, with the seven sections, real commands, expected results, escalation criteria, and a rollback to the original consumer count.",
+      "files": [],
+      "expectations": [
+        "Structures the notes into the seven canonical sections in order",
+        "Detection names the queue-depth alert with a measurable trigger and a confirming command",
+        "Remediation includes the scale-out command with an expected result, and Rollback restores the original consumer count",
+        "Emits MIF-conformant frontmatter (type: procedural, namespace under runbook/) that passes mif-validate"
+      ]
+    }
+  ]
+}

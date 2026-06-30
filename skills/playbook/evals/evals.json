@@ -1,0 +1,39 @@
+{
+  "skill_name": "playbook",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a playbook for how we handle a Sev1 production outage.",
+      "expected_output": "A strategic playbook with scenario scope, roles, decision framework, phases, comms plan, and review.",
+      "files": [],
+      "expectations": [
+        "Defines roles (Incident Commander, Comms Lead) with authority",
+        "Includes a decision framework (severity, escalation criteria) and phases",
+        "Includes a communications plan and a post-incident review",
+        "Emits MIF frontmatter type: procedural and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Is this a playbook or a runbook? It's a list of commands to restart the queue worker.",
+      "expected_output": "Identifies it as a tactical runbook, not a playbook.",
+      "files": [],
+      "expectations": [
+        "Classifies a single tactical command list as a runbook",
+        "Explains a playbook is strategic (roles, decisions, phases across a scenario class)",
+        "Recommends the sre-runbook skill for the command list"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our outage playbook has no defined roles or comms cadence. Fix it.",
+      "expected_output": "Adds a roles/responsibilities matrix and a communications plan with cadence.",
+      "files": [],
+      "expectations": [
+        "Adds explicit roles with authority (IC, Comms Lead, Ops)",
+        "Adds internal and external communications cadence",
+        "Adds escalation criteria and phase exit conditions"
+      ]
+    }
+  ]
+}

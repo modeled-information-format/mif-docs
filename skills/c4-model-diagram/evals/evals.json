@@ -1,0 +1,39 @@
+{
+  "skill_name": "c4-model-diagram",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create C4 diagrams for our internet banking system showing context and containers.",
+      "expected_output": "A C4 document with System Context and Container levels as Mermaid diagrams plus element catalogs.",
+      "files": [],
+      "expectations": [
+        "Includes a System Context (Level 1) and a Container (Level 2) view",
+        "Uses Mermaid C4 fenced blocks (C4Context / C4Container)",
+        "Shows people/actors and system boundaries, not just technology boxes",
+        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "My C4 diagram is just a box for every microservice. What's wrong?",
+      "expected_output": "Explains the abstraction levels and that Context/Container views need actors and boundaries, not a flat service map.",
+      "files": [],
+      "expectations": [
+        "Identifies the missing abstraction layering (Context vs Container vs Component)",
+        "Notes that people and system boundaries are required at the Context level",
+        "Recommends starting at Level 1 and zooming in deliberately"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What are the four levels of the C4 model and which do I usually need?",
+      "expected_output": "Lists Context, Container, Component, Code and notes Code is usually omitted.",
+      "files": [],
+      "expectations": [
+        "Names all four levels in order",
+        "Explains each level zooms into the previous",
+        "Notes the Code level is usually generated/omitted"
+      ]
+    }
+  ]
+}

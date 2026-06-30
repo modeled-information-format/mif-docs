@@ -1,0 +1,40 @@
+{
+  "skill_name": "changelog",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Start a CHANGELOG for our library and add an entry for the unreleased work: a new export command and a fixed crash on empty input.",
+      "expected_output": "A Keep a Changelog file with an Unreleased section grouping Added and Fixed entries.",
+      "files": [],
+      "expectations": [
+        "Has a top-level Unreleased section",
+        "Groups entries under the fixed categories (Added, Fixed)",
+        "Follows Keep a Changelog conventions (human-readable, latest first)",
+        "Emits MIF frontmatter type: episodic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We're cutting version 2.1.0 today. Move the unreleased entries into a dated release section.",
+      "expected_output": "Promotes Unreleased to a versioned section header with today's date in reverse-chronological order.",
+      "files": [],
+      "expectations": [
+        "Creates a section like ## [2.1.0] - YYYY-MM-DD",
+        "Places the new version above older versions (reverse chronological)",
+        "Leaves a fresh empty Unreleased section at the top",
+        "Preserves the grouped category subsections"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Should I just paste our git log into the changelog?",
+      "expected_output": "Explains that a changelog is curated for humans, grouped by type, not a git log dump.",
+      "files": [],
+      "expectations": [
+        "States a changelog is for humans, not a commit dump",
+        "Recommends grouping by Added/Changed/Deprecated/Removed/Fixed/Security",
+        "Notes one entry per notable change with SemVer versioning"
+      ]
+    }
+  ]
+}

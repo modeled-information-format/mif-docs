@@ -1,0 +1,14 @@
+{
+  "recipe": "kiro",
+  "description": "Decompose a feature into the Kiro three-document spec set, sequentially traced.",
+  "decomposition": "feature -> requirements -> design -> tasks",
+  "members": [
+    { "skill": "kiro-requirements", "covers": "user stories + EARS acceptance criteria" },
+    { "skill": "kiro-design", "covers": "architecture, components, data models" },
+    { "skill": "kiro-tasks", "covers": "the traced implementation task list" }
+  ],
+  "crossLinks": [
+    { "from": "kiro-design", "type": "derived-from", "to": "kiro-requirements" },
+    { "from": "kiro-tasks", "type": "derived-from", "to": "kiro-design" }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "skill_name": "google-design-doc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a design doc for a new outbound webhook delivery service so we can align the team before building it.",
+      "expected_output": "A Google-style engineering design doc with Context and Scope, Goals and Non-Goals, the proposed design (APIs, schema, key flows), Alternatives Considered with pros/cons and why each was rejected, and cross-cutting security/privacy/observability concerns.",
+      "files": [],
+      "expectations": [
+        "Has a Context and Scope section that states the problem and what is in vs out of scope",
+        "Includes both Goals and explicit Non-Goals as separate bulleted lists",
+        "The Design section covers APIs, data storage/schema, and key flows (happy and failure paths)",
+        "Alternatives Considered lists at least two rejected options, each with pros, cons, and a why-rejected tied to a goal or constraint",
+        "Addresses security, privacy, and observability as cross-cutting concerns",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this design doc draft — my reviewers say it reads like a foregone conclusion. What's missing and how do I fix it?",
+      "expected_output": "Identifies the absence of honest Alternatives Considered and explicit Non-Goals, and shows how to add weighed options and scope boundaries so the decision is justified rather than asserted.",
+      "files": [],
+      "expectations": [
+        "Names the missing Alternatives Considered section as the core flaw",
+        "Flags the absence of Non-Goals and explains they bound scope in review",
+        "Recommends giving each alternative an honest pro/con and a why-rejected that ties to a goal, not a strawman",
+        "Frames the doc as trade-off-driven rather than a single-option proposal"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I have a chosen approach for a per-tenant rate limiter already. Should I still write a design doc, and what should it contain?",
+      "expected_output": "Recommends a Google-style design doc whose value is the trade-offs, and outlines the section structure including the alternatives that were rejected on the way to the chosen approach.",
+      "files": [],
+      "expectations": [
+        "Explains the doc's purpose is to record rationale and the rejected alternatives, not just the chosen design",
+        "Lists the expected sections: Context and Scope, Goals and Non-Goals, the Design, Alternatives Considered, Cross-cutting Concerns",
+        "Distinguishes a design doc from an ADR (single immutable decision) and a feature spec (requirements)",
+        "Notes the MIF frontmatter should use type: semantic"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn these architecture meeting notes about our event ingestion redesign into a proper design doc.",
+      "expected_output": "A conformant design doc derived from the notes, with scoped context, goals and non-goals, the design surfaces, the alternatives that were debated with their trade-offs, and cross-cutting concerns.",
+      "files": [],
+      "expectations": [
+        "Reorganizes the notes into the standard design-doc sections",
+        "Recovers the debated options from the notes into Alternatives Considered with pros/cons and why-rejected",
+        "Makes scope explicit via Goals and Non-Goals",
+        "Produces MIF-conformant frontmatter (type: semantic) and a body that passes mif-validate --level 1"
+      ]
+    }
+  ]
+}

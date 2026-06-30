@@ -1,0 +1,17 @@
+{
+  "recipe": "diataxis",
+  "description": "Decompose a subject into the four Diataxis user-need modes.",
+  "decomposition": "subject -> {tutorial, how-to, reference, explanation}",
+  "members": [
+    { "skill": "diataxis-tutorial", "covers": "learning-oriented onboarding" },
+    { "skill": "diataxis-how-to", "covers": "task-oriented recipes" },
+    { "skill": "diataxis-reference", "covers": "information-oriented description" },
+    { "skill": "diataxis-explanation", "covers": "understanding-oriented background" }
+  ],
+  "crossLinks": [
+    { "from": "diataxis-tutorial", "type": "relates-to", "to": "diataxis-how-to" },
+    { "from": "diataxis-tutorial", "type": "relates-to", "to": "diataxis-explanation" },
+    { "from": "diataxis-how-to", "type": "relates-to", "to": "diataxis-reference" },
+    { "from": "diataxis-reference", "type": "relates-to", "to": "diataxis-explanation" }
+  ]
+}

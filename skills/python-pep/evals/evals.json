@@ -1,0 +1,53 @@
+{
+  "skill_name": "python-pep",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draft a PEP proposing a new function for the standard library math module that clamps a number to a range.",
+      "expected_output": "A Standards Track PEP with the RFC822 header preamble and all main sections, specifying the new function precisely and defending the design.",
+      "files": [],
+      "expectations": [
+        "Includes an RFC822-style header preamble with PEP, Title, Author, Status, Type, Created, and Python-Version fields",
+        "Type is one of Standards Track, Informational, or Process; Status is a valid lifecycle state",
+        "Contains Abstract, Motivation, Rationale, Specification, Backwards Compatibility, Security Implications, How to Teach This, Reference Implementation, Rejected Ideas, and Open Issues sections",
+        "The Specification is precise enough to implement (defines behavior for edge cases, not just the happy path)",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this PEP draft for me — reviewers keep bouncing it. What required sections am I missing and why does it matter?",
+      "expected_output": "Identifies the missing Backwards Compatibility and Rejected Ideas sections, the malformed header, and explains why each blocks acceptance.",
+      "files": [],
+      "expectations": [
+        "Flags missing Backwards Compatibility and Rejected Ideas as the most common review blockers",
+        "Checks the header preamble for a valid Type, a valid Status lifecycle state, and an assigned PEP number",
+        "Explains that 'None' is an acceptable answer for compatibility/security but silence is not",
+        "Offers a corrected version that fills the required sections"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What is the difference between the three PEP types, and which one should a governance change use?",
+      "expected_output": "Explains Standards Track, Informational, and Process types and recommends Process for a governance change.",
+      "files": [],
+      "expectations": [
+        "Defines Standards Track as a new language, C API, or standard-library feature",
+        "Defines Informational and Process, contrasting Process (a change to a process around Python) with the others",
+        "Recommends the Process type for a governance/decision-making change",
+        "References that the Type field appears in the PEP header preamble"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "My PEP was turned down but I want to keep it on record pointing at the proposal that replaced it. What status should it carry?",
+      "expected_output": "Explains the status lifecycle and recommends Superseded (pointing forward) versus Rejected/Withdrawn/Deferred.",
+      "files": [],
+      "expectations": [
+        "Recommends Superseded when a later PEP replaces this one, and explains it points forward",
+        "Contrasts Superseded with Rejected (turned down on merits), Withdrawn (author abandons), and Deferred (no champion)",
+        "Notes the Status field reflects exactly one lifecycle state at a time"
+      ]
+    }
+  ]
+}

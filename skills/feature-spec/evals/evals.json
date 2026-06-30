@@ -1,0 +1,53 @@
+{
+  "skill_name": "feature-spec",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a feature spec for a CSV export endpoint that lets an account owner download their contacts.",
+      "expected_output": "A lightweight feature spec with Overview, EARS Acceptance Criteria, Design, and Edge Cases sections, scoped to one feature and ready for an implementer to build.",
+      "files": [],
+      "expectations": [
+        "Has all four sections: Overview, Acceptance Criteria, Design, Edge Cases",
+        "Every acceptance criterion uses an EARS template (When/While/If/Where/shall) and names a concrete component",
+        "Edge Cases section enumerates specific boundary and error behaviors with expected responses",
+        "Design names real components and an interface, with no TODO or placeholder text",
+        "Includes MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this draft spec — reviewers say an agent could not implement it. It is three paragraphs of prose with no acceptance criteria and no edge cases. Show what's wrong and a corrected version.",
+      "expected_output": "Identifies the missing acceptance criteria and edge cases, explains why prose-only specs are unbuildable, and rewrites it with EARS criteria and explicit edge cases.",
+      "files": [],
+      "expectations": [
+        "Names the specific defects: no testable acceptance criteria, no Edge Cases section, vague 'handle errors gracefully' language",
+        "Explains that each criterion must be a single verifiable EARS sentence graded identically by human and agent",
+        "Produces a corrected spec with Overview, EARS Acceptance Criteria, Design, and Edge Cases",
+        "Replaces vague phrasing with concrete, observable behavior and named components"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Turn these rough notes into a build-ready feature spec for a coding agent: 'rate limit the public API, 600 req/min per key, return 429, needs to survive restarts'.",
+      "expected_output": "A conformant feature spec derived from the notes, with EARS acceptance criteria, a design naming the limiter component, and edge cases for limit boundaries and failure modes.",
+      "files": [],
+      "expectations": [
+        "Expresses the rate limit as an Event-driven EARS criterion (When requests exceed the limit, the gateway shall respond 429)",
+        "Design names a concrete limiter component and its storage/persistence approach for surviving restarts",
+        "Edge Cases cover at-boundary requests, missing/invalid API key, and limiter backend unavailability",
+        "Emits MIF-conformant frontmatter with type: semantic that passes mif-validate"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Should I capture this as a feature spec, an ADR, or a PRD? It's a single endpoint we already agreed to build and just need an implementer to act on.",
+      "expected_output": "Recommends a feature spec because the scope is one agreed feature ready for implementation, and contrasts it with ADR and PRD.",
+      "files": [],
+      "expectations": [
+        "Recommends the feature spec for a single, build-ready feature",
+        "Contrasts with ADR (records which option won and why) and PRD (multi-feature product/market framing)",
+        "Offers to draft the spec with Overview, EARS acceptance criteria, Design, and Edge Cases"
+      ]
+    }
+  ]
+}

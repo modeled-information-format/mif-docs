@@ -1,0 +1,39 @@
+{
+  "skill_name": "arc42-arch-doc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Document the architecture of our payments service using arc42.",
+      "expected_output": "An arc42 document covering the 12 standard sections for the payments service.",
+      "files": [],
+      "expectations": [
+        "Includes all 12 arc42 sections in order (Introduction & Goals through Glossary)",
+        "Section 9 captures architecture decisions, section 10 captures quality requirements",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1",
+        "Contains substantive content per section, not 'TBD' placeholders"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our arc42 doc only has an intro and some diagrams. What's missing?",
+      "expected_output": "Identifies the absent arc42 sections and explains what each should contain.",
+      "files": [],
+      "expectations": [
+        "Lists the missing sections among the 12 (e.g., constraints, solution strategy, crosscutting, risks)",
+        "Explains the purpose of each missing section",
+        "Recommends concrete content to add"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Where do architecture decisions and quality scenarios go in arc42?",
+      "expected_output": "Explains section 9 (Architecture Decisions) and section 10 (Quality Requirements).",
+      "files": [],
+      "expectations": [
+        "Maps architecture decisions to section 9",
+        "Maps quality requirements/scenarios to section 10",
+        "Notes section 12 is the glossary"
+      ]
+    }
+  ]
+}

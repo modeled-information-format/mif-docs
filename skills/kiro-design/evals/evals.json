@@ -1,0 +1,39 @@
+{
+  "skill_name": "kiro-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write the Kiro design.md for the avatar upload feature based on its requirements.",
+      "expected_output": "A design with overview, architecture, components/interfaces, data models, error handling, and testing strategy, all traced to requirement numbers.",
+      "files": [],
+      "expectations": [
+        "Includes all six sections (Overview through Testing Strategy)",
+        "References the requirement numbers each design element satisfies",
+        "Defines concrete data models and error handling",
+        "Passes mif-validate --level 1 with type: semantic"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This design doc has no data models and doesn't reference any requirements. Fix it.",
+      "expected_output": "Adds data models, testing strategy, and traceability to requirement numbers.",
+      "files": [],
+      "expectations": [
+        "Adds a Data Models section",
+        "Adds traceability references to requirement numbers",
+        "Adds an Error Handling and Testing Strategy section"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Where does design.md sit in the Kiro flow and what must it connect to?",
+      "expected_output": "Explains design.md is second, traces back to requirements.md and feeds tasks.md.",
+      "files": [],
+      "expectations": [
+        "States design.md is the second of three Kiro documents",
+        "Explains it traces to requirements.md and feeds tasks.md",
+        "Notes every section should map to a requirement"
+      ]
+    }
+  ]
+}

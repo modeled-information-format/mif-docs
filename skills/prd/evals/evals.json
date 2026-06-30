@@ -1,0 +1,39 @@
+{
+  "skill_name": "prd",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a PRD for a saved-carts feature to reduce checkout abandonment.",
+      "expected_output": "A problem-first PRD with success metrics, personas, EARS requirements, and explicit non-goals.",
+      "files": [],
+      "expectations": [
+        "Opens with the problem and its evidence, not a solution",
+        "Includes measurable success metrics and a Non-Goals section",
+        "Expresses functional requirements as EARS criteria",
+        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this PRD — it starts with 'we'll build a Go microservice'. What's wrong?",
+      "expected_output": "Flags solution-first framing and missing metrics/non-goals; refocuses on the problem.",
+      "files": [],
+      "expectations": [
+        "Identifies the solution-first opening as an antipattern",
+        "Notes missing success metrics and non-goals",
+        "Recommends leading with the user problem and adding measurable goals"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Make these PRD requirements testable for our QA and coding agents.",
+      "expected_output": "Rewrites vague requirements as EARS acceptance criteria.",
+      "files": [],
+      "expectations": [
+        "Converts prose requirements into EARS criteria",
+        "Each requirement becomes individually verifiable",
+        "References the ears-acceptance-criteria helper conventions"
+      ]
+    }
+  ]
+}

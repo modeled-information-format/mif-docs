@@ -1,0 +1,39 @@
+{
+  "skill_name": "kiro-tasks",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate the Kiro tasks.md for the avatar upload feature from its design.",
+      "expected_output": "An ordered checkbox task list with small tasks, sub-tasks, and per-task requirement references.",
+      "files": [],
+      "expectations": [
+        "Uses a numbered checkbox list with sub-tasks",
+        "Each task cites the requirements/design it implements (e.g. _Requirements: 1.2_)",
+        "Tasks are small, incremental, and test-driven",
+        "Emits MIF frontmatter type: procedural and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our task list is three giant bullets with no references. Make it Kiro-conformant.",
+      "expected_output": "Breaks tasks into small checkbox items with traceability and ordering.",
+      "files": [],
+      "expectations": [
+        "Converts giant tasks into small, checkable sub-tasks",
+        "Adds per-task requirement/design references",
+        "Establishes an incremental order"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Why does each Kiro task reference a requirement number?",
+      "expected_output": "Explains traceability: every task implements a requirement, and every requirement should have a task.",
+      "files": [],
+      "expectations": [
+        "Explains traceability from tasks back to requirements/design",
+        "Notes a requirement with no task is unimplemented",
+        "Notes tasks.md is generated from design.md and drives implementation"
+      ]
+    }
+  ]
+}

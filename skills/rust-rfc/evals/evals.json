@@ -1,0 +1,62 @@
+{
+  "skill_name": "rust-rfc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a Rust-style RFC proposing a new standard-library iterator adapter `try_chunks(n)` that yields fixed-size chunks and surfaces a partial final chunk.",
+      "expected_output": "A complete nine-section RFC: Summary, Motivation, Guide-level explanation, Reference-level explanation, Drawbacks, Rationale and alternatives, Prior art, Unresolved questions, Future possibilities — each substantive.",
+      "files": [],
+      "expectations": [
+        "Includes all nine rust-lang RFC sections in order, none empty",
+        "Guide-level explanation teaches the feature as if shipped, with a worked example and the result type",
+        "Reference-level explanation specifies semantics precisely (signature, behavior, edge cases) for an implementer",
+        "Drawbacks and 'Rationale and alternatives' are both present and substantive, listing real trade-offs and at least the do-nothing alternative",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "My RFC keeps getting bounced because reviewers say the guide-level and reference-level sections say the same thing. How do I tell them apart?",
+      "expected_output": "Explains the two-audience split: guide-level teaches the shipped feature to a user (narrative, examples), reference-level specifies it for an implementer (desugaring, types, edge cases).",
+      "files": [],
+      "expectations": [
+        "Distinguishes guide-level (user-facing, example-driven, happy path) from reference-level (implementer-facing, precise, exhaustive)",
+        "Gives a concrete rewrite showing the same feature at both altitudes",
+        "Notes that desugaring/type rules belong in reference-level, not the guide section"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this draft RFC and tell me what's missing. It has Summary, Motivation, Guide-level, Reference-level, and Prior art.",
+      "expected_output": "Flags the missing Drawbacks, Rationale and alternatives, Unresolved questions, and Future possibilities sections, and stresses that Drawbacks and Alternatives are mandatory.",
+      "files": [],
+      "expectations": [
+        "Identifies that Drawbacks and 'Rationale and alternatives' are absent and required",
+        "Notes Unresolved questions and Future possibilities are also missing",
+        "Explains that an RFC without Drawbacks and Alternatives is advocacy, not a design proposal"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Should I write this up as an RFC or an ADR? We've already decided to adopt async runtime X and I want to document it.",
+      "expected_output": "Recommends an ADR because the decision is already made; an RFC is for proposing a change and building consensus before deciding.",
+      "files": [],
+      "expectations": [
+        "Recommends an ADR (decision already taken) over an RFC",
+        "Explains that an RFC is forward-looking and persuasive, written before consensus",
+        "Offers to draft the appropriate document for the chosen genre"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The Motivation section of my language-feature RFC just says 'developers want this and other languages have it.' Strengthen it.",
+      "expected_output": "Rewrites the Motivation with a concrete scenario, the painful current code, who hits the friction, and why now — replacing the hand-wavy appeal.",
+      "files": [],
+      "expectations": [
+        "Replaces vague appeals with a concrete scenario and example of the current friction",
+        "Names who experiences the problem and the cost of the status quo",
+        "Avoids hand-wavy justifications like 'everyone wants it' or 'it would be nice'"
+      ]
+    }
+  ]
+}

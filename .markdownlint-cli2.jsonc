@@ -10,5 +10,5 @@
     "MD046": false  // code block style: allow both fenced and indented
   },
   "globs": ["**/*.md"],
-  "ignores": ["node_modules", "dist", "schema/.cache"]
+  "ignores": ["node_modules/**", "dist/**", "schema/.cache/**"]
 }

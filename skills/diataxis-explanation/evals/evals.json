@@ -1,0 +1,39 @@
+{
+  "skill_name": "diataxis-explanation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a doc explaining why our system uses event sourcing instead of CRUD.",
+      "expected_output": "An understanding-oriented explanation covering background, rationale, trade-offs, and alternatives.",
+      "files": [],
+      "expectations": [
+        "Discusses the 'why' — context, rationale, and trade-offs",
+        "Avoids step-by-step instructions and exhaustive reference tables",
+        "Considers alternatives and their consequences",
+        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This explanation doc has turned into a numbered setup procedure. Fix the mode.",
+      "expected_output": "Identifies how-to content inside an explanation and refocuses it on understanding.",
+      "files": [],
+      "expectations": [
+        "Flags the procedural/how-to content as out of mode",
+        "Recommends moving steps to a how-to and linking it",
+        "Rewrites the content as discursive understanding-oriented prose"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What's the difference between an explanation and a reference doc in Diataxis?",
+      "expected_output": "Explains explanation is understanding-oriented (the why) and reference is information-oriented (the what).",
+      "files": [],
+      "expectations": [
+        "Contrasts understanding-oriented vs information-oriented",
+        "Notes explanation is discursive while reference is structured/neutral",
+        "Gives an example topic for each"
+      ]
+    }
+  ]
+}

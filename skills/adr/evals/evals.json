@@ -1,0 +1,63 @@
+{
+  "skill_name": "adr",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We just decided to adopt PostgreSQL as our primary datastore over MongoDB and DynamoDB. Capture this as an ADR.",
+      "expected_output": "A MADR-style Architectural Decision Record: titled with the decision, a Status from the lifecycle enum, Context and Problem Statement, Decision Drivers, at least two Considered Options, a Decision Outcome with justification, and Consequences (Good/Bad/Neutral).",
+      "files": [],
+      "expectations": [
+        "Title names the decision (e.g. an ADR-NNNN identifier) rather than an action",
+        "Status is one of proposed, accepted, deprecated, or superseded",
+        "Includes Context and Problem Statement, Decision Drivers, and at least two Considered Options",
+        "Decision Outcome justifies the chosen option against the drivers and lists Good/Bad/Neutral consequences",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this ADR draft — it just says we picked the new database because the lead likes it, status 'Done'. What's wrong?",
+      "expected_output": "Identifies that it records a preference not a decision: no considered options, no consequences, and a status outside the lifecycle enum, then shows the corrected structure.",
+      "files": [],
+      "expectations": [
+        "Flags the missing Considered Options section (no alternatives weighed)",
+        "Flags the missing Consequences section (no Bad/Neutral trade-offs stated)",
+        "Flags that 'Done' is not a valid status and names the proposed/accepted/deprecated/superseded enum",
+        "Recommends adding Decision Drivers and a justification tied to those drivers"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our caching ADR from last year is being replaced by a new decision. How do I record that the old one is no longer in force?",
+      "expected_output": "Explains the lifecycle: mark the old ADR superseded and write a new ADR, linking them via a typed relationship rather than editing the old outcome.",
+      "files": [],
+      "expectations": [
+        "Explains that an accepted ADR is immutable and you write a new ADR rather than editing the decision",
+        "Sets the old ADR's Status to superseded and links the replacement",
+        "Uses a MIF relationships[] entry (e.g. type superseded-by) to connect the two records"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write the decision drivers for an ADR about choosing a message queue, and make them testable.",
+      "expected_output": "Decision drivers expressed as EARS acceptance criteria so a human and an agent grade them identically, suitable for the Decision Drivers section of an ADR.",
+      "files": [],
+      "expectations": [
+        "Produces drivers as EARS sentences (Ubiquitous/Event-driven/State-driven/Unwanted/Optional)",
+        "Each driver is a single observable, verifiable criterion naming a concrete component",
+        "Frames them as the Decision Drivers section of an ADR, distinct from the Considered Options"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Should we capture our move to event-driven architecture as an ADR or as a how-to guide?",
+      "expected_output": "Recommends an ADR because it is a consequential, hard-to-reverse decision with alternatives, and contrasts it with how-to (task) and requirement (prd/feature-spec) genres.",
+      "files": [],
+      "expectations": [
+        "Recommends an ADR for a consequential architectural decision with real alternatives",
+        "Contrasts with diataxis-how-to (accomplish a task) and prd/feature-spec (state requirements)",
+        "Notes that an ADR needs at least two considered options and recorded consequences"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "recipe": "ai-spec",
+  "description": "Decompose a subject into the AI-ready spec channel: problem -> solution -> architecture.",
+  "decomposition": "subject -> {prd, feature-spec, ai-architecture-doc}",
+  "members": [
+    { "skill": "prd", "covers": "problem statement, goals, requirements" },
+    { "skill": "feature-spec", "covers": "the solution: acceptance criteria + design" },
+    { "skill": "ai-architecture-doc", "covers": "architecture, NFRs, decision log" }
+  ],
+  "crossLinks": [
+    { "from": "prd", "type": "realized-by", "to": "feature-spec" },
+    { "from": "feature-spec", "type": "depends-on", "to": "ai-architecture-doc" }
+  ]
+}

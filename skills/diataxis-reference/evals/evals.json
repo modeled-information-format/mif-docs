@@ -1,0 +1,54 @@
+{
+  "skill_name": "diataxis-reference",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Document our `deploy` CLI command as a reference: all its arguments, flags, defaults, and exit codes.",
+      "expected_output": "An information-oriented Diataxis reference: a neutral subject line, a synopsis, and uniform tables describing every argument and option with name, type, default, and constraints, plus an exit-code table.",
+      "files": [],
+      "expectations": [
+        "Opens with a neutral one-line statement of the single thing described, not a learning promise",
+        "Includes a synopsis/usage line that the rest of the document mirrors",
+        "Describes every option uniformly with name, type, default, and description (table or definition list)",
+        "Tabulates boundary facts such as exit codes rather than narrating them",
+        "Contains no numbered learning steps, rationale, or recommendations",
+        "Includes MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I wrote reference docs for our config file but a reviewer says they read like a tutorial. Show me what's wrong and a corrected version.",
+      "expected_output": "Identifies mode-mixing (tutorial steps, opinions, rationale inside a reference) and rewrites it as a dry, exhaustive, uniformly structured description.",
+      "files": [],
+      "expectations": [
+        "Names the specific Diataxis violations (numbered steps, 'why we built it', opinions, non-exhaustive lists)",
+        "Explains a reference is information-oriented, distinct from tutorial and explanation",
+        "Produces a corrected reference with uniform per-field entries and a structure mirroring the config file",
+        "Moves rationale out to a linked explanation rather than inlining it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Turn this OpenAPI endpoint definition into a human-readable reference page for the GET /orders endpoint.",
+      "expected_output": "A conformant reference describing the endpoint: request parameters, response schema fields, and status codes, each as a uniform table entry.",
+      "files": [],
+      "expectations": [
+        "Describes parameters and response fields uniformly with name, type, required/default, and constraints",
+        "Lists all status codes in a table with their meanings",
+        "Document order mirrors the endpoint's own structure (path, parameters, responses)",
+        "Emits MIF-conformant frontmatter (type: semantic) and the body passes mif-validate"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Should our docs for the settings schema be a tutorial, a how-to, or reference? Users come to it to look up what each field means.",
+      "expected_output": "Recommends reference because the goal is fact lookup, and explains the Diataxis distinction.",
+      "files": [],
+      "expectations": [
+        "Recommends the reference mode for information-oriented, lookup goals",
+        "Contrasts with tutorial (learning by doing) and how-to (accomplishing a known task)",
+        "Offers to draft the reference with uniform per-field entries mirroring the schema"
+      ]
+    }
+  ]
+}

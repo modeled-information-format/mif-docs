@@ -1,0 +1,39 @@
+{
+  "skill_name": "doc-set-planner",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Document our authentication system end to end — we need the full set, not one doc.",
+      "expected_output": "Selects a recipe, decomposes the subject into member docs, fans out to the genre skills, and reconciles cross-links.",
+      "files": [],
+      "expectations": [
+        "Recognizes this is a multi-document subject and picks an appropriate recipe",
+        "Decomposes into the recipe's member documents with a shared namespace",
+        "Fans out to the member genre skills rather than writing one doc",
+        "Reconciles MIF relationships[] across members and checks link-completeness"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Produce the Kiro spec set for the new export feature.",
+      "expected_output": "Uses the kiro recipe to produce requirements, design, and tasks with traceability.",
+      "files": [],
+      "expectations": [
+        "Selects the kiro recipe (kiro-requirements, kiro-design, kiro-tasks)",
+        "Produces the three documents in sequence with traceability links",
+        "Ensures tasks trace to design and design traces to requirements"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I just need a single ADR for choosing Postgres. Do I need the planner?",
+      "expected_output": "Explains ADR is a singleton invoked directly, not via the planner.",
+      "files": [],
+      "expectations": [
+        "States the ADR is a standalone singleton, not a doc-set",
+        "Recommends invoking the adr skill directly",
+        "Notes the planner is for multi-document subjects"
+      ]
+    }
+  ]
+}
