@@ -52,6 +52,13 @@ try {
 }
 
 // 3. Guard only genre documents (those that should be MIF).
+//
+// The genre signal must be a TOP-LEVEL frontmatter key (column 0). A real MIF
+// document always declares its conceptType as a top-level `type:` (the L1 floor),
+// and its `ontology:`/`diataxis_type:` markers are top-level too. Anchoring to the
+// line start prevents a NESTED key from false-triggering the guard — e.g. an
+// auto-memory file carries `metadata:\n  type: reference`, whose indented `type:`
+// is not a MIF conceptType and must not be guarded.
 const fm = content.match(/^---\n([\s\S]*?)\n---/);
 const front = fm ? fm[1] : '';
 
@@ -59,12 +66,12 @@ const front = fm ? fm[1] : '';
 // validated by the structured-madr action, NOT by mif-validate (which keys on
 // conceptType). Skip it here exactly as CI does, so the guard never false-blocks
 // a conformant ADR.
-if (/(^|\n)[ \t]*type[ \t]*:[ \t]*adr\b/.test(front)) allow();
+if (/(^|\n)type[ \t]*:[ \t]*adr\b/.test(front)) allow();
 
 const genreSignal =
   !!fm &&
-  (/(^|\n)[ \t]*(diataxis_type|entity_type|x-ontology|conceptType|ontology)[ \t]*:/.test(front) ||
-    /(^|\n)[ \t]*type[ \t]*:[ \t]*(semantic|episodic|procedural|tutorial|how-to|reference|explanation|runbook|playbook|changelog|decision-record)\b/.test(
+  (/(^|\n)(diataxis_type|x-ontology|conceptType|ontology)[ \t]*:/.test(front) ||
+    /(^|\n)type[ \t]*:[ \t]*(semantic|episodic|procedural|tutorial|how-to|reference|explanation|runbook|playbook|changelog|decision-record)\b/.test(
       front,
     ));
 if (!genreSignal) allow();
