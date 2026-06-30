@@ -154,7 +154,7 @@ Every script is fail-closed: any failure exits non-zero.
 
 ## See also
 
-The [skills by purpose](skills-by-purpose/) reference gives each skill its own
+The [skills by purpose](../skills-by-purpose/) reference gives each skill its own
 detailed write-up, grouped by the job it does; this catalog is the terse lookup
 for genres, recipes, and scripts. The getting-started tutorial walks through
 installing and validating a first document; the how-to gives the

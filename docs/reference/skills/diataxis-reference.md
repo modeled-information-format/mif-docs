@@ -151,7 +151,7 @@ documents: one section per top-level key, each stating the field name, its type,
 whether it is required at L1/L2/L3, and its meaning, in a flat table the reader can
 scan. It does not narrate how to author a document or argue why the levels exist;
 it states what each field is and stops. The suite's own
-[reference material](../../../reference/) is built to this shape.
+[reference material](../../genre-and-cli-catalog/) is built to this shape.
 
 ## Provenance & citations
 

@@ -66,7 +66,7 @@ extensions:
 # mif-docs skills by purpose
 
 Every skill the **mif-docs** suite ships, grouped by the job it does rather than
-by the genre it emits. Where the [genre and CLI catalog](genre-and-cli-catalog/)
+by the genre it emits. Where the [genre and CLI catalog](../genre-and-cli-catalog/)
 is the terse lookup for scripts, recipes, and exit codes, this reference is the
 **index** to the suite's 23 skills: a one-line orientation per skill, grouped by
 the job it does, with each name linking to its own deep reference doc — what the
@@ -408,10 +408,10 @@ SemVer.
 
 ## See also
 
-The [genre and CLI catalog](genre-and-cli-catalog/) is the companion quick-lookup:
+The [genre and CLI catalog](../genre-and-cli-catalog/) is the companion quick-lookup:
 the doc-set recipes, the scripts in `scripts/`, and every exit code. The
-[getting-started tutorial](../tutorials/getting-started/) installs the suite and
-validates a first document; the [explanation](../explanation/one-artifact-two-readers/)
+[getting-started tutorial](../../tutorials/getting-started/) installs the suite and
+validates a first document; the [explanation](../../explanation/one-artifact-two-readers/)
 covers why each document is at once a human artifact and a machine unit. All three
 are linked from this reference's `relationships[]`, which keeps rationale out of
 the catalog per Diátaxis.

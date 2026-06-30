@@ -148,7 +148,7 @@ sequence of actions — open the file, paste the L1 block, fill `id` and `title`
 run `mif-validate`, fix any failure — and stops the moment the goal is met. It
 does not explain what JSON-LD is or why the floor matters; it links those to
 explanation and keeps the competent reader moving. The suite's own
-[how-to guides](../../../how-to/) follow exactly this shape.
+[how-to guides](../../../how-to/validate-and-author-a-document/) follow exactly this shape.
 
 ## Provenance & citations
 

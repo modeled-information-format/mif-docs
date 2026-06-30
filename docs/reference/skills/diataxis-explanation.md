@@ -154,7 +154,7 @@ by machines — sketches the alternatives that were rejected, names the trade-of
 the round-trip constraint accepts, and connects the choice to provenance and the
 MIF level model. It gives the reader no steps to follow and no field table to scan;
 it leaves them understanding the rationale. The suite's own
-[explanation material](../../../explanation/) is written to this shape.
+[explanation material](../../../explanation/one-artifact-two-readers/) is written to this shape.
 
 ## Provenance & citations
 

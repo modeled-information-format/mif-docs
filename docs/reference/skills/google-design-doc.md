@@ -137,7 +137,7 @@ cost of writing enough that the thinking actually happens on paper.
 Do **not** use it when the decision is already made and you only need to record it
 immutably with its drivers — that is an [adr](../adr/). Do not use it for product
 requirements; lead with the problem and success metrics in a
-[feature-spec](../../feature-spec/) instead. For an operational procedure, write a
+[feature-spec](../feature-spec/) instead. For an operational procedure, write a
 runbook. When you need durable whole-system structure rather than a single
 proposal, prefer [arc42-arch-doc](../arc42-arch-doc/) or the diagram-led
 [c4-model-diagram](../c4-model-diagram/), and for a machine-first spec a coding
