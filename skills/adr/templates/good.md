@@ -2,6 +2,7 @@
 title: "Adopt PostgreSQL as the System-of-Record Datastore"
 description: "Consolidate orders, ledger, and audit onto one ACID datastore; PostgreSQL is chosen over MongoDB and DynamoDB because storage-layer integrity, cross-aggregate atomic commits, and point-in-time recovery are must-haves."
 type: adr
+conceptType: semantic
 category: data-platform
 tags:
   - adr
