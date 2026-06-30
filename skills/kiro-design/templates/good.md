@@ -1,21 +1,21 @@
 ---
 id: kiro-design-avatar-upload
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: spec/kiro/design/avatar-upload
-title: "Design: Profile Avatar Upload"
+title: 'Design: Profile Avatar Upload'
 tags:
   - kiro
   - design
   - profile
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
   ttl: P3M
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
 relationships:
@@ -23,6 +23,14 @@ relationships:
     target: /spec/kiro/requirements/avatar-upload.md
   - type: realized-by
     target: /spec/kiro/tasks/avatar-upload.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Profile Avatar Upload
+  entity_type: design-spec
 ---
 
 # Design: Profile Avatar Upload

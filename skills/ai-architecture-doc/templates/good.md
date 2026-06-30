@@ -1,43 +1,46 @@
 ---
 id: ai-arch-notification-service
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: spec/architecture/notifications
-title: "Architecture: Notification Service"
+title: 'Architecture: Notification Service'
 tags:
   - architecture
   - spec
   - nfr
 ontology:
-  "@type": OntologyReference
-  id: architecture-doc
+  '@type': OntologyReference
+  id: mif-docs
   version: 1.0.0
-  uri: https://mif-spec.dev/ontologies/architecture-doc
+  uri: https://mif-spec.dev/ontologies/mif-docs
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
   ttl: P1Y
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: verified
   wasGeneratedBy:
-    "@id": "urn:mif:activity:architecture-review-2026-06-29"
-    "@type": prov:Activity
+    '@id': urn:mif:activity:architecture-review-2026-06-29
+    '@type': prov:Activity
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: documentation
     citationRole: methodology
-    title: "arc42 — Architecture Communication Canvas"
+    title: arc42 — Architecture Communication Canvas
     url: https://arc42.org/
-    accessed: 2026-06-26
+    accessed: '2026-06-26'
 relationships:
   - type: realized-by
     target: /spec/feature/notification-send-api.md
   - type: relates-to
     target: /architecture/c4/notification-service.md
+entity:
+  name: Notification Service
+  entity_type: architecture-document
 ---
 
 # Architecture: Notification Service

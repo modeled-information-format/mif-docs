@@ -1,58 +1,66 @@
 ---
 id: rfc-optional-chaining-operator
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: rfc/language-features
-title: "RFC: Optional Chaining with the ?. Operator"
+title: 'RFC: Optional Chaining with the ?. Operator'
 tags:
   - rfc
   - language-feature
   - ergonomics
   - option
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "C# null-conditional operators ?. and ?[]"
+    title: C# null-conditional operators ?. and ?[]
     url: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "The Swift Programming Language — Optional Chaining"
+    title: The Swift Programming Language — Optional Chaining
     url: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/optionalchaining/
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "Kotlin — Null safety (safe-call operator ?.)"
+    title: Kotlin — Null safety (safe-call operator ?.)
     url: https://kotlinlang.org/docs/null-safety.html
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: specification
     citationRole: background
-    title: "TC39 Optional Chaining proposal (ECMAScript 2020)"
+    title: TC39 Optional Chaining proposal (ECMAScript 2020)
     url: https://github.com/tc39/proposal-optional-chaining
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "The Rust Reference — The question mark operator"
+    title: The Rust Reference — The question mark operator
     url: https://doc.rust-lang.org/reference/expressions/operator-expr.html
-    accessed: 2026-06-26
+    accessed: '2026-06-26'
 relationships:
   - type: relates-to
     target: /semantic/rfc/rfc-try-operator.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Optional Chaining with the ?. Operator
+  entity_type: enhancement-proposal
 ---
 
 # RFC: Optional Chaining with the `?.` Operator

@@ -1,8 +1,8 @@
 ---
 id: pep-9999-math-clamp
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: pep/standards-track
 title: Add math.clamp() to the Standard Library
 tags:
@@ -12,44 +12,52 @@ tags:
   - math
   - stdlib
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: specification
     citationRole: methodology
-    title: "PEP 12 – Sample reStructuredText PEP Template"
+    title: PEP 12 – Sample reStructuredText PEP Template
     url: https://peps.python.org/pep-0012/
-    accessed: 2026-06-29
-  - "@type": Citation
+    accessed: '2026-06-29'
+  - '@type': Citation
     citationType: documentation
     citationRole: supports
-    title: "Python math module — numeric helpers (copysign, fsum, isclose)"
+    title: Python math module — numeric helpers (copysign, fsum, isclose)
     url: https://docs.python.org/3/library/math.html
-    accessed: 2026-06-29
+    accessed: '2026-06-29'
     relevance: 0.9
-  - "@type": Citation
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "C++ std::clamp (constrains a value to a range)"
+    title: C++ std::clamp (constrains a value to a range)
     url: https://en.cppreference.com/w/cpp/algorithm/clamp
-    accessed: 2026-06-29
-  - "@type": Citation
+    accessed: '2026-06-29'
+  - '@type': Citation
     citationType: documentation
     citationRole: background
-    title: "Rust f64::clamp"
+    title: Rust f64::clamp
     url: https://doc.rust-lang.org/std/primitive.f64.html#method.clamp
-    accessed: 2026-06-29
+    accessed: '2026-06-29'
 relationships:
   - type: relates-to
     target: /semantic/pep/pep-0485-math-isclose.md
     strength: 0.8
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Add math.clamp() to the Standard Library
+  entity_type: enhancement-proposal
 ---
 
 # PEP 9999 – Add math.clamp() to the Standard Library

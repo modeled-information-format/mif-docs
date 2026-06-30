@@ -1,8 +1,8 @@
 ---
 id: arc42-linkly
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: architecture/linkly
 title: Linkly URL Shortener — Architecture Document (arc42)
 tags:
@@ -10,34 +10,34 @@ tags:
   - architecture
   - url-shortener
 ontology:
-  "@type": OntologyReference
-  id: architecture-doc
+  '@type': OntologyReference
+  id: mif-docs
   version: 1.0.0
-  uri: https://mif-spec.dev/ontologies/architecture-doc
+  uri: https://mif-spec.dev/ontologies/mif-docs
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  validUntil: 2027-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  validUntil: '2027-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: verified
   confidence: 0.95
   wasGeneratedBy:
-    "@id": "urn:mif:activity:arc42-authoring-2026-06-29"
-    "@type": prov:Activity
+    '@id': urn:mif:activity:arc42-authoring-2026-06-29
+    '@type': prov:Activity
   wasAttributedTo:
-    "@id": "urn:mif:team:platform-architecture"
-    "@type": prov:Agent
+    '@id': urn:mif:team:platform-architecture
+    '@type': prov:Agent
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: specification
     citationRole: methodology
-    title: "arc42 — Template for Architecture Communication and Documentation"
+    title: arc42 — Template for Architecture Communication and Documentation
     url: https://arc42.org/
-    accessed: 2026-06-26
+    accessed: '2026-06-26'
 relationships:
   - type: relates-to
     target: /skills/c4-model-diagram/templates/good.md
@@ -45,6 +45,9 @@ relationships:
   - type: relates-to
     target: /skills/adr/templates/good.md
     strength: 0.6
+entity:
+  name: Linkly URL Shortener
+  entity_type: architecture-document
 ---
 
 # Linkly URL Shortener — Architecture (arc42)

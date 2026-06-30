@@ -1,8 +1,8 @@
 ---
 id: tutorial-first-mif-doc
 type: procedural
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: tutorials/getting-started
 title: Write Your First MIF Document
 tags:
@@ -10,13 +10,21 @@ tags:
   - mif
   - getting-started
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
   ttl: P6M
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 relationships:
   - type: relates-to
     target: /how-to/convert-markdown-to-mif.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Write Your First MIF Document
+  entity_type: tutorial
 ---
 
 # Write Your First MIF Document

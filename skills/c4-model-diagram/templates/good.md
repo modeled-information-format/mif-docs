@@ -1,8 +1,8 @@
 ---
 id: c4-internet-banking-system
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: architecture/c4/internet-banking
 title: Internet Banking System — C4 Model
 tags:
@@ -10,34 +10,37 @@ tags:
   - architecture
   - diagram
 ontology:
-  "@type": OntologyReference
-  id: architecture-view
+  '@type': OntologyReference
+  id: mif-docs
   version: 1.0.0
-  uri: https://mif-spec.dev/ontologies/architecture-view
+  uri: https://mif-spec.dev/ontologies/mif-docs
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  validUntil: 2027-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  validUntil: '2027-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: external_import
   trustLevel: verified
   confidence: 0.95
   wasGeneratedBy:
-    "@id": "urn:mif:activity:c4-model-2026-06-29"
-    "@type": prov:Activity
+    '@id': urn:mif:activity:c4-model-2026-06-29
+    '@type': prov:Activity
   wasAttributedTo:
-    "@id": "urn:mif:team:platform-architecture"
-    "@type": prov:Agent
+    '@id': urn:mif:team:platform-architecture
+    '@type': prov:Agent
   wasDerivedFrom:
-    "@id": "urn:mif:external:c4model.com:internet-banking-system"
-    "@type": prov:Entity
+    '@id': urn:mif:external:c4model.com:internet-banking-system
+    '@type': prov:Entity
 relationships:
   - type: relates-to
     target: /skills/arc42-arch-doc/templates/good.md
     strength: 0.7
+entity:
+  name: Internet Banking System
+  entity_type: architecture-view
 ---
 
 # Internet Banking System — C4 Model

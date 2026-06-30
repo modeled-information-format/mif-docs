@@ -5,3 +5,5 @@ dist/
 .remember/
 # mif-validate hydrates the canonical schema into this cache; never the authority.
 schema/.cache/
+# mif-docs ontology hydrated from ../ontologies repo; pulled into the build at release.
+ontologies/.cache/

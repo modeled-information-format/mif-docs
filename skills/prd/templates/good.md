@@ -1,37 +1,45 @@
 ---
 id: prd-saved-carts
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: prd/checkout
-title: "PRD: Saved Carts"
+title: 'PRD: Saved Carts'
 tags:
   - prd
   - checkout
   - retention
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  validUntil: 2026-12-31T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  validUntil: '2026-12-31T00:00:00Z'
   ttl: P3M
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
   wasDerivedFrom:
-    "@id": "urn:mif:dataset:checkout-funnel-analytics-2026-q2"
-    "@type": prov:Entity
+    '@id': urn:mif:dataset:checkout-funnel-analytics-2026-q2
+    '@type': prov:Entity
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: dataset
     citationRole: supports
-    title: "Checkout Funnel Analytics — Q2 2026"
+    title: Checkout Funnel Analytics — Q2 2026
     url: https://example.internal/analytics/checkout-funnel-2026-q2
-    date: 2026-06-15
+    date: '2026-06-15'
 relationships:
   - type: realized-by
     target: /spec/feature/saved-carts.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Saved Carts
+  entity_type: product-requirements
 ---
 
 # PRD: Saved Carts

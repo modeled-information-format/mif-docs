@@ -29,6 +29,10 @@ jobs:
         run: npm run validate-plugin
       - name: Hydrate canonical MIF schema
         run: npm run hydrate-schema
+      - name: Hydrate mif-docs ontology (from ../ontologies / published URI)
+        run: npm run hydrate-ontology
+      - name: Validate ontology + every genre's entity_type/relationships resolve
+        run: npm run validate-ontology
       - name: MIF-validate every shipped good.md template
         run: |
           # The adr genre is fully aligned to structured-MADR (type: adr) and is

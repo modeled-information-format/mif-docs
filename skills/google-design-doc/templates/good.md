@@ -1,51 +1,59 @@
 ---
 id: design-webhook-delivery-service
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: design/platform
-title: "Design: Outbound Webhook Delivery Service"
+title: 'Design: Outbound Webhook Delivery Service'
 tags:
   - design-doc
   - webhooks
   - reliability
   - platform
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: verified
   wasGeneratedBy:
-    "@id": "urn:mif:activity:webhook-design-review-2026-06-29"
-    "@type": prov:Activity
+    '@id': urn:mif:activity:webhook-design-review-2026-06-29
+    '@type': prov:Activity
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: documentation
     citationRole: methodology
-    title: "PostgreSQL 17 — SELECT: FOR UPDATE SKIP LOCKED"
+    title: 'PostgreSQL 17 — SELECT: FOR UPDATE SKIP LOCKED'
     url: https://www.postgresql.org/docs/17/sql-select.html
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: specification
     citationRole: methodology
-    title: "RFC 2104 — HMAC: Keyed-Hashing for Message Authentication"
+    title: 'RFC 2104 — HMAC: Keyed-Hashing for Message Authentication'
     url: https://www.rfc-editor.org/rfc/rfc2104
-    accessed: 2026-06-26
-  - "@type": Citation
+    accessed: '2026-06-26'
+  - '@type': Citation
     citationType: specification
     citationRole: background
-    title: "Standard Webhooks — signature and timestamp conventions"
+    title: Standard Webhooks — signature and timestamp conventions
     url: https://www.standardwebhooks.com/
-    accessed: 2026-06-26
+    accessed: '2026-06-26'
 relationships:
   - type: realized-by
     target: /semantic/adr/adr-0011-webhook-delivery-datastore.md
   - type: relates-to
     target: /semantic/feature-specs/webhook-subscription-management.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Outbound Webhook Delivery Service
+  entity_type: design-document
 ---
 
 # Design: Outbound Webhook Delivery Service

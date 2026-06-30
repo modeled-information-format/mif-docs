@@ -1,41 +1,49 @@
 ---
 id: reference-mifx-export
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: reference/cli
-title: "mifx export — command reference"
+title: mifx export — command reference
 tags:
   - reference
   - cli
   - mifx
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: system_generated
   trustLevel: verified
   wasDerivedFrom:
-    "@id": "urn:mif:tool:mifx-export"
-    "@type": prov:Entity
+    '@id': urn:mif:tool:mifx-export
+    '@type': prov:Entity
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: tool
     citationRole: source
-    title: "mifx — the MIF command-line interface"
+    title: mifx — the MIF command-line interface
     url: https://mif-spec.dev/tools/mifx
-  - "@type": Citation
+  - '@type': Citation
     citationType: specification
     citationRole: methodology
-    title: "Diátaxis — Reference"
+    title: Diátaxis — Reference
     url: https://diataxis.fr/reference/
-    accessed: 2026-06-26
+    accessed: '2026-06-26'
 relationships:
   - type: relates-to
     target: /semantic/explanation/mifx-export-serialisation-formats.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: mifx export
+  entity_type: reference-document
 ---
 
 # mifx export

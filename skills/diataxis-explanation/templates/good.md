@@ -1,39 +1,47 @@
 ---
 id: explanation-two-views
 type: semantic
-created: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
 namespace: explanation/architecture
 title: Why MIF Separates the Human and Machine Views
 tags:
   - explanation
   - mif
   - design-rationale
-modified: 2026-06-29T10:00:00Z
+modified: '2026-06-29T10:00:00Z'
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  validUntil: 2027-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  validUntil: '2027-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
   wasAttributedTo:
-    "@id": "urn:mif:team:mif-spec-authors"
-    "@type": prov:Agent
+    '@id': urn:mif:team:mif-spec-authors
+    '@type': prov:Agent
 citations:
-  - "@type": Citation
+  - '@type': Citation
     citationType: specification
     citationRole: source
-    title: "MIF — Modeled Information Format Specification v1.0"
+    title: MIF — Modeled Information Format Specification v1.0
     url: https://mif-spec.dev/
-    accessed: 2026-06-29
+    accessed: '2026-06-29'
 relationships:
   - type: relates-to
     target: /reference/cli/reference-mifx-export.md
   - type: relates-to
     target: /tutorials/getting-started/tutorial-first-mif-doc.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Why MIF Separates the Human and Machine Views
+  entity_type: explanation
 ---
 
 # Why MIF Separates the Human and Machine Views

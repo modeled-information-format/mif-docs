@@ -1,27 +1,27 @@
 ---
 id: runbook-checkout-api-p99-latency-slo-burn
 type: procedural
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: runbook/checkout-api
-title: "Checkout API: p99 Latency SLO Burn"
+title: 'Checkout API: p99 Latency SLO Burn'
 tags:
   - runbook
   - sre
   - latency
   - checkout-api
 ontology:
-  "@type": OntologyReference
-  id: runbook
+  '@type': OntologyReference
+  id: mif-docs
   version: 1.0.0
-  uri: https://mif-spec.dev/ontologies/runbook
+  uri: https://mif-spec.dev/ontologies/mif-docs
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P6M
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: verified
 relationships:
@@ -29,6 +29,9 @@ relationships:
     target: /procedural/playbooks/checkout-incident-response.md
   - type: relates-to
     target: /semantic/slos/checkout-api-latency-slo.md
+entity:
+  name: Checkout API p99 Latency SLO Burn
+  entity_type: runbook
 ---
 
 # Checkout API: p99 Latency SLO Burn

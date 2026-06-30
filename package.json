@@ -10,6 +10,8 @@
     "mif-validate": "node scripts/mif-validate.mjs",
     "mif-convert": "node scripts/mif-convert.mjs",
     "hydrate-schema": "node scripts/hydrate-schema.mjs",
+    "hydrate-ontology": "node scripts/hydrate-ontology.mjs",
+    "validate-ontology": "node scripts/validate-ontology.mjs",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\""
   },
   "dependencies": {

@@ -1,8 +1,8 @@
 ---
 id: changelog-mif-convert
 type: episodic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: changelog/mif-convert
 title: Changelog
 tags:
@@ -10,12 +10,20 @@ tags:
   - release-notes
   - mif-convert
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-01-15T00:00:00Z
-  recordedAt: 2026-05-18T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-01-15T00:00:00Z'
+  recordedAt: '2026-05-18T00:00:00Z'
 relationships:
   - type: relates-to
     target: /procedural/mif-convert/cli-reference.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: mif-convert
+  entity_type: changelog
 ---
 
 # Changelog

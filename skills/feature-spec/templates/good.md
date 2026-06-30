@@ -1,8 +1,8 @@
 ---
 id: feature-contact-csv-export
 type: semantic
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: spec/feature/contacts
 title: Contact CSV Export
 tags:
@@ -10,12 +10,12 @@ tags:
   - contacts
   - export
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
   ttl: P1Y
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: user_explicit
   trustLevel: high_confidence
 relationships:
@@ -23,6 +23,14 @@ relationships:
     target: /semantic/prd/contacts-data-portability.md
   - type: depends-on
     target: /semantic/ai-architecture-doc/contacts-platform-architecture.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Contact CSV Export
+  entity_type: feature-specification
 ---
 
 # Contact CSV Export

@@ -1,26 +1,34 @@
 ---
 id: kiro-tasks-avatar-upload
 type: procedural
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: spec/kiro/tasks/avatar-upload
-title: "Tasks: Profile Avatar Upload"
+title: 'Tasks: Profile Avatar Upload'
 tags:
   - kiro
   - tasks
   - profile
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
   ttl: P3M
-  recordedAt: 2026-06-29T10:00:00Z
+  recordedAt: '2026-06-29T10:00:00Z'
 provenance:
-  "@type": Provenance
+  '@type': Provenance
   sourceType: agent_inferred
   trustLevel: high_confidence
 relationships:
   - type: derived-from
     target: /spec/kiro/design/avatar-upload.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Profile Avatar Upload
+  entity_type: task-plan
 ---
 
 # Tasks: Profile Avatar Upload

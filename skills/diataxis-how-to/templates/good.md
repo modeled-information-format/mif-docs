@@ -1,8 +1,8 @@
 ---
 id: how-to-rotate-api-key-no-downtime
 type: procedural
-created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
+created: '2026-06-29T10:00:00Z'
+modified: '2026-06-29T10:00:00Z'
 namespace: how-to/security
 title: How to Rotate an API Key Without Downtime
 tags:
@@ -10,13 +10,21 @@ tags:
   - security
   - api-keys
 temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
+  '@type': TemporalMetadata
+  validFrom: '2026-06-29T00:00:00Z'
+  recordedAt: '2026-06-29T10:00:00Z'
   ttl: P1Y
 relationships:
   - type: relates-to
     target: /reference/secret-cli.md
+ontology:
+  '@type': OntologyReference
+  id: mif-docs
+  version: 1.0.0
+  uri: https://mif-spec.dev/ontologies/mif-docs
+entity:
+  name: Rotate an API Key Without Downtime
+  entity_type: how-to-guide
 ---
 
 # How to Rotate an API Key Without Downtime
