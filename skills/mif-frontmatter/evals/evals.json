@@ -1,0 +1,52 @@
+{
+  "skill_name": "mif-frontmatter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add MIF frontmatter to this markdown note. I only know it was created today and it's declarative knowledge about our caching policy.",
+      "expected_output": "L1 frontmatter (id, type: semantic, created) with no fabricated higher-level fields, because only L1 input is available.",
+      "files": [],
+      "expectations": [
+        "Emits id, type, and created as the L1 floor",
+        "Sets type to semantic (declarative knowledge), not a genre name",
+        "Does NOT invent namespace, temporal, provenance, or other L2/L3 fields absent input",
+        "Contains no empty or TODO placeholder fields"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This doc is reviewed quarterly, lives under the 'policies' topic, and was last edited yesterday. Give me the richest MIF frontmatter the inputs justify.",
+      "expected_output": "L2 frontmatter adding namespace, modified, and temporal because a review cadence and namespace are known.",
+      "files": [],
+      "expectations": [
+        "Includes the L1 fields plus namespace and modified",
+        "Adds a temporal block reflecting the quarterly review cadence",
+        "Stops at L2 and does not fabricate L3 provenance/citations without attributable sources",
+        "All added fields are derived from the stated inputs, not invented"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What MIF level can I claim if I don't know any review cadence or sources for this document?",
+      "expected_output": "Explains the grade-down rule: claim L1 only, do not fabricate L2/L3 fields.",
+      "files": [],
+      "expectations": [
+        "States that the document can only claim L1 with the given inputs",
+        "Explains the grade-down rule: drop a level rather than write placeholders",
+        "Clarifies that type must be semantic, episodic, or procedural"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Why is my frontmatter 'type: adr' failing MIF validation?",
+      "expected_output": "Explains that type maps to conceptType (semantic|episodic|procedural); the genre belongs in namespace/tags.",
+      "files": [],
+      "expectations": [
+        "Identifies that 'adr' is not a valid conceptType",
+        "Explains type must be one of semantic, episodic, procedural",
+        "Recommends moving the genre identity into namespace or tags",
+        "Suggests type: semantic for a decision record"
+      ]
+    }
+  ]
+}

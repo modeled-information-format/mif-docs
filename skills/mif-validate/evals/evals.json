@@ -1,0 +1,61 @@
+{
+  "skill_name": "mif-validate",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Check whether docs/policy.md is a conformant MIF document at Level 1.",
+      "expected_output": "Runs mif-validate against the file at --level 1 and reports the deterministic VALID/INVALID verdict.",
+      "files": [],
+      "expectations": [
+        "Invokes scripts/mif-validate.mjs with the file and --level 1",
+        "Reports schema conformance, the level floor, and round-trip result",
+        "Treats a non-zero exit as a hard failure (fail-closed), not a warning",
+        "Does not assert validity by inspection without running the gate"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Convert docs/policy.md to its JSON-LD form so a machine consumer can read it.",
+      "expected_output": "Runs mif-convert emit-jsonld to produce the canonical JSON-LD projection.",
+      "files": [],
+      "expectations": [
+        "Invokes scripts/mif-convert.mjs emit-jsonld on the markdown file",
+        "Explains the JSON-LD is the schema-checked canonical form",
+        "Notes the projection is lossless and reversible via emit-markdown"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I have a MIF JSON-LD object from an API. Give me the human-readable markdown version.",
+      "expected_output": "Schema-checks the JSON-LD, then runs emit-markdown to project it to markdown.",
+      "files": [],
+      "expectations": [
+        "Invokes scripts/mif-convert.mjs emit-markdown on the JSON file",
+        "Validates the JSON-LD against the canonical schema before projecting",
+        "Produces markdown with YAML frontmatter plus body"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Prove that converting this document to JSON-LD and back loses no information.",
+      "expected_output": "Runs the roundtrip oracle and reports lossless or fails closed.",
+      "files": [],
+      "expectations": [
+        "Invokes scripts/mif-convert.mjs roundtrip (or mif-validate which includes the round-trip)",
+        "Reports the markdown<->JSON-LD round-trip as lossless on success",
+        "Fails non-zero if information is lost"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The validator says the schema isn't hydrated. What do I do?",
+      "expected_output": "Runs npm run hydrate-schema to refresh the canonical schema cache from mif-spec.dev.",
+      "files": [],
+      "expectations": [
+        "Recommends running npm run hydrate-schema",
+        "Explains the bundled schema is a refreshable cache, not the authority",
+        "Notes offline fallback to the last hydrated version with a staleness warning"
+      ]
+    }
+  ]
+}

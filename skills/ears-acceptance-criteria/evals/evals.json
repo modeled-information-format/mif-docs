@@ -1,0 +1,40 @@
+{
+  "skill_name": "ears-acceptance-criteria",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Rewrite this requirement as an EARS criterion: 'The system should handle too many login attempts.'",
+      "expected_output": "An Unwanted-behavior EARS criterion using the If/then template with a concrete system and observable response.",
+      "files": [],
+      "expectations": [
+        "Uses the Unwanted-behavior template: If <condition>, then the <system> shall <response>",
+        "Names a concrete system component rather than 'the system' generically where possible",
+        "Specifies an observable, verifiable response (e.g., lock account, return an error code)",
+        "Produces exactly one testable requirement, not a compound sentence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Turn these three PRD bullet points into machine-readable acceptance criteria.",
+      "expected_output": "Three EARS criteria, each using the most specific matching template.",
+      "files": [],
+      "expectations": [
+        "Produces one EARS criterion per bullet",
+        "Selects the most specific template (event/state/unwanted/optional/ubiquitous) per item",
+        "Each criterion has a concrete system and an observable response",
+        "Does not collapse two requirements into one criterion"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Which EARS pattern fits 'while the connection is degraded, retries must back off exponentially'?",
+      "expected_output": "Identifies the State-driven (While) template and writes the criterion.",
+      "files": [],
+      "expectations": [
+        "Identifies the State-driven template (While <state>, the <system> shall <response>)",
+        "Explains why a state-driven trigger fits an ongoing condition",
+        "Writes the criterion with a concrete system and observable response"
+      ]
+    }
+  ]
+}

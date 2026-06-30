@@ -1,0 +1,54 @@
+{
+  "skill_name": "diataxis-tutorial",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a getting-started tutorial that takes a complete beginner through installing our CLI and running their first command successfully.",
+      "expected_output": "A learning-oriented Diataxis tutorial: a one-sentence promise, prerequisites, numbered steps each with a visible checkable result, and a conclusion pointing onward.",
+      "files": [],
+      "expectations": [
+        "Opens with a single concrete promise of what the learner will have done by the end",
+        "Has a Prerequisites section listing minimal already-working setup",
+        "Uses numbered, ordered steps in the imperative with a visible result after each",
+        "Contains no branching, options, or 'choose whichever fits' decision trees",
+        "Includes MIF frontmatter with type: procedural and passes mif-validate --level 1",
+        "Does not include placeholder text like TODO or 'configure as needed'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I wrote this as a tutorial but reviewers say it reads like reference docs. Show me what's wrong and a corrected version.",
+      "expected_output": "Identifies mode-mixing (reference/explanation content inside a tutorial) and rewrites it as a single hands-on happy path.",
+      "files": [],
+      "expectations": [
+        "Names the specific Diataxis mode violations (theory dumps, exhaustive option lists, branching)",
+        "Explains a tutorial is learning-oriented, distinct from how-to and reference",
+        "Produces a corrected tutorial with one happy path and self-check checkpoints",
+        "Moves the 'why' content out to a linked explanation rather than inlining it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Turn these raw setup notes into a proper tutorial for onboarding new contributors.",
+      "expected_output": "A conformant tutorial derived from the notes, with prerequisites, verifiable numbered steps, and a forward-pointing conclusion.",
+      "files": [],
+      "expectations": [
+        "Reorders the notes into a strictly linear learning path",
+        "Adds a promise sentence and a Prerequisites section",
+        "Each step has an observable result the learner can confirm",
+        "Emits MIF-conformant frontmatter (type: procedural) and the body passes mif-validate"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Should this onboarding content be a tutorial, a how-to, or reference? It's about helping new users feel confident with the product.",
+      "expected_output": "Recommends a tutorial because the goal is learner confidence, and explains the Diataxis distinction.",
+      "files": [],
+      "expectations": [
+        "Recommends the tutorial mode for confidence/learning-oriented goals",
+        "Contrasts with how-to (accomplish a known task) and reference (look up facts)",
+        "Offers to draft the tutorial following the learning-oriented pattern"
+      ]
+    }
+  ]
+}

@@ -63,6 +63,33 @@ const SKILL_FRONTMATTER_SCHEMA = {
   additionalProperties: true,
 };
 
+// Every skill must ship evals/evals.json (3-12 cases, >=2 expectations each).
+const EVALS_SCHEMA = {
+  type: "object",
+  required: ["skill_name", "evals"],
+  properties: {
+    skill_name: { type: "string" },
+    evals: {
+      type: "array",
+      minItems: 3,
+      maxItems: 12,
+      items: {
+        type: "object",
+        required: ["id", "prompt", "expected_output", "expectations"],
+        properties: {
+          id: { type: "integer" },
+          prompt: { type: "string", minLength: 1 },
+          expected_output: { type: "string", minLength: 1 },
+          files: { type: "array" },
+          expectations: { type: "array", minItems: 2, items: { type: "string", minLength: 1 } },
+        },
+        additionalProperties: true,
+      },
+    },
+  },
+  additionalProperties: true,
+};
+
 const errors = [];
 const ok = [];
 
@@ -126,6 +153,23 @@ if (existsSync(skillsDir)) {
       }
     } catch (e) {
       errors.push(`${label}: ${e.message}`);
+    }
+
+    // every skill must ship evals/evals.json
+    const evalsPath = join(skillsDir, entry.name, "evals", "evals.json");
+    const evalsLabel = `skills/${entry.name}/evals/evals.json`;
+    if (!existsSync(evalsPath)) {
+      errors.push(`${evalsLabel}: missing (all skills must have evals)`);
+    } else {
+      try {
+        const evalsDoc = readJson(evalsPath);
+        check(evalsLabel, EVALS_SCHEMA, evalsDoc);
+        if (evalsDoc.skill_name && evalsDoc.skill_name !== entry.name) {
+          errors.push(`${evalsLabel}: skill_name "${evalsDoc.skill_name}" != dir "${entry.name}"`);
+        }
+      } catch (e) {
+        errors.push(`${evalsLabel}: ${e.message}`);
+      }
     }
   }
 }
