@@ -74,6 +74,27 @@ _No unreleased changes yet._
   MIF genre documents are still validated and non-conformant ones are still
   blocked. Adds a regression test and fixture.
 
+## [0.1.1] - 2026-06-30
+
+### Added
+
+- Fail-closed `PostToolUse` MIF guard hook (`hooks/mif-guard.mjs`) on Write,
+  Edit, and MultiEdit: runs `mif-validate --level 1` on genre-doc outputs and
+  exits 2 to block the write when the file is non-conformant. Skips plain
+  markdown and structured-MADR `adr` docs. Ships with `tests/mif-guard.test.mjs`
+  and corresponding fixtures wired as `npm run test:hook` in CI.
+- Comprehensive self-documentation: the suite now documents itself as a MIF
+  L1-L3 doc set — tutorial, how-tos, reference, explanation, arc42 + C4
+  architecture docs, three ADRs, two SRE runbooks, and this CHANGELOG — all
+  validated by `mif-validate` and `lint:md` in CI. Adds a brand social-preview
+  image (`.github/social-preview.svg` / `.png`) and a documentation index in
+  `README.md`.
+
+### Changed
+
+- License switched from Apache-2.0 to MIT; `plugin.json`, `marketplace.json`,
+  `package.json`, and `README` updated accordingly.
+
 ## [0.1.0] - 2026-06-30
 
 ### Added
