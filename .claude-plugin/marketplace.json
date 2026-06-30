@@ -7,7 +7,7 @@
       "name": "mif-docs",
       "source": {
         "source": "github",
-        "repo": "modeled-information-format/mif-docs"
+        "repo": "modeled-information-format/mif-docs-plugin"
       },
       "description": "MIF-first documentation skill suite: one skill per document genre over a MIF L1->L3 floor.",
       "author": { "name": "modeled-information-format" },

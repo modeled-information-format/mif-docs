@@ -9,8 +9,8 @@ name: release
 # strict check):
 #
 #   gh attestation verify <artifact>.tar.gz \
-#     --repo modeled-information-format/mif-docs \
-#     --signer-workflow modeled-information-format/mif-docs/.github/workflows/release.yml
+#     --repo modeled-information-format/mif-docs-plugin \
+#     --signer-workflow modeled-information-format/mif-docs-plugin/.github/workflows/release.yml
 #
 # `workflow_dispatch` exercises build -> attest -> verify as a dry-run without
 # cutting a version; the upload-to-release step runs ONLY on a published release.

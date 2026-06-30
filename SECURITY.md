@@ -13,15 +13,15 @@ To verify a downloaded artifact yourself:
 
 ```sh
 # 1. Download the artifact from the GitHub Release.
-gh release download <tag> --repo modeled-information-format/mif-docs \
+gh release download <tag> --repo modeled-information-format/mif-docs-plugin \
   --pattern 'mif-docs-*.tar.gz'
 
 # 2. Verify SLSA build provenance. --repo scopes trust to this repository;
 #    --signer-workflow pins the certificate identity to the release workflow,
 #    so an attestation from any other workflow would not pass.
 gh attestation verify mif-docs-<version>.tar.gz \
-  --repo modeled-information-format/mif-docs \
-  --signer-workflow modeled-information-format/mif-docs/.github/workflows/release.yml
+  --repo modeled-information-format/mif-docs-plugin \
+  --signer-workflow modeled-information-format/mif-docs-plugin/.github/workflows/release.yml
 ```
 
 A non-zero exit means the artifact is not the attested bytes — do not use it.
