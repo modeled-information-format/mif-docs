@@ -4,7 +4,7 @@
   "description": "MIF-first documentation skill suite plugin — tooling (mif-validate, plugin manifest validation).",
   "type": "module",
   "private": true,
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "validate-plugin": "node scripts/validate-plugin.mjs",
     "mif-validate": "node scripts/mif-validate.mjs",

@@ -43,4 +43,4 @@ npm run lint:md                 # markdownlint-cli2
 
 ## License
 
-Apache-2.0.
+MIT.
