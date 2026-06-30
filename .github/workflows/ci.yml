@@ -31,8 +31,12 @@ jobs:
         run: npm run hydrate-schema
       - name: MIF-validate every shipped good.md template
         run: |
+          # The adr genre is fully aligned to structured-MADR (type: adr) and is
+          # validated by the structured-madr action in the adr-smadr job below,
+          # not by this suite's mif-validate (which keys on conceptType).
           for f in skills/*/templates/good.md; do
             [ -f "$f" ] || continue
+            [ "$f" = "skills/adr/templates/good.md" ] && continue
             echo "::group::mif-validate $f"
             node scripts/mif-validate.mjs "$f" --level 1
             echo "::endgroup::"
@@ -43,3 +47,26 @@ jobs:
         run: node scripts/planner-check.mjs
       - name: Markdown lint
         run: npm run lint:md
+
+  # The flagship adr genre is fully aligned to structured-MADR; validate it with
+  # the canonical structured-madr GitHub Action (SHA-pinned) in BOTH modes.
+  adr-smadr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+      - name: Validate ADR — structured-MADR mode (strict)
+        uses: modeled-information-format/structured-madr@1885ace5d825e2b2982505e28468dd4f5ba1d1c0 # v1.2.0
+        with:
+          mode: smadr
+          path: skills/adr/templates
+          pattern: good.md
+          strict: 'true'
+          fail-on-error: 'true'
+      - name: Validate ADR — MIF conformance mode (level 3)
+        uses: modeled-information-format/structured-madr@1885ace5d825e2b2982505e28468dd4f5ba1d1c0 # v1.2.0
+        with:
+          mode: mif
+          mif-level: '3'
+          path: skills/adr/templates
+          pattern: good.md

@@ -1,6 +1,6 @@
 ---
 name: adr
-description: Write an Architectural Decision Record (ADR) in the public MADR style — one decision, its drivers, the options weighed, the chosen outcome, and the consequences accepted — as a MIF-conformant document. Use when a team is making or capturing a consequential, hard-to-reverse technical choice and needs it documented with rationale. Anti-trigger; for a how-to use diataxis-how-to, for requirements use prd or feature-spec, not an ADR.
+description: Write an Architectural Decision Record (ADR) in the Structured MADR format — one decision, its drivers, the options weighed with risk, the chosen outcome, the consequences accepted, and an audit trail — validated by the structured-madr Action in both smadr and MIF modes. Use when a team is making or capturing a consequential, hard-to-reverse technical choice and needs it documented with rationale. Anti-trigger; for a how-to use diataxis-how-to, for requirements use prd or feature-spec, not an ADR.
 ---
 
 # adr
@@ -11,24 +11,35 @@ the options considered, the option chosen, and the consequences the team accepts
 An ADR records a *decision*, not a task and not a requirement; if there are no
 alternatives to weigh, it is not an ADR.
 
-This genre follows the **public MADR standard** (Markdown Any Decision Records,
-adr.github.io). It is **decoupled from `structured-madr`** — it shares the common
-ADR shape by convention only and depends on none of that repo's tooling or schema.
+This genre is **fully aligned to Structured MADR (structured-madr)** — the
+MIF-native ADR format. The emitted ADR validates against the canonical
+`modeled-information-format/structured-madr` GitHub Action in **both** of its
+modes: `smadr` (the structured-MADR frontmatter + section schema) and `mif` (MIF
+conformance, levels 1-3). The suite reuses that Action; it does not re-implement
+ADR validation.
 
-## Pattern (industry: MADR / adr.github.io)
+## Pattern (Structured MADR)
 
-1. **Title** — `ADR-NNNN: <decision>`; names the decision, not an action.
-2. **Status** — the lifecycle state (see below).
-3. **Context and Problem Statement** — the forces and the problem, stated so a
-   reader could disagree.
-4. **Decision Drivers** — the criteria that decide it; express the testable ones
-   in EARS (see the `ears-acceptance-criteria` helper).
-5. **Considered Options** — at least two real alternatives.
-6. **Decision Outcome** — the chosen option *and the justification* tying it back
-   to the drivers, followed by **Consequences** (Good / Bad / Neutral).
-7. **Pros and Cons of the Options** — per-option Good/Bad so the comparison that
-   justifies the choice is visible.
-8. **More Information** — links, related ADRs, and an audit/changelog trail.
+Required frontmatter: `title`, `description`, `type: adr`, `category`, `tags`,
+`status` (lifecycle enum), `created` (date), `updated` (date), `author`,
+`project`. Optional: `technologies`, `audience`, `related` (each `*.md`).
+
+Required sections, in order:
+
+1. **# ADR-NNNN: \<Title\>** — H1 matches the frontmatter `title`.
+2. **## Status** — the lifecycle state.
+3. **## Context** → `### Background and Problem Statement` (+ `### Current
+   Limitations`).
+4. **## Decision Drivers** → `### Primary Decision Drivers` + `### Secondary
+   Decision Drivers`. Express testable drivers in EARS (`ears-acceptance-criteria`).
+5. **## Considered Options** — `### Option N: <Name>` each with a **Risk
+   Assessment** (Technical / Schedule / Ecosystem).
+6. **## Decision** — the chosen option and implementation specifics.
+7. **## Consequences** — `### Positive` / `### Negative` / `### Neutral`.
+8. **## Decision Outcome** — how the decision meets its objectives, with mitigations.
+9. **## Related Decisions**, **## Links**, **## More Information**.
+10. **## Audit** — dated entries with a status from {Pending, Compliant,
+    Non-Compliant, Partial}.
 
 ## Lifecycle states
 
@@ -74,21 +85,23 @@ The MIF layer makes those questions answerable by *reading frontmatter*:
 The same document still reads as a human ADR and projects losslessly to JSON-LD
 and back — one artifact, two readers.
 
-## The L1 -> L2 -> L3 climb (three exemplars)
+## The MIF L1 -> L2 -> L3 climb (one doc, smadr's profiles)
 
-This skill ships the **same decision at three MIF levels** so the climb is
-explicit:
+In Structured MADR the MIF level is a property of the **projection**, not of a
+separate file: structured-madr derives the MIF JSON-LD from the ADR's frontmatter
+(`created`/`updated` → `temporal`, `author`/`project` → `provenance`, `related` →
+`relationships[]`, `technologies` → `entities[]`, `conceptType: semantic`). So a
+single complete ADR satisfies the MIF floor at every level. `templates/good.md`
+validates with the structured-madr Action at **`mif --level 1`, `2`, and `3`**
+(all pass) and in **`smadr` strict** mode (0 errors).
 
-- `templates/good-l1.md` — **L1 floor**: `id`, `type`, `created` + body. A valid
-  ADR, but opaque to a machine consumer.
-- `templates/good-l2.md` — **L2**: adds `namespace`, `modified`, `temporal`
-  validity, and a typed `realized-by` relationship.
-- `templates/good.md` — **L3 (highest the genre supports)**: adds `ontology`
-  typing, W3C-PROV `provenance`, `citations[]`, and a full typed
-  `relationships[]` graph. Decision drivers are EARS; the audit trail is
-  provenance-backed. Validate with `mif-validate --level 3`.
+Validate the ADR with the canonical Action, not this suite's `mif-validate`
+(which keys on `conceptType` and is for the other genres):
 
-Author at the **highest level the drafting context supports** (grade down rather
-than fabricate). Gate every output with `mif-validate` at its target level; the
-floor is `--level 1`. `templates/bad.md` shows the antipattern: no options, no
-consequences, a status outside the enum.
+```bash
+# smadr mode (structural)            # mif mode (conformance, level 1|2|3)
+node <action>/src/validate.js        node <action>/.github/bin/mif-validate.js --level 3
+```
+
+`templates/bad.md` shows the antipattern: no options, no consequences, a status
+outside the enum, missing required sections.

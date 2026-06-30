@@ -1,7 +1,6 @@
 {
   "description": "Per-genre MIF level targets. Each genre ships templates/good-l1.md (validated at L1) and templates/good.md (validated at the target = the highest level the genre honestly supports). Enforced by scripts/check-exemplars.mjs.",
   "targets": {
-    "adr": 3,
     "ai-architecture-doc": 3,
     "arc42-arch-doc": 3,
     "c4-model-diagram": 3,
