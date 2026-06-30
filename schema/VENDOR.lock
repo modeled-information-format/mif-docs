@@ -1,0 +1,13 @@
+{
+  "source": "https://mif-spec.dev/schema",
+  "channel": "latest",
+  "resolvedVersion": "1.0.0",
+  "files": [
+    "mif.schema.json",
+    "citation.schema.json",
+    "context.jsonld",
+    "definitions/entity-reference.schema.json",
+    "ontology/ontology.schema.json"
+  ],
+  "hydratedAt": "2026-06-30T01:22:06.601Z"
+}

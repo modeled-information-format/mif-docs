@@ -1,0 +1,169 @@
+// projection.mjs — the one MIF projection shared by mif-convert and mif-validate.
+//
+// "One artifact, two readers": a MIF doc exists in two interconvertible forms —
+//   * markdown  (human-readable: YAML frontmatter + body)
+//   * JSON-LD   (machine-readable: the schema-checked canonical object)
+// The JSON-LD is the form the canonical JSON Schema checks; markdown is a
+// projection of it. This module provides both directions plus a lossless
+// round-trip oracle, so either form can be the authored input or the emitted
+// output.
+import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
+import { load as yamlLoad, dump as yamlDump } from "js-yaml";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(HERE, "..", "..");
+
+const CONTEXT_IRI = "https://mif-spec.dev/schema/context.jsonld";
+// Frontmatter keys that the projection transforms (everything else passes
+// through verbatim, in both directions).
+const ID_PREFIX = "urn:mif:";
+
+// ---------------------------------------------------------------------------
+// markdown <-> {frontmatter, body}
+// ---------------------------------------------------------------------------
+export function parseMarkdown(text) {
+  const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) throw new Error("no YAML frontmatter block (expected leading ---)");
+  const frontmatter = yamlLoad(m[1]) || {};
+  const body = normalizeBody(m[2]);
+  return { frontmatter, body };
+}
+
+function normalizeBody(s) {
+  return String(s).replace(/^\r?\n+/, "").replace(/\s+$/, "");
+}
+
+export function serializeMarkdown(frontmatter, body) {
+  const fm = yamlDump(frontmatter, { lineWidth: -1, noRefs: true, sortKeys: false });
+  return `---\n${fm}---\n\n${normalizeBody(body)}\n`;
+}
+
+// ---------------------------------------------------------------------------
+// forward: markdown frontmatter+body -> JSON-LD canonical object
+// ---------------------------------------------------------------------------
+export function toJsonld({ frontmatter, body }) {
+  const fm = { ...frontmatter };
+  const id = fm.id;
+  const type = fm.type;
+  if (id === undefined) throw new Error("frontmatter missing required field: id");
+  if (type === undefined) throw new Error("frontmatter missing required field: type");
+  delete fm.id;
+  delete fm.type;
+
+  const out = {
+    "@context": CONTEXT_IRI,
+    "@type": "Concept",
+    "@id": String(id).startsWith(ID_PREFIX) ? String(id) : ID_PREFIX + id,
+    conceptType: type,
+    ...fm, // created + every other frontmatter field, verbatim
+    content: normalizeBody(body),
+  };
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// inverse: JSON-LD canonical object -> {frontmatter, body}
+// ---------------------------------------------------------------------------
+export function toMarkdown(jsonld) {
+  const obj = { ...jsonld };
+  const atId = obj["@id"];
+  const conceptType = obj.conceptType;
+  const content = obj.content ?? "";
+  delete obj["@context"];
+  delete obj["@type"];
+  delete obj["@id"];
+  delete obj.conceptType;
+  delete obj.content;
+
+  const id = typeof atId === "string" && atId.startsWith(ID_PREFIX)
+    ? atId.slice(ID_PREFIX.length)
+    : atId;
+
+  // Reconstruct frontmatter with the human-facing keys first, then passthrough.
+  const frontmatter = { id, type: conceptType, ...obj };
+  return { frontmatter, body: normalizeBody(content) };
+}
+
+// ---------------------------------------------------------------------------
+// lossless round-trip oracle (compares at the canonical JSON-LD layer, which is
+// insensitive to YAML key order / formatting noise)
+// ---------------------------------------------------------------------------
+export function deepEqual(a, b) {
+  if (a === b) return true;
+  if (typeof a !== typeof b || a === null || b === null) return false;
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  if (typeof a !== "object") return false;
+  const ka = Object.keys(a), kb = Object.keys(b);
+  if (ka.length !== kb.length) return false;
+  return ka.every((k) => deepEqual(a[k], b[k]));
+}
+
+// markdown -> jsonld -> markdown -> jsonld ; lossless iff the two jsonld match.
+export function roundTripFromMarkdown(text) {
+  const jsonld1 = toJsonld(parseMarkdown(text));
+  const md2 = serializeMarkdown(...Object.values(splitDoc(toMarkdown(jsonld1))));
+  const jsonld2 = toJsonld(parseMarkdown(md2));
+  return { lossless: deepEqual(jsonld1, jsonld2), jsonld1, jsonld2, md2 };
+}
+
+// jsonld -> markdown -> jsonld ; lossless iff equal to the original jsonld.
+export function roundTripFromJsonld(jsonld1) {
+  const { frontmatter, body } = toMarkdown(jsonld1);
+  const md = serializeMarkdown(frontmatter, body);
+  const jsonld2 = toJsonld(parseMarkdown(md));
+  return { lossless: deepEqual(jsonld1, jsonld2), jsonld1, jsonld2, md };
+}
+
+function splitDoc(d) {
+  return { frontmatter: d.frontmatter, body: d.body };
+}
+
+// ---------------------------------------------------------------------------
+// schema loading (from the hydrated cache) + level overlays
+// ---------------------------------------------------------------------------
+export function loadValidator() {
+  const lockPath = join(ROOT, "schema", "VENDOR.lock");
+  if (!existsSync(lockPath)) {
+    throw new Error("schema not hydrated — run `npm run hydrate-schema` first");
+  }
+  const lock = JSON.parse(readFileSync(lockPath, "utf8"));
+  const dir = join(ROOT, "schema", ".cache", lock.resolvedVersion);
+  const mif = JSON.parse(readFileSync(join(dir, "mif.schema.json"), "utf8"));
+
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  addFormats(ajv);
+  // register the one external $ref (entity-reference) under its canonical $id
+  const entRef = join(dir, "definitions", "entity-reference.schema.json");
+  if (existsSync(entRef)) {
+    ajv.addSchema(JSON.parse(readFileSync(entRef, "utf8")));
+  }
+  const validate = ajv.compile(mif);
+  return { validate, resolvedVersion: lock.resolvedVersion, hydratedAt: lock.hydratedAt };
+}
+
+export function loadLevelProfile(level) {
+  const p = join(ROOT, "schema", "profiles", `level-${level}.json`);
+  if (!existsSync(p)) throw new Error(`unknown MIF level: ${level}`);
+  return JSON.parse(readFileSync(p, "utf8"));
+}
+
+// Returns [] when the object meets the level floor, else a list of missing fields.
+export function checkLevel(jsonld, level) {
+  const profile = loadLevelProfile(level);
+  const missing = [];
+  for (const f of profile.required || []) {
+    if (jsonld[f] === undefined || jsonld[f] === null) missing.push(f);
+  }
+  for (const tf of profile.temporalRequired || []) {
+    if (!jsonld.temporal || jsonld.temporal[tf] === undefined) {
+      missing.push(`temporal.${tf}`);
+    }
+  }
+  return missing;
+}
+
+export { ROOT };

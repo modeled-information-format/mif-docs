@@ -1,0 +1,19 @@
+{
+  "name": "mif-docs",
+  "description": "Self-hosting marketplace for the mif-docs documentation skill suite.",
+  "owner": { "name": "modeled-information-format" },
+  "plugins": [
+    {
+      "name": "mif-docs",
+      "source": {
+        "source": "github",
+        "repo": "modeled-information-format/mif-docs"
+      },
+      "description": "MIF-first documentation skill suite: one skill per document genre over a MIF L1->L3 floor.",
+      "author": { "name": "modeled-information-format" },
+      "category": "documentation",
+      "license": "Apache-2.0",
+      "keywords": ["documentation", "mif", "adr", "diataxis", "rfc", "runbook", "prd", "spec"]
+    }
+  ]
+}

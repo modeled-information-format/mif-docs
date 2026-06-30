@@ -1,0 +1,7 @@
+{
+  "level": 3,
+  "title": "MIF conformance floor — Level 3 (Full)",
+  "description": "Level 2 + the full attributable fields: provenance and temporal.validFrom. Citations, embedding, and extensions remain validated by the canonical schema only when present (content-dependent).",
+  "required": ["namespace", "modified", "temporal", "provenance"],
+  "temporalRequired": ["validFrom"]
+}

@@ -1,0 +1,6 @@
+{
+  "level": 1,
+  "title": "MIF conformance floor — Level 1 (Core)",
+  "description": "The MIF core required fields only (@context, @type, @id, conceptType, content, created), enforced by the canonical schema. No overlay beyond it.",
+  "required": []
+}

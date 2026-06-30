@@ -1,0 +1,41 @@
+name: ci
+
+# Phase-0 CI: the lightweight gates the suite's acceptance actually names —
+# plugin-manifest validation, markdown lint, and MIF conformance of every
+# shipped template. (Attested release pipeline is intentionally out of scope.)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+      - name: Install
+        run: npm ci
+      - name: Validate plugin manifest + SKILL.md frontmatter
+        run: npm run validate-plugin
+      - name: Hydrate canonical MIF schema
+        run: npm run hydrate-schema
+      - name: MIF-validate every shipped good.md template
+        run: |
+          for f in skills/*/templates/good.md; do
+            [ -f "$f" ] || continue
+            echo "::group::mif-validate $f"
+            node scripts/mif-validate.mjs "$f" --level 1
+            echo "::endgroup::"
+          done
+      - name: Markdown lint
+        run: npm run lint:md

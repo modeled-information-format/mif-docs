@@ -1,0 +1,6 @@
+{
+  "level": 2,
+  "title": "MIF conformance floor — Level 2 (Standard)",
+  "description": "Level 1 + the always-derivable standard fields: namespace, modified, temporal. Optional collections (relationships, entities, tags) remain validated by the canonical schema only when present.",
+  "required": ["namespace", "modified", "temporal"]
+}
