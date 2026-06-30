@@ -67,10 +67,12 @@ extensions:
 
 Every skill the **mif-docs** suite ships, grouped by the job it does rather than
 by the genre it emits. Where the [genre and CLI catalog](genre-and-cli-catalog/)
-is the terse lookup for scripts, recipes, and exit codes, this reference gives
-each of the 23 skills its own detailed write-up: what it authors, when to reach
-for it, when not to, and the MIF level and `conceptType` of the artifact it
-produces. Consult a section; do not read it end to end.
+is the terse lookup for scripts, recipes, and exit codes, this reference is the
+**index** to the suite's 23 skills: a one-line orientation per skill, grouped by
+the job it does, with each name linking to its own deep reference doc — what the
+document type is, how the skill produces it, when it is beneficial, and the
+verified provenance and citations behind it. Consult a section; do not read it
+end to end.
 
 Each genre skill ships four exemplars (`good-l1.md` at the L1 floor, `good.md` at
 its target level, `bad.md`, and `evals/evals.json`) and is invoked directly, by
@@ -78,17 +80,19 @@ name, or routed through the orchestrator.
 
 ## Purpose groups at a glance
 
+Each skill name links to its full reference doc.
+
 | Group | Skills | What the group is for |
 | --- | --- | --- |
-| Orchestrator | `doc-set-planner` | Decompose a broad subject into a coordinated document set and reconcile the cross-document graph. |
-| Authoring helpers | `mif-frontmatter`, `ears-acceptance-criteria`, `mif-validate` | Supply or check the MIF layer and the acceptance criteria that every genre rides on. |
-| Diátaxis quadrants | `diataxis-tutorial`, `diataxis-how-to`, `diataxis-reference`, `diataxis-explanation` | The four user-need modes of product documentation. |
-| Architecture & design | `arc42-arch-doc`, `c4-model-diagram`, `google-design-doc`, `ai-architecture-doc` | Describe how a system is structured and why. |
-| Decisions & proposals | `adr`, `rust-rfc`, `python-pep` | Record one decision, or propose one change for consensus. |
-| Product & feature specs | `prd`, `feature-spec` | Scope what to build and the build-ready slice of it. |
-| Kiro spec set | `kiro-requirements`, `kiro-design`, `kiro-tasks` | The AWS Kiro three-document feature workflow. |
-| Operations | `sre-runbook`, `playbook` | Drive response to a failure — one alert, or a class of incidents. |
-| Release history | `changelog` | A human-curated, versioned record of what changed. |
+| Orchestrator | [`doc-set-planner`](../skills/doc-set-planner/) | Decompose a broad subject into a coordinated document set and reconcile the cross-document graph. |
+| Authoring helpers | [`mif-frontmatter`](../skills/mif-frontmatter/), [`ears-acceptance-criteria`](../skills/ears-acceptance-criteria/), [`mif-validate`](../skills/mif-validate/) | Supply or check the MIF layer and the acceptance criteria that every genre rides on. |
+| Diátaxis quadrants | [`diataxis-tutorial`](../skills/diataxis-tutorial/), [`diataxis-how-to`](../skills/diataxis-how-to/), [`diataxis-reference`](../skills/diataxis-reference/), [`diataxis-explanation`](../skills/diataxis-explanation/) | The four user-need modes of product documentation. |
+| Architecture & design | [`arc42-arch-doc`](../skills/arc42-arch-doc/), [`c4-model-diagram`](../skills/c4-model-diagram/), [`google-design-doc`](../skills/google-design-doc/), [`ai-architecture-doc`](../skills/ai-architecture-doc/) | Describe how a system is structured and why. |
+| Decisions & proposals | [`adr`](../skills/adr/), [`rust-rfc`](../skills/rust-rfc/), [`python-pep`](../skills/python-pep/) | Record one decision, or propose one change for consensus. |
+| Product & feature specs | [`prd`](../skills/prd/), [`feature-spec`](../skills/feature-spec/) | Scope what to build and the build-ready slice of it. |
+| Kiro spec set | [`kiro-requirements`](../skills/kiro-requirements/), [`kiro-design`](../skills/kiro-design/), [`kiro-tasks`](../skills/kiro-tasks/) | The AWS Kiro three-document feature workflow. |
+| Operations | [`sre-runbook`](../skills/sre-runbook/), [`playbook`](../skills/playbook/) | Drive response to a failure — one alert, or a class of incidents. |
+| Release history | [`changelog`](../skills/changelog/) | A human-curated, versioned record of what changed. |
 
 ## Orchestrator
 
