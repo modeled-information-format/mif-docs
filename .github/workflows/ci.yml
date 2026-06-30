@@ -1,8 +1,9 @@
 name: ci
 
-# Phase-0 CI: the lightweight gates the suite's acceptance actually names —
-# plugin-manifest validation, markdown lint, and MIF conformance of every
-# shipped template. (Attested release pipeline is intentionally out of scope.)
+# CI gates: plugin-manifest validation, markdown lint, MIF conformance of every
+# shipped template, the structured-MADR ADR check, plus the supply-chain gates
+# (pin-check + actionlint) as thin callers of the org's central reusables. The
+# attested release pipeline lives in release.yml.
 
 on:
   push:
@@ -14,6 +15,24 @@ permissions:
   contents: read
 
 jobs:
+  # Every `uses:` in this repo MUST be pinned to a full 40-char commit SHA. Thin
+  # caller of the org central pin-check reusable (consume, never reinvent).
+  # modeled-information-format/.github main @ 789b6ba
+  pin-check:
+    permissions:
+      contents: read
+    uses: >-
+      modeled-information-format/.github/.github/workflows/pin-check.yml@789b6baf9a1451f406ff507aabb5c5be8a9d48a4
+
+  # Workflow YAML lint via the central reusable-actionlint (verified, pinned
+  # actionlint download lives in the reusable).
+  # modeled-information-format/.github main @ 789b6ba
+  validate-workflows:
+    permissions:
+      contents: read
+    uses: >-
+      modeled-information-format/.github/.github/workflows/reusable-actionlint.yml@789b6baf9a1451f406ff507aabb5c5be8a9d48a4
+
   validate:
     runs-on: ubuntu-latest
     steps:
