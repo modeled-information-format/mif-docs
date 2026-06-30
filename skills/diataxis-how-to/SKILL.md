@@ -13,7 +13,7 @@ modes out.
 
 ## Pattern (industry: Diataxis, diataxis.fr)
 
-1. **Title** — states the goal directly: "How to <accomplish X>".
+1. **Title** — states the goal directly: "How to `accomplish X`".
 2. **Context line** — one or two sentences naming when/why you'd do this.
 3. **Prerequisites** — the concrete starting state and access the task assumes.
 4. **Numbered action steps** — an ordered sequence of real commands/actions that

@@ -52,13 +52,17 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   checked++;
   let fm;
   try { fm = parseMarkdown(readFileSync(good, "utf8")).frontmatter; } catch { continue; }
-  if (fm.ontology && fm.ontology.id && fm.ontology.id !== ontologyId) {
-    failures.push(`${entry.name}: ontology.id "${fm.ontology.id}" != "${ontologyId}"`);
+  // structured-MADR genres (the adr) reference the ontology via x-ontology, since
+  // smadr's schema has no `ontology` property; both forms are checked here.
+  const ontoRef = fm.ontology || fm["x-ontology"];
+  if (ontoRef && ontoRef.id && ontoRef.id !== ontologyId) {
+    failures.push(`${entry.name}: ontology id "${ontoRef.id}" != "${ontologyId}"`);
   }
-  if (fm.entity && fm.entity.entity_type) {
+  const entityType = fm.entity?.entity_type || fm["x-ontology"]?.entity_type;
+  if (entityType) {
     typed++;
-    if (!entityTypes.has(fm.entity.entity_type)) {
-      failures.push(`${entry.name}: entity_type "${fm.entity.entity_type}" not defined in the ontology`);
+    if (!entityTypes.has(entityType)) {
+      failures.push(`${entry.name}: entity_type "${entityType}" not defined in the ontology`);
     }
   }
   for (const r of fm.relationships || []) {

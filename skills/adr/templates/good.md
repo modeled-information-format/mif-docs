@@ -3,6 +3,10 @@ title: "Adopt PostgreSQL as the System-of-Record Datastore"
 description: "Consolidate orders, ledger, and audit onto one ACID datastore; PostgreSQL is chosen over MongoDB and DynamoDB because storage-layer integrity, cross-aggregate atomic commits, and point-in-time recovery are must-haves."
 type: adr
 conceptType: semantic
+x-ontology:
+  id: mif-docs
+  version: "1.0.0"
+  entity_type: decision-record
 category: data-platform
 tags:
   - adr
@@ -197,11 +201,11 @@ Mitigations:
 
 ## Related Decisions
 
-- [ADR-0009: Logical Replication to the Warehouse](adr-0009-logical-replication-to-warehouse.md) - depends on the change stream this decision enables.
+- [ADR-0009: Logical Replication to the Warehouse][adr-0009] - enables the change stream.
 
 ## Links
 
-- [PostgreSQL 17 — Continuous Archiving and Point-in-Time Recovery](https://www.postgresql.org/docs/17/continuous-archiving.html) - supports the recovery driver.
+- [PostgreSQL 17 — Continuous Archiving and PITR][pg-pitr] - supports the recovery driver.
 
 ## More Information
 
@@ -217,11 +221,14 @@ Mitigations:
 
 **Findings:**
 
-| Finding | Files | Lines | Assessment |
-|---------|-------|-------|------------|
-| DynamoDB eliminated on integrity driver | - | - | accepted |
+| Finding                                 | Files | Lines | Assessment |
+| --------------------------------------- | ----- | ----- | ---------- |
+| DynamoDB eliminated on integrity driver | -     | -     | accepted   |
 
 **Summary:** Decision accepted after architecture-forum review; DynamoDB
 eliminated on the integrity driver.
 
 **Action Required:** Implement the event-sourced write path on PostgreSQL.
+
+[adr-0009]: adr-0009-logical-replication-to-warehouse.md
+[pg-pitr]: https://www.postgresql.org/docs/17/continuous-archiving.html
