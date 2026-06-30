@@ -38,3 +38,11 @@ test('ignores non-markdown files', () => {
   const r = runGuard(join(root, 'package.json'));
   assert.equal(r.status, 0, `expected allow, got exit ${r.status}: ${r.stderr}`);
 });
+
+test('ignores a file whose only type is nested (auto-memory metadata.type)', () => {
+  // Regression: an auto-memory file carries `metadata:\n  type: reference`. The
+  // indented `type:` is not a MIF conceptType, so the guard must not treat the
+  // file as a genre document and must not block the write.
+  const r = runGuard(join(root, 'tests/fixtures/nested-metadata-type.md'));
+  assert.equal(r.status, 0, `expected allow, got exit ${r.status}: ${r.stderr}`);
+});
