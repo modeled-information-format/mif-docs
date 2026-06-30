@@ -10,6 +10,12 @@ import astroMermaid from "astro-mermaid";
 export default defineConfig({
   site: "https://modeled-information-format.github.io",
   base: "/mif-docs-plugin",
+  // The docs/ tree is symlinked into src/content/docs. Without preserveSymlinks,
+  // Vite resolves an MDX file (e.g. the splash index.mdx) to its real repo-root
+  // path, where bare imports like `@astrojs/starlight/components` can't resolve
+  // (no node_modules there). Keeping the symlinked path lets resolution walk up
+  // to site/node_modules.
+  vite: { resolve: { preserveSymlinks: true } },
   integrations: [
     astroMermaid(),
     starlight({

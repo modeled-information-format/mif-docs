@@ -44,6 +44,8 @@ citations:
     accessed: '2026-06-30'
 relationships:
   - type: relates-to
+    target: urn:mif:reference-skills-by-purpose
+  - type: relates-to
     target: urn:mif:tutorial-getting-started
   - type: relates-to
     target: urn:mif:how-to-validate-and-author
@@ -152,8 +154,11 @@ Every script is fail-closed: any failure exits non-zero.
 
 ## See also
 
-The getting-started tutorial walks through installing and validating a first
-document; the how-to gives the validate/author/convert recipe; the explanation
+The [skills by purpose](../skills-by-purpose/) reference gives each skill its own
+detailed write-up, grouped by the job it does; this catalog is the terse lookup
+for genres, recipes, and scripts. The getting-started tutorial walks through
+installing and validating a first document; the how-to gives the
+validate/author/convert recipe; the explanation
 covers why each document is both a human artifact and a machine unit. All three
 are linked from this reference's `relationships[]`, which keeps rationale out of
 the catalog per Diátaxis.

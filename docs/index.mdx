@@ -1,0 +1,99 @@
+---
+title: mif-docs
+description: A Claude Code documentation skill suite — one skill per document genre over a MIF Level-1 floor, every doc both human-readable and machine-conformant.
+template: splash
+hero:
+  tagline: One skill per document genre. Every doc, two readers — written once, read by a person and a parser.
+  image:
+    html: |
+      <svg viewBox="0 0 560 440" width="560" height="440" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One artifact, two readers — a single MIF document read as human Markdown and machine JSON-LD, round-tripping losslessly.">
+        <title>One artifact, two readers</title>
+        <desc>A single source document fans out to a human-readable Markdown panel (amber) and a machine-parseable JSON-LD panel (cyan), joined by a lossless round-trip, under the chevron-M mark and a mif-validate conformance badge.</desc>
+        <defs>
+          <linearGradient id="mif-field" x1="0" y1="0" x2="560" y2="440" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#0A0D13"/>
+            <stop offset="1" stop-color="#0E121B"/>
+          </linearGradient>
+          <linearGradient id="mif-spine" x1="280" y1="156" x2="280" y2="188" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#E8EEF6" stop-opacity="0"/>
+            <stop offset="1" stop-color="#7C8AA0" stop-opacity="0.6"/>
+          </linearGradient>
+        </defs>
+        <rect width="560" height="440" rx="20" fill="url(#mif-field)"/>
+        <rect x="12" y="12" width="536" height="416" rx="14" fill="none" stroke="#222C3C" stroke-width="1.5"/>
+        <g transform="translate(238 30) scale(1.55)" fill="none" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M6 42 L6 6 L24 29" stroke="#34D3E8"/>
+          <path d="M24 29 L42 6 L42 42" stroke="#F5B642"/>
+          <path d="M24 25.6 L27.4 29 L24 32.4 L20.6 29 Z" fill="#E8EEF6" stroke="none"/>
+        </g>
+        <text x="356" y="68" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="26" font-weight="700" letter-spacing="0.04em" fill="#E8EEF6">MIF</text>
+        <text x="280" y="114" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" letter-spacing="0.1em" fill="#7C8AA0">ONE SOURCE ARTIFACT</text>
+        <rect x="206" y="124" width="148" height="30" rx="7" fill="#151B27" stroke="#2E3A4D"/>
+        <text x="280" y="143" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" fill="#AEBCCF">--- frontmatter ---</text>
+        <path d="M280 154 L280 188" stroke="url(#mif-spine)" stroke-width="2"/>
+        <path d="M280 188 C 280 206, 145 196, 145 214 M280 188 C 280 206, 415 196, 415 214" stroke="#3C4B63" stroke-width="1.5" stroke-dasharray="3 4"/>
+        <g>
+          <rect x="34" y="214" width="222" height="150" rx="12" fill="#0E121B" stroke="#2E3A4D"/>
+          <path d="M34 226 a12 12 0 0 1 12 -12 h198 a12 12 0 0 1 12 12 v10 h-222 z" fill="#2A2110"/>
+          <circle cx="52" cy="231" r="5" fill="#F5B642"/>
+          <text x="66" y="235" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" font-weight="700" fill="#F5B642">human-readable</text>
+          <text x="48" y="272" font-family="system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#E8EEF6"># A decision, in prose</text>
+          <rect x="48" y="285" width="180" height="7" rx="3.5" fill="#3C4B63"/>
+          <rect x="48" y="299" width="194" height="7" rx="3.5" fill="#2E3A4D"/>
+          <rect x="48" y="313" width="150" height="7" rx="3.5" fill="#2E3A4D"/>
+          <text x="48" y="346" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" letter-spacing="0.04em" fill="#7C8AA0">Markdown · a person reads</text>
+        </g>
+        <g>
+          <rect x="304" y="214" width="222" height="150" rx="12" fill="#0E121B" stroke="#2E3A4D"/>
+          <path d="M304 226 a12 12 0 0 1 12 -12 h198 a12 12 0 0 1 12 12 v10 h-222 z" fill="#0A2630"/>
+          <circle cx="322" cy="231" r="5" fill="#34D3E8"/>
+          <text x="336" y="235" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" font-weight="700" fill="#34D3E8">machine-parseable</text>
+          <text x="318" y="270" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" fill="#7C8AA0">{</text>
+          <text x="332" y="288" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5"><tspan fill="#34D3E8">"@type"</tspan><tspan fill="#7C8AA0">: </tspan><tspan fill="#F5B642">"Decision"</tspan><tspan fill="#7C8AA0">,</tspan></text>
+          <text x="332" y="306" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5"><tspan fill="#34D3E8">"entity"</tspan><tspan fill="#7C8AA0">: </tspan><tspan fill="#AEBCCF">{ … }</tspan></text>
+          <text x="318" y="324" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" fill="#7C8AA0">}</text>
+          <text x="318" y="346" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" letter-spacing="0.04em" fill="#7C8AA0">JSON-LD · a parser resolves</text>
+        </g>
+        <path d="M256 300 L304 300" stroke="#7C8AA0" stroke-width="1.5"/>
+        <path d="M268 294 L256 300 L268 306" stroke="#F5B642" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M292 294 L304 300 L292 306" stroke="#34D3E8" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <rect x="156" y="386" width="248" height="30" rx="15" fill="#0B2618" stroke="#34C77B" stroke-opacity="0.5"/>
+        <circle cx="178" cy="401" r="4.5" fill="#34C77B"/>
+        <text x="194" y="405" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" letter-spacing="0.02em"><tspan fill="#34C77B">mif-validate</tspan><tspan fill="#AEBCCF"> · lossless round-trip · L1→L3</tspan></text>
+      </svg>
+  actions:
+    - text: Get started
+      link: tutorials/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: Skill catalog by purpose
+      link: reference/skills-by-purpose/
+      icon: open-book
+      variant: secondary
+    - text: One artifact, two readers
+      link: explanation/one-artifact-two-readers/
+      icon: open-book
+      variant: minimal
+    - text: MIF home
+      link: https://modeled-information-format.github.io/
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+These docs follow the [Diátaxis](https://diataxis.fr/) framework — four modes, each
+matched to a different need — plus the architecture, the decision records, and the
+operational runbooks. Every page is itself authored with the suite's skills and
+validated by `mif-validate`: the same artifact a person reads and a parser resolves.
+
+<CardGrid>
+  <LinkCard title="New here? Start with the tutorial" href="tutorials/getting-started/" description="Learning-oriented. Install the suite, then author and validate your first MIF document step by step." />
+  <LinkCard title="Skill catalog by purpose" href="reference/skills-by-purpose/" description="Information-oriented. Every skill in the suite — orchestrator, authoring helpers, the four Diátaxis quadrants, architecture, decisions, specs, operations, and changelog — each with detailed exposure." />
+  <LinkCard title="Genre & CLI quick reference" href="reference/genre-and-cli-catalog/" description="Information-oriented. The terse lookup: genres, doc-set recipes, and every script in scripts/ with its arguments and exit behavior." />
+  <LinkCard title="How-to guides" href="how-to/validate-and-author-a-document/" description="Task-oriented. The recipe for authoring, validating, and converting a document between Markdown and JSON-LD." />
+  <LinkCard title="Explanation" href="explanation/one-artifact-two-readers/" description="Understanding-oriented. Why each document is at once a human artifact and a machine-conformant unit." />
+  <LinkCard title="Architecture" href="architecture/arc42/" description="The suite's own arc42 and C4 architecture — how the engine, genres, and MIF substrate fit together." />
+  <LinkCard title="Decisions (ADRs)" href="adr/0001-align-adr-genre-to-structured-madr/" description="The architecture decision records — the context and consequences behind each choice." />
+  <LinkCard title="MIF ecosystem docs" href="https://modeled-information-format.github.io/docs/" description="The broader MIF ecosystem documentation, served at the org root. The normative spec lives at mif-spec.dev." />
+</CardGrid>
