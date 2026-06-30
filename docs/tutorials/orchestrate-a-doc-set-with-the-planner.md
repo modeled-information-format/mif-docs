@@ -109,7 +109,9 @@ The planner runs its five-step engine: **scope** (load the `diataxis` recipe),
 namespace), **fan-out** (invoke `diataxis-tutorial`, `diataxis-how-to`,
 `diataxis-reference`, and `diataxis-explanation`, each on its slice), and
 **reconcile** (wire the cross-document `relationships[]` graph so each mode links
-its siblings). It emits a plan first — read it before the members are written.
+its siblings), and **validate** (every member passes its own acceptance check and
+the set is proven link-complete, the subject of steps 4 and 5 below). It emits a
+plan first — read it before the members are written.
 
 ## Step 3 — Inspect the reconciled relationship graph
 
@@ -139,7 +141,8 @@ the members at their target levels (tutorial and how-to at L2, reference and
 explanation at L3):
 
 ```bash
-node scripts/mif-validate.mjs <member>.md --level 2
+node scripts/mif-validate.mjs rate-limiter-tutorial.md --level 2   # tutorial, how-to
+node scripts/mif-validate.mjs rate-limiter-reference.md --level 3  # reference, explanation
 ```
 
 Each should report `VALID` with a lossless round-trip. When the set is both

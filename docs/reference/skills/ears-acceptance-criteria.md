@@ -118,14 +118,14 @@ skill's job is to refuse it and rewrite it.
 ## How the skill produces one
 
 `ears-acceptance-criteria` carries the five patterns as durable instructions plus
-exemplars and emits criteria other genres embed.
+eval cases and emits criteria other genres embed.
 
 - **Pattern selection.** The skill classifies each requirement by its trigger —
   invariant, event, state, unwanted condition, or feature gate — and casts it in
   the matching template, splitting compound requirements into one criterion each.
-- **Exemplars set the bar.** Like every skill it ships `good-l1.md` (the L1
-  floor), `good.md` (the target level), `bad.md` (a counter-example), and
-  `evals/evals.json`; the `check-exemplars` gate keeps them verified.
+- **Eval cases.** The skill ships `evals/evals.json` covering each pattern. As a
+  substrate helper it carries no `templates/` exemplars; the `check-exemplars`
+  gate applies only to the genre skills.
 - **MIF projection.** The criteria are authored over a MIF floor via the shared
   [mif-frontmatter](../mif-frontmatter/) substrate, and
   [mif-validate](../mif-validate/) proves the round-trip is lossless.

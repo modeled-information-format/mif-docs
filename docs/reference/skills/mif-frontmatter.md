@@ -115,15 +115,15 @@ It is *not* a content format and carries no prose; the body genre owns the words
 ## How the skill produces one
 
 `mif-frontmatter` carries the layered MIF schema as durable instructions plus
-exemplars and emits the block other skills build on.
+eval cases and emits the block other skills build on.
 
 - **Climb from the floor.** The skill always satisfies L1 first, then climbs to
   L2 and L3 only as the drafting context supplies real detail — never inventing
   provenance or citations to reach a level the source does not support.
-- **Exemplars set the bar.** Like every skill it ships `good-l1.md` (the L1
-  floor), `good.md` (a fuller L3 block), and `bad.md` (a counter-example), with
-  `evals/evals.json`. The `check-exemplars` gate proves `good-l1.md` validates at
-  L1 and `good.md` at its target level.
+- **Eval cases.** The skill ships `evals/evals.json` exercising the L1-to-L3
+  climb. As a substrate helper it carries no `templates/` exemplars; the
+  `check-exemplars` gate (which proves `good-l1.md` at L1 and `good.md` at its
+  target level) applies only to the genre skills.
 - **Lossless projection.** The emitted YAML is required to round-trip to JSON-LD
   and back without loss; the [mif-validate](../mif-validate/) helper proves that
   round-trip before the document is considered done.

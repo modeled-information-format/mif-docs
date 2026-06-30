@@ -128,9 +128,10 @@ validator scripts the suite runs in its gates.
 - **Round-trip proof.** It runs the lossless Markdown ↔ JSON-LD conversion and
   rejects any document whose round-trip is not exact, which constrains authors to
   the constructs proven to round-trip.
-- **Exemplars and gates.** Like every skill it ships `good-l1.md`, `good.md`,
-  `bad.md`, and `evals/evals.json`; the `check-exemplars` gate runs the same
-  validation over them so the verifier is itself continuously verified.
+- **Eval cases.** The skill ships `evals/evals.json` exercising conformant and
+  non-conformant inputs. As a substrate helper it carries no `templates/`
+  exemplars; the `check-exemplars` gate applies only to the genre skills, not to
+  the validator itself.
 
 ## When it is beneficial
 
