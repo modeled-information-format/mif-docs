@@ -56,23 +56,39 @@ supersedes it rather than editing the outcome in place.
   "final").
 - No placeholder text — every section reflects a real position.
 
-## Research-grounded genre features
+## Why machine-readable — the point of MIF here
 
-- **Temporal validity (D1):** carry a review cadence via an `x-expires`
-  frontmatter date and note it in Status, so a stale decision is detectable.
-- **Cross-genre relationships (D4):** link the artifacts that realize or replace
-  the decision via MIF `relationships[]` with typed targets (e.g. `realized-by`
-  a feature-spec, `superseded-by` a newer ADR).
-- **Audit trail (D6):** keep a dated changelog under More Information.
+An ADR's value is mostly consumed by machines: an agent deciding whether a
+decision still holds, a CI gate flagging a stale one, a dependency walker tracing
+which spec realizes it. As prose (L1) all of that requires reading and inferring.
+The MIF layer makes those questions answerable by *reading frontmatter*:
 
-## MIF frontmatter
+| Question an agent asks | Answered by (frontmatter) |
+| --- | --- |
+| Is this decision still valid? | `temporal.validUntil` / `ttl` |
+| What replaces or realizes it? | typed `relationships[]` (`superseded-by`, `realized-by`) |
+| Where did it come from; can I trust it? | `provenance` (W3C-PROV) + `trustLevel` |
+| What kind of thing is this? | `ontology` (`decision-record`) + `conceptType` |
+| What evidence backs it? | `citations[]` |
 
-`type: semantic` — an ADR is declarative knowledge (the decision and its
-rationale), not a time-bound record or a how-to. Climb to L2 with `namespace`
-(`adr/<area>`), `modified`, `title`, and `tags`; add `relationships[]` and the
-`x-expires` review date when known. Gate every output with
-`mif-validate --level 1`.
+The same document still reads as a human ADR and projects losslessly to JSON-LD
+and back — one artifact, two readers.
 
-See `templates/good.md` (a conformant, accepted ADR) and `templates/bad.md` (an
-ADR that records no decision — the most common failure: no options, no
-consequences, a status outside the enum).
+## The L1 -> L2 -> L3 climb (three exemplars)
+
+This skill ships the **same decision at three MIF levels** so the climb is
+explicit:
+
+- `templates/good-l1.md` — **L1 floor**: `id`, `type`, `created` + body. A valid
+  ADR, but opaque to a machine consumer.
+- `templates/good-l2.md` — **L2**: adds `namespace`, `modified`, `temporal`
+  validity, and a typed `realized-by` relationship.
+- `templates/good.md` — **L3 (highest the genre supports)**: adds `ontology`
+  typing, W3C-PROV `provenance`, `citations[]`, and a full typed
+  `relationships[]` graph. Decision drivers are EARS; the audit trail is
+  provenance-backed. Validate with `mif-validate --level 3`.
+
+Author at the **highest level the drafting context supports** (grade down rather
+than fabricate). Gate every output with `mif-validate` at its target level; the
+floor is `--level 1`. `templates/bad.md` shows the antipattern: no options, no
+consequences, a status outside the enum.
