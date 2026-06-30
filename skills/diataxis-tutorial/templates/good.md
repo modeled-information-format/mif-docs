@@ -2,12 +2,21 @@
 id: tutorial-first-mif-doc
 type: procedural
 created: 2026-06-29T10:00:00Z
+modified: 2026-06-29T10:00:00Z
 namespace: tutorials/getting-started
 title: Write Your First MIF Document
 tags:
   - tutorial
   - mif
   - getting-started
+temporal:
+  "@type": TemporalMetadata
+  validFrom: 2026-06-29T00:00:00Z
+  ttl: P6M
+  recordedAt: 2026-06-29T10:00:00Z
+relationships:
+  - type: relates-to
+    target: /how-to/convert-markdown-to-mif.md
 ---
 
 # Write Your First MIF Document

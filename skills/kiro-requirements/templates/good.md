@@ -2,12 +2,28 @@
 id: kiro-req-avatar-upload
 type: semantic
 created: 2026-06-29T10:00:00Z
+modified: 2026-06-29T10:00:00Z
 namespace: spec/kiro/requirements/avatar-upload
 title: "Requirements: Profile Avatar Upload"
 tags:
   - kiro
   - requirements
   - profile
+temporal:
+  "@type": TemporalMetadata
+  validFrom: 2026-06-29T00:00:00Z
+  ttl: P3M
+  recordedAt: 2026-06-29T10:00:00Z
+provenance:
+  "@type": Provenance
+  sourceType: user_explicit
+  trustLevel: high_confidence
+  wasAttributedTo:
+    "@id": "urn:mif:team:profile-squad"
+    "@type": prov:Agent
+relationships:
+  - type: realized-by
+    target: /spec/kiro/design/avatar-upload.md
 ---
 
 # Requirements: Profile Avatar Upload

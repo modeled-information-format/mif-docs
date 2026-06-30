@@ -59,8 +59,38 @@ one rendering; the abstractions are the contract.
 `type: semantic` — a C4 model is declarative architectural knowledge (what the
 system *is*), not a time-bound event or a how-to. Climb to L2 with `namespace`
 (e.g. `architecture/c4/<system>`), `title`, and `tags` when known. Gate every
-output with `mif-validate --level 1`.
+output with `mif-validate` at its target level; the floor is `--level 1`.
 
-See `templates/good.md` (Context + Container + Component for an example system)
-and `templates/bad.md` (a "C4" diagram that mixes abstraction levels and shows
-tech-only boxes with no people or boundaries — the canonical antipattern).
+## Why machine-readable — the point of MIF here
+
+A C4 model is consumed as much by tools as by people: a docs pipeline checking
+whether an architecture view is stale, an agent tracing which larger document
+embeds it, a reviewer asking where the model came from. As prose with embedded
+diagrams (L1) every one of those needs reading and inference. The MIF layer makes
+them answerable from frontmatter alone:
+
+| Question a consumer asks | Answered by (frontmatter) |
+| --- | --- |
+| Is this architecture view still current? | `temporal.validFrom` / `validUntil` / `ttl` |
+| What kind of document is this? | `ontology` (`architecture-view`) + `conceptType` |
+| Where did the model come from; can I trust it? | `provenance` (W3C-PROV) + `trustLevel` |
+| What larger document embeds these diagrams? | typed `relationships[]` (`relates-to` the arc42 genre) |
+
+The same document still reads as a human C4 model and projects losslessly to
+JSON-LD and back — one artifact, two readers.
+
+## The L1 -> L3 climb (two exemplars)
+
+This skill ships the **same model at two MIF levels** so the climb is explicit:
+
+- `templates/good-l1.md` — **L1 floor**: `id`, `type`, `created` + the body
+  (diagrams + element catalogs). A complete, valid C4 model, but opaque to a
+  machine consumer. Validate with `mif-validate --level 1`.
+- `templates/good.md` — **L3 (the highest this genre honestly supports)**: adds
+  `namespace`, `modified`, `temporal` validity, an `architecture-view`
+  `ontology` type, W3C-PROV `provenance`, and a typed `relates-to` relationship
+  into the arc42 document genre. Validate with `mif-validate --level 3`.
+
+Author at the **highest level the context supports** (grade down rather than
+fabricate). `templates/bad.md` shows the antipattern: a "C4" diagram that mixes
+abstraction levels and shows tech-only boxes with no people or boundaries.

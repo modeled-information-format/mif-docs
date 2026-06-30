@@ -11,7 +11,7 @@
         "Has a Prerequisites section naming the assumed starting state and access",
         "Uses numbered action steps with real, runnable commands, each doing one thing",
         "Contains no concept teaching, background theory, or exhaustive option catalogs",
-        "Includes MIF frontmatter with type: procedural and passes mif-validate --level 1",
+        "Includes MIF L2 frontmatter (type: procedural, namespace, modified, temporal validity, a typed relates-to relationship) and passes mif-validate --level 2",
         "Ends at task completion with no placeholder text like TODO or 'configure as needed'"
       ]
     },

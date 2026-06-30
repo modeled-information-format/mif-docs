@@ -34,6 +34,18 @@
         "Explains each level zooms into the previous",
         "Notes the Code level is usually generated/omitted"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Upgrade this C4 model so a tool can tell whether the view is stale, what kind of document it is, and where it came from.",
+      "expected_output": "A Level 3 C4 document adding temporal validity, an architecture-view ontology type, W3C-PROV provenance, and a typed relationship, while keeping the Mermaid C4 diagrams.",
+      "files": [],
+      "expectations": [
+        "Adds temporal (validFrom/validUntil/ttl), ontology (id architecture-view), and provenance frontmatter",
+        "Adds a typed relationships[] entry (e.g. relates-to the arc42 architecture document)",
+        "Keeps type: semantic and the Mermaid C4 diagrams intact",
+        "Passes mif-validate --level 3 with a lossless markdown<->JSON-LD round-trip"
+      ]
     }
   ]
 }

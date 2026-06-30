@@ -2,21 +2,6 @@
 id: how-to-rotate-api-key-no-downtime
 type: procedural
 created: 2026-06-29T10:00:00Z
-modified: 2026-06-29T10:00:00Z
-namespace: how-to/security
-title: How to Rotate an API Key Without Downtime
-tags:
-  - how-to
-  - security
-  - api-keys
-temporal:
-  "@type": TemporalMetadata
-  validFrom: 2026-06-29T00:00:00Z
-  recordedAt: 2026-06-29T10:00:00Z
-  ttl: P1Y
-relationships:
-  - type: relates-to
-    target: /reference/secret-cli.md
 ---
 
 # How to Rotate an API Key Without Downtime
@@ -81,15 +66,11 @@ provider keys revoke --name primary-previous
 The key is rotated. Every service stayed authenticated and no requests failed.
 
 <!--
-MIF Level 2 (ceiling for this genre): adds namespace, modified, temporal
-validity (validFrom + ttl: P1Y + recordedAt), and a typed `relates-to`
-relationship to the reference doc this how-to pairs with
-(/reference/secret-cli.md). Now an agent can answer, from frontmatter alone:
-"is this procedure still current?" (temporal.ttl P1Y flags it for review one
-year after recordedAt — procedures rot when the CLI changes), "when was it last
-revised?" (modified), and "which reference catalogs the commands it runs?"
-(relationships[] — the Diataxis how-to↔reference pairing made machine-traversable)
-— no step parsing. The same document still reads as a human how-to and projects
-losslessly to JSON-LD and back. L2 is the honest ceiling: a procedure carries no
-ontology/provenance/citations the way a decision record (ADR L3) does.
+MIF Level 1 (floor): id, type, created + body only. This is a complete, valid
+how-to — but to a machine consumer it is opaque prose. An agent cannot ask "is
+this procedure still current?" (no temporal validity / ttl), "which reference
+catalogs the commands it runs?" (no typed relationships), or "when was it last
+revised?" (no modified) without parsing the steps. Compare good.md, the L2
+ceiling, which adds namespace, modified, temporal validity, and a typed
+`relates-to` link to the reference doc this how-to pairs with.
 -->

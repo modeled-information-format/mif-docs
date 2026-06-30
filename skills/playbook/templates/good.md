@@ -2,12 +2,30 @@
 id: playbook-sev1-outage
 type: procedural
 created: 2026-06-29T10:00:00Z
+modified: 2026-06-29T10:00:00Z
 namespace: playbook/incident
 title: Sev1 Production Outage Playbook
 tags:
   - playbook
   - incident
   - sev1
+temporal:
+  "@type": TemporalMetadata
+  validFrom: 2026-06-29T00:00:00Z
+  ttl: P6M
+  recordedAt: 2026-06-29T10:00:00Z
+provenance:
+  "@type": Provenance
+  sourceType: user_explicit
+  trustLevel: verified
+  wasAttributedTo:
+    "@id": "urn:mif:team:sre"
+    "@type": prov:Agent
+relationships:
+  - type: relates-to
+    target: /runbook/checkout-api-latency-slo-burn.md
+  - type: relates-to
+    target: /runbook/database-failover.md
 ---
 
 # Sev1 Production Outage Playbook
