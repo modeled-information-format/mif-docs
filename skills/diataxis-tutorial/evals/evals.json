@@ -16,13 +16,13 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*1",
+          "pattern": "(?i)step\\s*1\\b",
           "description": "Has a numbered Step 1"
         },
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*2",
+          "pattern": "(?i)step\\s*2\\b",
           "description": "Has at least two ordered steps"
         },
         {
@@ -64,7 +64,7 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*1",
+          "pattern": "(?i)step\\s*1\\b",
           "description": "Corrected version has ordered numbered steps"
         },
         {
@@ -100,13 +100,13 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*1",
+          "pattern": "(?i)step\\s*1\\b",
           "description": "Has a numbered Step 1"
         },
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*2",
+          "pattern": "(?i)step\\s*2\\b",
           "description": "Has at least two ordered steps"
         },
         {
@@ -166,7 +166,7 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*1",
+          "pattern": "(?i)step\\s*1\\b",
           "description": "Has a numbered Step 1"
         },
         {
@@ -209,7 +209,7 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)step\\s*1",
+          "pattern": "(?i)step\\s*1\\b",
           "description": "Retains numbered steps"
         },
         {
