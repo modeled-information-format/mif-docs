@@ -36,7 +36,7 @@ We picked Postgres because we like it.
 
 ## Notes
 
-The rest is TBD.
+The rest is still unwritten.
 
 <!-- ANTIPATTERN: sections 6 Runtime View, 7 Deployment View, 8 Crosscutting
      Concepts, 10 Quality Requirements, 11 Risks & Technical Debt, and 12

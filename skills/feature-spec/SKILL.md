@@ -30,10 +30,19 @@ views), and not an ADR (it records *what to build*, not *which option won*).
   State-driven / Unwanted / Optional). Name a concrete component, not "the app".
 - Edge Cases is mandatory and specific: empty input, limits, concurrency,
   failures — each with the expected observable behavior, not "handle errors".
+  Treat identifier/credential validity (missing, malformed, invalid, revoked,
+  or expired) as its own edge-case category, distinct from other categories
+  like backend/dependency unavailability and boundary conditions — a case
+  about an expired or rotated credential does not also cover a request that
+  arrives with no credential or a malformed one, and vice versa.
 - Design names real components and interfaces; no hand-waving, no `TODO`.
 - Stay in scope: one feature. Defer rationale to an ADR and breadth to a PRD,
   linking out rather than inlining.
 - Complete enough that an implementer needs no follow-up question to start.
+- When the input is sparse and a specific value must be invented to write a
+  concrete criterion or edge case (e.g. a token expiry window), commit to a
+  plausible value but flag it as an explicit assumption rather than
+  presenting it as a firm given requirement.
 
 ## MIF frontmatter
 

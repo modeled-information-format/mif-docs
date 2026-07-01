@@ -22,9 +22,13 @@ capable. A tutorial is not a how-to (task-oriented) and not an explanation
 
 ## Rules that keep it a tutorial
 
-- Teach by doing; defer the "why" (link to an explanation instead).
-- One happy path. No options, no alternatives, no troubleshooting trees.
-- Everything must work if followed verbatim — no `TODO`, no "configure as needed".
+- Teach by doing; defer the "why". If background reasoning would help, point to
+  a *named* Diataxis explanation document — not a reference or how-to — rather
+  than silently deleting the content with no forward pointer.
+- One happy path. No options, no alternatives, no decision trees for things
+  that might go wrong mid-lesson.
+- Everything must work if followed verbatim: no unfilled placeholders, no
+  deferred setup ("configure as needed").
 - Use the imperative ("Run…", "Open…"), present the result every time.
 
 ## MIF frontmatter

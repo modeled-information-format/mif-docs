@@ -6,12 +6,41 @@
       "prompt": "We just decided to adopt PostgreSQL as our primary datastore over MongoDB and DynamoDB. Capture this as an ADR.",
       "expected_output": "A MADR-style Architectural Decision Record: titled with the decision, a Status from the lifecycle enum, Context and Problem Statement, Decision Drivers, at least two Considered Options, a Decision Outcome with justification, and Consequences (Good/Bad/Neutral).",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "#\\s*ADR-\\d+",
+          "description": "H1 title carries an ADR-NNNN identifier"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "## Considered Options",
+          "description": "Considered Options section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*Option\\s*2",
+          "description": "At least two options are considered (Option 2 present)"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "## Consequences",
+          "description": "Consequences section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)status:\\s*(proposed|accepted|deprecated|superseded)",
+          "description": "Status frontmatter value is one of the lifecycle enum values"
+        }
+      ],
       "expectations": [
-        "Title names the decision (e.g. an ADR-NNNN identifier) rather than an action",
-        "Status is one of proposed, accepted, deprecated, or superseded",
-        "Includes Context and Problem Statement, Decision Drivers, and at least two Considered Options",
-        "Decision Outcome justifies the chosen option against the drivers and lists Good/Bad/Neutral consequences",
-        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+        "Decision Outcome justifies PostgreSQL against the stated decision drivers rather than asserting it without reasoning",
+        "Positive, Negative, and Neutral consequences are each substantive and specific to this decision, not generic filler"
       ]
     },
     {
@@ -19,11 +48,35 @@
       "prompt": "Review this ADR draft — it just says we picked the new database because the lead likes it, status 'Done'. What's wrong?",
       "expected_output": "Identifies that it records a preference not a decision: no considered options, no consequences, and a status outside the lifecycle enum, then shows the corrected structure.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Considered Options",
+          "description": "Response names the missing Considered Options section"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Consequences",
+          "description": "Response names the missing Consequences section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)'?Done'?.{0,60}(not|invalid|isn't|is not)",
+          "description": "Response flags 'Done' as not a valid status"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is)proposed.{0,80}accepted.{0,80}deprecated.{0,80}superseded",
+          "description": "Response names the full lifecycle enum in order"
+        }
+      ],
       "expectations": [
-        "Flags the missing Considered Options section (no alternatives weighed)",
-        "Flags the missing Consequences section (no Bad/Neutral trade-offs stated)",
-        "Flags that 'Done' is not a valid status and names the proposed/accepted/deprecated/superseded enum",
-        "Recommends adding Decision Drivers and a justification tied to those drivers"
+        "Explains that the draft records a personal preference, not a weighed decision with alternatives",
+        "Recommends adding Decision Drivers and tying the eventual choice back to them"
       ]
     },
     {
@@ -31,10 +84,35 @@
       "prompt": "Our caching ADR from last year is being replaced by a new decision. How do I record that the old one is no longer in force?",
       "expected_output": "Explains the lifecycle: mark the old ADR superseded and write a new ADR, linking them via a typed relationship rather than editing the old outcome.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "immutable",
+          "description": "Response states an accepted ADR is immutable"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "superseded",
+          "description": "Response uses the superseded lifecycle state for the old ADR"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "superseded-by",
+          "description": "Response names the superseded-by relationship type"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)new ADR",
+          "description": "Response instructs writing a new ADR rather than editing the old one"
+        }
+      ],
       "expectations": [
-        "Explains that an accepted ADR is immutable and you write a new ADR rather than editing the decision",
-        "Sets the old ADR's Status to superseded and links the replacement",
-        "Uses a MIF relationships[] entry (e.g. type superseded-by) to connect the two records"
+        "Does not recommend editing the old ADR's Decision or Decision Outcome in place",
+        "The linkage described is bidirectional or otherwise makes the replacement traceable from the old record"
       ]
     },
     {
@@ -42,10 +120,29 @@
       "prompt": "Write the decision drivers for an ADR about choosing a message queue, and make them testable.",
       "expected_output": "Decision drivers expressed as EARS acceptance criteria so a human and an agent grade them identically, suitable for the Decision Drivers section of an ADR.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\b(when|while|if|where)\\b.{0,120}\\bshall\\b",
+          "description": "At least one driver follows an EARS When/While/If/Where ... shall template"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Decision Drivers",
+          "description": "Output is framed as the Decision Drivers section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(queue|broker|message)",
+          "description": "Drivers name the concrete message-queue component under decision, not a generic placeholder"
+        }
+      ],
       "expectations": [
-        "Produces drivers as EARS sentences (Ubiquitous/Event-driven/State-driven/Unwanted/Optional)",
-        "Each driver is a single observable, verifiable criterion naming a concrete component",
-        "Frames them as the Decision Drivers section of an ADR, distinct from the Considered Options"
+        "Each driver is a single, individually verifiable criterion rather than a compound or vague statement",
+        "Drivers are kept distinct from the Considered Options — they state what must be true, not which product wins"
       ]
     },
     {
@@ -53,10 +150,35 @@
       "prompt": "Should we capture our move to event-driven architecture as an ADR or as a how-to guide?",
       "expected_output": "Recommends an ADR because it is a consequential, hard-to-reverse decision with alternatives, and contrasts it with how-to (task) and requirement (prd/feature-spec) genres.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bADR\\b",
+          "description": "Response recommends the ADR genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)how-to",
+          "description": "Response contrasts with the how-to genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(prd|feature-spec|feature spec)",
+          "description": "Response contrasts with the requirements genre (prd/feature-spec)"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(at least two|two.{0,20}options|alternatives)",
+          "description": "Response notes an ADR needs genuinely considered alternatives"
+        }
+      ],
       "expectations": [
-        "Recommends an ADR for a consequential architectural decision with real alternatives",
-        "Contrasts with diataxis-how-to (accomplish a task) and prd/feature-spec (state requirements)",
-        "Notes that an ADR needs at least two considered options and recorded consequences"
+        "Ties the recommendation to the fact that the decision is hard to reverse, not just that alternatives exist",
+        "Does not recommend an ADR for what is actually a step-by-step task or a stated requirement"
       ]
     }
   ]

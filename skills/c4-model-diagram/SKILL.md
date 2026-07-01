@@ -95,3 +95,36 @@ This skill ships the **same model at two MIF levels** so the climb is explicit:
 Author at the **highest level the context supports** (grade down rather than
 fabricate). `templates/bad.md` shows the antipattern: a "C4" diagram that mixes
 abstraction levels and shows tech-only boxes with no people or boundaries.
+
+## Quoting the full document elsewhere (never escape the mermaid fence)
+
+The finished document contains its own ` ```mermaid ` ... ` ``` ` fence. Any
+time that document is reproduced verbatim inside *another* markdown context —
+a transcript, a chat reply, a PR description, a code-review comment — that
+outer context is itself commonly wrapped in a fenced block. Nesting a 3-backtick
+fence inside another 3-backtick fence is invalid markdown, and the failure mode
+is not "it renders wrong" — it is that the model, trying to keep the outer
+fence intact, escapes the inner fence's backticks (`\`\`\`mermaid` instead of
+` ```mermaid `). An escaped fence is no longer a fenced code block at all: it
+reads as literal backslash-backtick characters, so any downstream consumer —
+a human, a renderer, a grader — looking for a real ` ```mermaid ` block will
+not find one, even though the diagram content is otherwise correct.
+
+**Never escape backticks to solve this.** Instead, widen the *outer* fence so
+it cannot collide with the inner one:
+
+- If you are wrapping the whole document in a fence to show it inline, open
+  that outer fence with **four** backticks (` ````markdown `) — one more than
+  the 3-backtick mermaid fence nested inside it — and close it with four
+  backticks too. The inner ` ```mermaid ` fence then passes through untouched,
+  exactly as written in the delivered file.
+- If the surrounding tool already forces a 3-backtick outer fence (some chat
+  and PR-comment renderers do), do not wrap the whole document at all — quote
+  only the prose around the diagram, and reference the mermaid block by
+  pointing to the file/line instead of re-emitting it inside the same fence.
+- The rule generalizes to any nesting depth: the outer fence's backtick run
+  must always be longer than the longest backtick run appearing inside it.
+
+This applies whether you are writing the primary output file (write it with
+a real, unescaped fence — never escaped, regardless of surrounding tool calls)
+or narrating/reproducing that file's contents afterward.

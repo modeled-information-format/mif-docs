@@ -18,11 +18,18 @@ A MIF doc exists in two interconvertible forms — human-readable **markdown**
 canonical object). Authoring is bidirectional and the round-trip is lossless;
 see the `mif-validate` skill for the tooling.
 
+**Whenever a level, floor, or the `type` field itself comes up** — deciding
+what level a document can claim, explaining the L1 floor, or drafting
+frontmatter — state the `type` enum explicitly (see the L1 row below). It's a
+hard constraint on an L1 field, not an implementation detail to leave
+implicit, so surface it every time L1 is discussed, not only when actually
+writing the YAML.
+
 ## Level floors (attempt the highest the context supports)
 
 | Level | Frontmatter fields | Emit when |
 | --- | --- | --- |
-| **L1 (hard floor)** | `id`, `type`, `created` (+ body becomes `content`) | **Always.** Below L1 is a skill error. |
+| **L1 (hard floor)** | `id`, `type` (enum: `semantic` \| `episodic` \| `procedural`), `created` (+ body becomes `content`) | **Always.** Below L1 is a skill error. |
 | **L2** | `namespace`, `modified`, `temporal` | review cadence / topic namespace known |
 | **L3** | `provenance`, `citations[]`, `relationships[]` | doc sourced from real, attributable input |
 
@@ -43,8 +50,8 @@ see the `mif-validate` skill for the tooling.
 Attempt the highest level the drafting context supports, **field by field**. If a
 level's required field cannot be populated from real input (no citations -> no
 L3; no review cadence -> omit `temporal`), **drop to the next lower level rather
-than writing a placeholder**. Never emit empty or `TODO` MIF fields. This helper
-*proposes* frontmatter; `mif-validate` *disposes*.
+than writing a placeholder**. Never emit an empty or unresolved-placeholder MIF
+field. This helper *proposes* frontmatter; `mif-validate` *disposes*.
 
 ## Minimal L1 example
 

@@ -51,10 +51,32 @@ section and build it from the reference section, the split is correct.
   without them is just advocacy.
 - Motivation must be concrete: a real scenario and the friction it causes, not
   "this would be nice" or "developers want it."
+- "Other languages/ecosystems already have this" is Prior art, not Motivation.
+  It is supporting evidence at most — it can back up a concrete scenario, but
+  it cannot replace one. If the Motivation section's own justification (its
+  "why now") leans on a comparison to other languages instead of resting on
+  the scenario, the cost it imposes, and who pays it, that is the same
+  hand-waving the rule above forbids, just relocated to the closing paragraph.
+  Keep the "why now" argument grounded in the concrete scenario already given.
 - Keep guide-level and reference-level distinct. Desugaring in the guide section
   or teaching tone in the reference section is the most common drift.
 - Propose, do not decide. The RFC argues a position; the discussion and a
   separate decision record settle it.
+
+## When it's not an RFC
+
+If the request describes a decision that has already been made (a team already
+chose an approach, already adopted a library, already settled a debate),
+don't write an RFC — an RFC is pre-decision, forward-looking, and persuasive;
+retrofitting one onto a settled choice is reverse-engineering a debate that
+never happened. Recommend the right genre instead (usually an ADR via
+structured-madr, since that genre records a decision already taken along with
+its drivers, options, and consequences) and explain why, using the same
+"before consensus" vs. "after the decision" distinction this skill draws
+between RFCs and ADRs. Don't stop at naming the genre — offer to actually
+draft it: ask for whatever concrete inputs that genre needs (e.g. for an ADR:
+the options considered, the chosen outcome, the decision drivers) and propose
+producing the artifact, not just a description of what it would contain.
 
 ## MIF frontmatter
 

@@ -3,36 +3,207 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write the Kiro design.md for the avatar upload feature based on its requirements.",
-      "expected_output": "A design with overview, architecture, components/interfaces, data models, error handling, and testing strategy, all traced to requirement numbers.",
+      "prompt": "I'm building a real-time collaborative cursor feature for a shared doc editor (multiple users see each other's cursor position live). Here's requirements.md:\n\nRequirement 1: WHEN a user moves their cursor THE SYSTEM SHALL broadcast the new position to other connected users within 200ms (Requirement 1.1).\nRequirement 2: WHEN a user disconnects THE SYSTEM SHALL remove their cursor from other clients within 5 seconds (Requirement 2.1).\n\nWrite the design.md for this and save it to design.md.",
+      "expected_output": "A design.md with all six sections (Overview, Architecture, Components and Interfaces, Data Models, Error Handling, Testing Strategy), where components are concretely tied to broadcasting cursor position and handling disconnects, and each design element cites Requirement 1.1 or 2.1.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Overview",
+          "description": "Has an Overview section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Architecture",
+          "description": "Has an Architecture section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Components and Interfaces",
+          "description": "Has a Components and Interfaces section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Data Models",
+          "description": "Has a Data Models section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Error Handling",
+          "description": "Has an Error Handling section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Testing Strategy",
+          "description": "Has a Testing Strategy section"
+        },
+        {
+          "type": "regex_match",
+          "file": "design.md",
+          "pattern": "(?i)requirement\\s*(1\\.1|2\\.1)",
+          "description": "At least one design element cites Requirement 1.1 or 2.1 by number"
+        }
+      ],
       "expectations": [
-        "Includes all six sections (Overview through Testing Strategy)",
-        "References the requirement numbers each design element satisfies",
-        "Defines concrete data models and error handling",
-        "Passes mif-validate --level 1 with type: semantic"
+        "Components are concretely tied to the stated domain (broadcasting cursor position, removing a disconnected user's cursor) rather than generic boilerplate unrelated to the prompt",
+        "Data Models section defines concrete entities/fields relevant to cursor position or connection state (e.g. user id, coordinates, timestamp), not a placeholder table",
+        "Error Handling addresses at least one realistic failure mode from the domain (e.g. a stale/late cursor update, a missed disconnect event), not a generic 'errors are handled' statement"
       ]
     },
     {
       "id": 2,
-      "prompt": "This design doc has no data models and doesn't reference any requirements. Fix it.",
-      "expected_output": "Adds data models, testing strategy, and traceability to requirement numbers.",
+      "prompt": "Here's our current design.md for the cursor feature — it only has Overview, Architecture, Components and Interfaces, and Error Handling, with no Data Models section, no Testing Strategy section, and none of the components cite a requirement number. Fix it and save the corrected version to design.md.",
+      "expected_output": "The corrected design.md adds a Data Models section and a Testing Strategy section, and adds requirement-number citations to the existing content, while keeping the original Overview/Architecture/Components/Error Handling content intact.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Data Models",
+          "description": "Adds the missing Data Models section"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Testing Strategy",
+          "description": "Adds the missing Testing Strategy section"
+        },
+        {
+          "type": "regex_match",
+          "file": "design.md",
+          "pattern": "(?i)requirement\\s*\\d",
+          "description": "Adds at least one requirement-number citation"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "## Error Handling",
+          "description": "Retains the pre-existing Error Handling section rather than dropping it"
+        }
+      ],
       "expectations": [
-        "Adds a Data Models section",
-        "Adds traceability references to requirement numbers",
-        "Adds an Error Handling and Testing Strategy section"
+        "The added Data Models content is specific to the cursor feature (concrete fields), not a generic stub table",
+        "Retains the substance of the pre-existing Overview, Architecture, and Components and Interfaces sections rather than replacing them with unrelated content"
       ]
     },
     {
       "id": 3,
-      "prompt": "Where does design.md sit in the Kiro flow and what must it connect to?",
-      "expected_output": "Explains design.md is second, traces back to requirements.md and feeds tasks.md.",
+      "prompt": "Quick question before I start writing: where does design.md actually sit in the Kiro three-document flow, and what does it need to connect to on either side? Write the answer to kiro-flow.md.",
+      "expected_output": "Explains design.md is the second of three Kiro documents, tracing back to requirements.md and feeding tasks.md, and that every design section should map to a requirement number.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "kiro-flow.md",
+          "literal": "requirements.md",
+          "description": "Names requirements.md as the upstream document"
+        },
+        {
+          "type": "file_contains",
+          "file": "kiro-flow.md",
+          "literal": "tasks.md",
+          "description": "Names tasks.md as the downstream document"
+        },
+        {
+          "type": "regex_match",
+          "file": "kiro-flow.md",
+          "pattern": "(?i)second",
+          "description": "States design.md is the second document in the sequence"
+        }
+      ],
       "expectations": [
-        "States design.md is the second of three Kiro documents",
-        "Explains it traces to requirements.md and feeds tasks.md",
-        "Notes every section should map to a requirement"
+        "States the ordering explicitly as requirements.md -> design.md -> tasks.md, not just listing the three names without sequence",
+        "Notes that a design section with no requirement to trace to is a signal of scope creep, not just that traceability is generally good"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Requirements.md only has Requirement 1 (WHEN a user shares a doc THE SYSTEM SHALL grant the recipient read access, Requirement 1.1) and Requirement 2 (WHEN a share is revoked THE SYSTEM SHALL remove access within 60 seconds, Requirement 2.1). But our draft design.md's Components and Interfaces section also includes an 'Analytics Dashboard' component with no requirement behind it. Review design.md against requirements.md and flag the problem, then save your review to design-review.md.",
+      "expected_output": "Identifies the Analytics Dashboard component specifically as untraceable to any requirement and names it as scope creep, recommending it be removed or tied to a real requirement.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "design-review.md",
+          "literal": "Analytics Dashboard",
+          "description": "Names the specific untraceable component"
+        },
+        {
+          "type": "regex_match",
+          "file": "design-review.md",
+          "pattern": "(?i)scope creep",
+          "description": "Labels the untraceable component as scope creep"
+        }
+      ],
+      "expectations": [
+        "Explicitly recommends either removing the Analytics Dashboard component or tying it to a specific requirement, rather than only noting the problem exists",
+        "Does not flag the two legitimate, requirement-backed components (the share-granting and revocation components) as problems"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Requirements.md has a Requirement 3 that our design.md doesn't cover at all: 'Requirement 3.1: WHEN a user requests their data THE SYSTEM SHALL generate a CSV export within 10 seconds.' Find the gap and update design.md to add the missing design coverage for it, then save the updated file as design.md.",
+      "expected_output": "Flags that Requirement 3.1 previously had no corresponding design element, then adds a concrete new component/interface for CSV export that cites Requirement 3.1.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "design.md",
+          "pattern": "(?i)requirement\\s*3\\.1",
+          "description": "New coverage cites Requirement 3.1"
+        },
+        {
+          "type": "file_contains",
+          "file": "design.md",
+          "literal": "CSV",
+          "description": "New coverage is specific to the CSV export requirement"
+        }
+      ],
+      "expectations": [
+        "Explicitly calls out that Requirement 3 previously had no design coverage before adding the fix, not just silently adding a section",
+        "The new component/interface added for Requirement 3.1 is concrete (a named component with a described responsibility), not a one-line placeholder"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Before I mark our Feature Flag Service design.md as done, what MIF frontmatter and validation gate does the kiro-design genre actually require? Write it up in gate-notes.md.",
+      "expected_output": "States the MIF type is semantic, that L1 (type: semantic) is the floor while namespace/tags/title climb to L2, and that the gate is mif-validate --level 1.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: semantic",
+          "description": "States the MIF type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the specific gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as an L2 field to climb to"
+        }
+      ],
+      "expectations": [
+        "Frames type: semantic (L1) as the minimum floor and namespace/tags/title as an optional climb to L2, not as mandatory fields for every doc",
+        "Names namespace, tags, and title as the specific L2 fields, not vague 'more metadata' language"
       ]
     }
   ]

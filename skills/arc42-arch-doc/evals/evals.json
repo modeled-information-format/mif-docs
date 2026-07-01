@@ -3,36 +3,215 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Document the architecture of our payments service using arc42.",
-      "expected_output": "An arc42 document covering the 12 standard sections for the payments service.",
+      "prompt": "Document the architecture of our payments service using arc42 — it's a Go service that authorizes card transactions, talks to two card-network gateways, and writes ledger entries to Postgres.",
+      "expected_output": "An arc42 document covering the 12 standard sections in order for the payments service, with section content specific to the described system, MIF frontmatter declaring type: semantic, and no placeholder text.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)Introduction and Goals[\\s\\S]*Glossary",
+          "description": "Sections run in order from Introduction and Goals through Glossary"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Architecture Decisions",
+          "description": "Section 9 (Architecture Decisions) is present"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Quality Requirements",
+          "description": "Section 10 (Quality Requirements) is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)type:\\s*semantic",
+          "description": "MIF frontmatter declares type: semantic"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "TBD",
+          "description": "No TBD placeholder text remains in the published doc"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Building Block View",
+          "description": "Section 5 (Building Block View) is present"
+        }
+      ],
       "expectations": [
-        "Includes all 12 arc42 sections in order (Introduction & Goals through Glossary)",
-        "Section 9 captures architecture decisions, section 10 captures quality requirements",
-        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1",
-        "Contains substantive content per section, not 'TBD' placeholders"
+        "Section content names the payments-specific concerns from the prompt (card authorization, gateways, ledger, Postgres) rather than generic boilerplate",
+        "Section 9 decisions state a rationale, not just a chosen option",
+        "Section 10 expresses at least one quality goal as a concrete stimulus-to-response scenario, not a vague adjective"
       ]
     },
     {
       "id": 2,
-      "prompt": "Our arc42 doc only has an intro and some diagrams. What's missing?",
-      "expected_output": "Identifies the absent arc42 sections and explains what each should contain.",
+      "prompt": "Our arc42 doc for the recommendation engine only has an intro and a couple of C4 diagrams pasted in. What sections are we missing before we can call it done?",
+      "expected_output": "Identifies the absent arc42 sections beyond intro and context/building-block diagrams, and explains what each missing section should contain.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)constraints",
+          "description": "Names the missing Architecture Constraints section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)solution strategy",
+          "description": "Names the missing Solution Strategy section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)cross-?cutting",
+          "description": "Names the missing Cross-cutting Concepts section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)risk",
+          "description": "Names the missing Risks and Technical Debt section"
+        }
+      ],
       "expectations": [
-        "Lists the missing sections among the 12 (e.g., constraints, solution strategy, crosscutting, risks)",
-        "Explains the purpose of each missing section",
-        "Recommends concrete content to add"
+        "Explains the purpose of each named missing section rather than just listing titles",
+        "Recommends concrete content to add for at least one of the missing sections",
+        "Does not claim sections are missing that were already supplied (diagrams count toward context/building-block coverage)"
       ]
     },
     {
       "id": 3,
-      "prompt": "Where do architecture decisions and quality scenarios go in arc42?",
-      "expected_output": "Explains section 9 (Architecture Decisions) and section 10 (Quality Requirements).",
+      "prompt": "Where in an arc42 doc do architecture decisions and quality scenarios go, and how are they different from the glossary?",
+      "expected_output": "Explains section 9 (Architecture Decisions) and section 10 (Quality Requirements), and distinguishes both from section 12 (Glossary).",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)section\\s*9",
+          "description": "Names section 9 for architecture decisions"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)section\\s*10",
+          "description": "Names section 10 for quality requirements"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "Glossary",
+          "description": "References the Glossary section by name"
+        }
+      ],
       "expectations": [
-        "Maps architecture decisions to section 9",
-        "Maps quality requirements/scenarios to section 10",
-        "Notes section 12 is the glossary"
+        "States that architecture decisions carry rationale (why), not just the outcome (what)",
+        "States that quality requirements are expressed as testable scenarios (stimulus and expected response), not adjectives",
+        "Explains the glossary holds shared vocabulary, not decisions or scenarios"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We just picked Kubernetes over ECS for our deployment platform and want that written down with the reasoning. Is that an arc42 doc?",
+      "expected_output": "Recommends capturing the single decision as an ADR rather than a full arc42 document, while noting that arc42 section 9 can reference the ADR instead of duplicating it.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bADR\\b",
+          "description": "Response names the ADR genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(single|one)\\s+decision",
+          "description": "Response frames the request as one decision, not a whole architecture description"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)section\\s*9|Architecture Decisions",
+          "description": "Response points to arc42 section 9 as where the ADR would be linked"
+        }
+      ],
+      "expectations": [
+        "Recommends an ADR for the point decision rather than authoring a full 12-section arc42 document",
+        "Explains that section 9 can link to or summarize the ADR instead of duplicating its content"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I only know the system's name so far — what's the bare minimum frontmatter for starting the arc42 doc, and how do I grow it once I know more?",
+      "expected_output": "Describes the L1 floor (id/type/created, type: semantic) as valid but opaque, and the incremental climb to L2 (namespace/title/tags) and L3 (ontology, temporal validity, provenance, typed relationships).",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)type:\\s*semantic",
+          "description": "States the type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)namespace",
+          "description": "Mentions namespace as part of the L2 climb"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(ontology|provenance|relationships)",
+          "description": "Mentions at least one L3 field (ontology, provenance, or relationships)"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate for the frontmatter"
+        }
+      ],
+      "expectations": [
+        "Frames the L1 floor as valid but opaque to queries above it, not as incomplete or broken",
+        "Recommends climbing incrementally (L1 to L2 to L3) rather than jumping straight to L3 fields the user cannot yet honestly fill in"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Here's our arc42 draft for the billing platform — intro and context are filled in but sections 4 through 11 all just say 'TBD'. Is this ready to publish?",
+      "expected_output": "States the doc is not ready to publish because of the TBD placeholders, and distinguishes sections that genuinely don't apply (a one-line justification) from sections that still need real content.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(not ready|should not|shouldn't|must not|can't|cannot).{0,60}(publish|TBD)",
+          "description": "States the draft is not ready to publish because of the TBD placeholders"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(not apply|does not apply|doesn't apply|one[- ]line)",
+          "description": "Distinguishes a genuinely inapplicable section (one-line justification) from one needing content"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)section\\s*(4|5|8|9)",
+          "description": "Calls out specific load-bearing sections by number among the TBD-filled ones"
+        }
+      ],
+      "expectations": [
+        "Explains that a section with no real content is worse than a short honest note that it doesn't apply",
+        "Does not recommend publishing the doc as-is with TBD remaining in load-bearing sections"
       ]
     }
   ]

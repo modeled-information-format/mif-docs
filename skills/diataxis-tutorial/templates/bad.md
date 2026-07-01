@@ -22,18 +22,18 @@ all situations.
 ## Options
 
 The validator accepts many flags. Depending on your needs you may want
-`--level 1`, `--level 2`, or `--level 3`, and optionally `--no-roundtrip`. Choose
-whichever fits your situation.
+`--level 1`, `--level 2`, or `--level 3`, and optionally `--no-roundtrip`. Any of
+these works, so pick one.
 
-<!-- ANTIPATTERN: branching "choose whichever fits" — a tutorial has ONE happy
-     path, no decision trees. This is how-to/reference content. -->
+<!-- ANTIPATTERN: branching "pick one that works for you" language — a tutorial
+     has ONE happy path, no decision trees. This is how-to/reference content. -->
 
 ## Background on JSON Schema
 
 JSON Schema draft 2020-12 works by... (three paragraphs of theory)
 
-<!-- ANTIPATTERN: theory dump. The "why" belongs in an explanation doc, linked,
-     not inlined into a tutorial. -->
+<!-- ANTIPATTERN: theory dump. The "why" belongs in a named explanation doc that
+     the tutorial points to — not deleted with no pointer, and not inlined. -->
 
 ## Configure as needed
 

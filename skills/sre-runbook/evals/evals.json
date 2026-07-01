@@ -3,51 +3,305 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Our payments-api just started paging on a p99 latency SLO burn. Write the on-call runbook for this alert.",
-      "expected_output": "A tactical SRE runbook scoped to the one latency alert, with all seven sections (Overview, Prerequisites & Access, Detection, Diagnosis, Remediation, Escalation, Verification & Rollback), concrete commands, and MIF frontmatter.",
+      "prompt": "Our payments-api just started paging on a p99 latency SLO burn. Write the on-call runbook for this alert and save it as runbook.md.",
+      "expected_output": "A tactical SRE runbook scoped to the one latency alert, with all seven sections (Overview, Prerequisites & Access, Detection, Diagnosis, Remediation, Escalation, Verification & Rollback), concrete commands, and MIF frontmatter, saved to runbook.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Overview",
+          "description": "Has an Overview section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Detection",
+          "description": "Has a Detection section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Remediation",
+          "description": "Has a Remediation section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Verification\\s*&?\\s*Rollback",
+          "description": "Has a Verification & Rollback section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)type:\\s*procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(TODO|investigate as appropriate)",
+          "description": "Contains no placeholder text like TODO or 'investigate as appropriate'"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)Overview[\\s\\S]*Prerequisites[\\s\\S]*Detection[\\s\\S]*Diagnosis[\\s\\S]*Remediation[\\s\\S]*Escalation[\\s\\S]*Verification",
+          "description": "The seven sections appear in the canonical order"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(SLO|threshold|p99)",
+          "description": "Detection names a measurable threshold/SLO term"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)expected result",
+          "description": "Remediation steps state an expected result"
+        }
+      ],
       "expectations": [
-        "Contains all seven canonical sections in order: Overview, Prerequisites & Access, Detection, Diagnosis, Remediation, Escalation, Verification & Rollback",
         "Detection states a measurable trigger (an alert name plus a threshold/SLO), not a vague symptom",
-        "Remediation steps are numbered with a concrete command and an expected result for each",
-        "Includes an explicit Rollback path for undoing the remediation",
-        "Emits MIF frontmatter with type: procedural and passes mif-validate --level 1",
-        "Contains no placeholder text like TODO or 'investigate as appropriate'"
+        "Remediation steps are numbered, each with a concrete command to run"
       ]
     },
     {
       "id": 2,
-      "prompt": "Review this runbook draft. The triage section just says 'investigate the issue and check the dashboards', there's no detection threshold, and no rollback. Tell me what's wrong and fix it.",
-      "expected_output": "Identifies the missing measurable detection trigger, the non-actionable diagnosis, and the absent rollback, then rewrites them as concrete commands with expected results and an explicit undo path.",
+      "prompt": "Review this runbook draft. The triage section just says 'investigate the issue and check the dashboards', there's no detection threshold, and no rollback. Tell me what's wrong and fix it, and save the corrected runbook as runbook.md.",
+      "expected_output": "Identifies the missing measurable detection trigger, the non-actionable diagnosis, and the absent rollback, then rewrites them as concrete commands with expected results and an explicit undo path in runbook.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_not_match",
+          "file": "runbook.md",
+          "pattern": "(?i)investigate the issue",
+          "description": "The vague 'investigate the issue' phrasing does not survive into the fixed runbook"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Verification\\s*&?\\s*Rollback",
+          "description": "Fixed runbook has a Verification & Rollback section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Detection",
+          "description": "Fixed runbook has a Detection section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(SLO|threshold)",
+          "description": "Detection now names a measurable threshold/SLO term"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)expected result",
+          "description": "Diagnosis/Remediation steps now state an expected result"
+        }
+      ],
       "expectations": [
-        "Flags 'investigate the issue' as non-actionable and replaces it with ordered triage commands that show how to read each output",
-        "Adds a measurable Detection trigger (alert name plus threshold/SLO)",
-        "Adds a Verification & Rollback section with an explicit pass condition and undo steps",
+        "Flags 'investigate the issue' as non-actionable before rewriting it",
+        "Replaces the vague triage line with ordered diagnosis commands that each show how to read the output",
         "References the 5 A's (Actionable/Accurate/Authoritative/Accessible/Adaptable) when explaining the gaps"
       ]
     },
     {
       "id": 3,
-      "prompt": "Should this be a runbook or a playbook? It's about coordinating comms, roles, and multiple teams during any major checkout outage.",
-      "expected_output": "Recommends a playbook because the scope is strategic and multi-team, and explains that a runbook is the tactical fix for one specific alert.",
+      "prompt": "Should this be a runbook or a playbook? It's about coordinating comms, roles, and multiple teams during any major checkout outage. Write your recommendation to recommendation.md.",
+      "expected_output": "Recommends a playbook because the scope is strategic and multi-team, and explains that a runbook is the tactical fix for one specific alert, saved to recommendation.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)\\bplaybook\\b",
+          "description": "Names 'playbook' as the recommended genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)\\brunbook\\b",
+          "description": "Names 'runbook' when contrasting the tactical alternative"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)(multi-team|multiple teams|coordinat)",
+          "description": "Cites the multi-team coordination scope as the reason for the recommendation"
+        }
+      ],
       "expectations": [
-        "Recommends a playbook for the strategic, multi-team coordination scope",
-        "Explains a runbook is tactical and scoped to one named alert/condition",
-        "Offers to draft a runbook for a specific alert if the user wants the tactical procedure"
+        "Recommends a playbook specifically because the scope is strategic and spans multiple teams, not just because it 'sounds bigger'",
+        "Explains a runbook is tactical and scoped to one named alert/condition, contrasting it with the playbook's coordination scope",
+        "Offers to draft a runbook for a specific alert if the user wants the tactical procedure instead"
       ]
     },
     {
       "id": 4,
-      "prompt": "Turn these scratch notes from our last incident into a proper runbook: 'queue depth alert fired, checked consumer lag with kafka cli, scaled consumers from 4 to 8, lag drained, watched it for 10 min'.",
-      "expected_output": "A conformant runbook for the queue-depth alert derived from the notes, with the seven sections, real commands, expected results, escalation criteria, and a rollback to the original consumer count.",
+      "prompt": "Turn these scratch notes from our last incident into a proper runbook and save it as runbook.md: 'queue depth alert fired, checked consumer lag with kafka cli, scaled consumers from 4 to 8, lag drained, watched it for 10 min'.",
+      "expected_output": "A conformant runbook for the queue-depth alert derived from the notes, with the seven sections, real commands, expected results, escalation criteria, and a rollback to the original consumer count, saved to runbook.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)queue depth",
+          "description": "Detection names the queue-depth alert from the source notes"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)kafka",
+          "description": "Diagnosis/Remediation preserves the kafka cli tooling from the source notes"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Verification\\s*&?\\s*Rollback",
+          "description": "Has a Verification & Rollback section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(restore|revert|roll back)[^\\n]*\\b4\\b",
+          "description": "Rollback references restoring the original consumer count (4)"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Escalation",
+          "description": "Has an Escalation section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)type:\\s*procedural",
+          "description": "Emits MIF-conformant frontmatter (type: procedural)"
+        }
+      ],
       "expectations": [
-        "Structures the notes into the seven canonical sections in order",
-        "Detection names the queue-depth alert with a measurable trigger and a confirming command",
-        "Remediation includes the scale-out command with an expected result, and Rollback restores the original consumer count",
-        "Emits MIF-conformant frontmatter (type: procedural, namespace under runbook/) that passes mif-validate"
+        "Structures the raw notes into all seven canonical sections in order",
+        "Remediation includes the scale-out command (4 to 8 consumers) with an expected result such as lag draining",
+        "Rollback explicitly restores the original consumer count of 4 rather than leaving the scale-out permanent"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We just deployed a fix for replica lag on the orders-db read replicas — write the runbook for 'replica lag exceeds 30s' and make sure it climbs to MIF Level 3 with a link to the DB incident playbook. Save it as runbook.md.",
+      "expected_output": "A Level 3 runbook with namespace, temporal validity, provenance, and a typed relationship to the DB incident playbook, in addition to the seven canonical sections, saved to runbook.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)namespace:",
+          "description": "Frontmatter includes a namespace field (L2/L3 climb)"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)relationships:",
+          "description": "Frontmatter includes a relationships array"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)relates-to",
+          "description": "Includes a relates-to relationship to the playbook"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "30s|30 second",
+          "description": "Detection states the 30s replica-lag threshold"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)provenance:",
+          "description": "Frontmatter includes a provenance field (L3 climb)"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)temporal:",
+          "description": "Frontmatter includes a temporal validity field (L3 climb)"
+        }
+      ],
+      "expectations": [
+        "Frontmatter reaches Level 3 by including namespace, temporal validity, and provenance, not just the L1 floor",
+        "The typed relationship points at a playbook, distinguishing it from the tactical runbook itself"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Our disk-usage-critical alert runbook has an Escalation section that just says 'escalate if it's bad'. That's not good enough for 3am on-call. Rewrite just that section with a real trigger and save it as escalation-section.md.",
+      "expected_output": "A rewritten Escalation section naming a specific on-call role/rotation and an explicit numeric or time-based trigger condition, saved to escalation-section.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_not_match",
+          "file": "escalation-section.md",
+          "pattern": "(?i)if it's bad",
+          "description": "The vague 'if it's bad' trigger does not survive into the rewrite"
+        },
+        {
+          "type": "regex_match",
+          "file": "escalation-section.md",
+          "pattern": "(?i)(on-call|rotation|secondary|SRE lead)",
+          "description": "Names a specific role or rotation to page"
+        },
+        {
+          "type": "regex_match",
+          "file": "escalation-section.md",
+          "pattern": "\\d+\\s*(%|percent|minute|min|hour)",
+          "description": "States a numeric or time-based escalation trigger"
+        }
+      ],
+      "expectations": [
+        "States a concrete, measurable escalation trigger such as a specific percentage, duration, or count rather than a subjective judgment call",
+        "Names who gets paged (a specific role or rotation) and how, not just 'escalate'"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I have a one-page cheat sheet for restarting the stuck notification-worker pod, but there's no way to confirm the restart actually fixed anything. What's missing from a proper runbook, and can you add it? Save the improved version as runbook.md.",
+      "expected_output": "Points out the missing Verification step (confirming the alert cleared and the pod is healthy) and Rollback path, then adds both to produce a conformant runbook in runbook.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)##\\s*(\\d+\\.\\s*)?Verification\\s*&?\\s*Rollback",
+          "description": "Runbook now has a Verification & Rollback section"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(cleared|healthy|recovered)",
+          "description": "Verification states a concrete pass condition (alert cleared / pod healthy)"
+        },
+        {
+          "type": "file_contains",
+          "file": "runbook.md",
+          "literal": "Rollback",
+          "description": "Runbook names a Rollback path, not just Verification"
+        },
+        {
+          "type": "regex_match",
+          "file": "runbook.md",
+          "pattern": "(?i)(undo|revert|roll back)",
+          "description": "Rollback path describes how to undo the change"
+        }
+      ],
+      "expectations": [
+        "Explicitly calls out the absence of a verification/confirmation step and a rollback path before fixing them",
+        "The added Rollback path describes how to undo the pod restart approach if it does not resolve the alert"
       ]
     }
   ]

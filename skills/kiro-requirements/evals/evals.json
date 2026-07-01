@@ -3,36 +3,243 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write the Kiro requirements.md for a profile avatar upload feature.",
-      "expected_output": "Numbered requirements, each a user story with EARS acceptance criteria including error paths.",
+      "prompt": "Write the Kiro requirements.md for a profile avatar upload feature: upload an avatar, preview it before saving, and replace an existing avatar.",
+      "expected_output": "Numbered requirements, each a user story with EARS acceptance criteria including error paths (file too large, unsupported format).",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*1\\.",
+          "description": "First requirement is numbered 1"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "**User Story:**",
+          "description": "User Story label is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bWHEN\\b.{0,200}\\bSHALL\\b",
+          "description": "At least one WHEN...SHALL EARS criterion"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bIF\\b.{0,200}\\bTHEN\\b.{0,100}\\bSHALL\\b",
+          "description": "At least one IF...THEN...SHALL unhappy-path criterion"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "type: semantic",
+          "description": "Frontmatter declares type: semantic"
+        }
+      ],
       "expectations": [
-        "Each requirement has a user story (As a / I want / so that)",
-        "Acceptance criteria are written in EARS (WHEN/IF/WHILE ... SHALL)",
-        "Covers unhappy paths (size limit, format) with IF/THEN criteria",
-        "Requirements are numbered and the doc passes mif-validate --level 1 (type: semantic)"
+        "Each numbered requirement pairs its User Story with an Acceptance Criteria list immediately below it",
+        "Unhappy-path criteria name a concrete failure condition (file too large, unsupported format), not a generic error"
       ]
     },
     {
       "id": 2,
-      "prompt": "These requirements are bullet points like 'handle errors appropriately'. Make them Kiro-conformant.",
-      "expected_output": "Rewrites them as numbered user stories with EARS acceptance criteria.",
+      "prompt": "These requirements are vague bullet points: 'let users upload a picture', 'make sure it works well', 'handle errors appropriately'. Make them Kiro-conformant.",
+      "expected_output": "Rewrites the bullets as numbered user stories with EARS acceptance criteria, replacing vague phrasing with testable conditions.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*1\\.",
+          "description": "Output has at least one numbered requirement"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "**User Story:**",
+          "description": "User Story label is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bSHALL\\b",
+          "description": "EARS SHALL keyword is used"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)works well",
+          "description": "Vague phrase 'works well' is not carried into the rewrite"
+        }
+      ],
       "expectations": [
-        "Converts vague bullets into numbered requirements",
-        "Adds a user story and EARS criteria per requirement",
-        "Makes each criterion individually testable"
+        "'Handle errors appropriately' becomes a specific IF/THEN SHALL criterion naming the error condition",
+        "Each rewritten criterion states one observable, individually testable behavior"
       ]
     },
     {
       "id": 3,
-      "prompt": "Why does Kiro put requirements in EARS and number them?",
-      "expected_output": "Explains numbering enables traceability to design/tasks and EARS makes criteria testable.",
+      "prompt": "Why does Kiro put requirements in EARS and number them instead of just writing plain prose?",
+      "expected_output": "Explains numbering enables traceability to design.md/tasks.md and EARS makes acceptance criteria unambiguous and testable.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)design\\.md",
+          "description": "Mentions design.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)tasks\\.md",
+          "description": "Mentions tasks.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)EARS",
+          "description": "Names EARS notation"
+        }
+      ],
       "expectations": [
-        "Explains numbering enables design.md and tasks.md to trace to requirements",
-        "Explains EARS makes acceptance criteria unambiguous and testable",
+        "Explains numbering lets design.md and tasks.md cite specific requirement numbers rather than paraphrasing prose",
+        "Explains EARS criteria are unambiguous enough that a human and an agent would grade them the same way",
         "Notes requirements.md is the first of the three Kiro documents"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Here's my requirements.md for login — it only has a WHEN...SHALL criterion for the happy path (valid credentials). Add unhappy-path coverage for a wrong password and account lockout.",
+      "expected_output": "Adds IF/THEN SHALL criteria for wrong password and lockout under the existing login requirement, each a distinct testable condition.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bIF\\b.{0,150}\\bTHEN\\b.{0,100}\\bSHALL\\b",
+          "description": "At least one IF...THEN...SHALL criterion is added"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(wrong|invalid|incorrect) password",
+          "description": "Wrong-password condition is named"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)lock(ed|out)",
+          "description": "Account lockout condition is named"
+        }
+      ],
+      "expectations": [
+        "New criteria are appended to the existing login requirement rather than spawning an unrelated new requirement",
+        "Wrong password and lockout are each their own criterion, not merged into one compound condition"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write requirements.md for a checkout flow — add items to cart, apply a promo code, and complete payment — I need this to feed straight into design.md next.",
+      "expected_output": "Three numbered requirements (cart, promo code, payment), each with a user story and EARS criteria, including an invalid-promo-code error path.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*1\\.",
+          "description": "Requirement 1 is numbered"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*2\\.",
+          "description": "Requirement 2 is numbered"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "###\\s*3\\.",
+          "description": "Requirement 3 is numbered"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "## Introduction",
+          "description": "Introduction section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(invalid|expired).{0,40}promo",
+          "description": "Promo code requirement covers an invalid or expired code"
+        }
+      ],
+      "expectations": [
+        "Cart, promo code, and payment are each their own numbered requirement rather than merged into one",
+        "Every requirement includes a User Story sentence in addition to its acceptance criteria"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write requirements for 'improve search' — honestly not sure yet exactly what that means.",
+      "expected_output": "Either asks a clarifying question about scope, users, or success signal, or states explicit reasonable assumptions before producing EARS criteria — does not invent a specific numeric SLA the prompt never mentioned.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(clarif|assum|which (aspect|part)|what (do you mean|kind of))",
+          "description": "Response surfaces the ambiguity via a clarifying question or stated assumption"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(within|under|less than)\\s*\\d+\\s*(ms|milliseconds|seconds)",
+          "description": "Does not fabricate a specific latency SLA the prompt never supplied"
+        }
+      ],
+      "expectations": [
+        "If assumptions are stated, they are explicit and reasonable rather than silently smuggled into the criteria",
+        "Any produced requirement still follows the numbered user-story-plus-EARS structure"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Should this checkout flow work go in requirements.md, design.md, or tasks.md?",
+      "expected_output": "Recommends requirements.md as the first Kiro artifact, capturing what the feature must do, before design.md (the how) and tasks.md (the implementation checklist).",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)requirements\\.md",
+          "description": "Recommends requirements.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)design\\.md",
+          "description": "Distinguishes from design.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)tasks\\.md",
+          "description": "Distinguishes from tasks.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)first",
+          "description": "States requirements.md comes first in the Kiro flow"
+        }
+      ],
+      "expectations": [
+        "Explains design.md covers the technical how and tasks.md the implementation checklist, not what the feature must do",
+        "Does not recommend starting with design.md or tasks.md for this checkout feature"
       ]
     }
   ]

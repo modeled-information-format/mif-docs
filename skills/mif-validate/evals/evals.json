@@ -3,58 +3,218 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Check whether docs/policy.md is a conformant MIF document at Level 1.",
-      "expected_output": "Runs mif-validate against the file at --level 1 and reports the deterministic VALID/INVALID verdict.",
+      "prompt": "Run the MIF conformance gate against skills/feature-spec/templates/good.md at Level 1 and save the full command output (stdout and stderr) to validation-report.md so I can attach it to the PR.",
+      "expected_output": "Runs `node scripts/mif-validate.mjs skills/feature-spec/templates/good.md --level 1`, gets exit 0 with a VALID verdict (schema-conformant, level floor met, round-trip lossless), and saves the captured output to validation-report.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "validation-report.md",
+          "literal": "RESULT: VALID at MIF L1",
+          "description": "Report shows the VALID-at-L1 verdict"
+        },
+        {
+          "type": "regex_match",
+          "file": "validation-report.md",
+          "pattern": "round-trip:\\s*lossless",
+          "description": "Report shows the round-trip as lossless"
+        },
+        {
+          "type": "file_contains",
+          "file": "validation-report.md",
+          "literal": "skills/feature-spec/templates/good.md",
+          "description": "Report names the file that was validated"
+        }
+      ],
       "expectations": [
-        "Invokes scripts/mif-validate.mjs with the file and --level 1",
-        "Reports schema conformance, the level floor, and round-trip result",
-        "Treats a non-zero exit as a hard failure (fail-closed), not a warning",
-        "Does not assert validity by inspection without running the gate"
+        "Treats the exit-0 VALID result as a hard pass without adding unwarranted caveats or re-litigating the verdict by manual inspection",
+        "Explains that the gate is deterministic — no LLM judgment is in the conformance path"
       ]
     },
     {
       "id": 2,
-      "prompt": "Convert docs/policy.md to its JSON-LD form so a machine consumer can read it.",
-      "expected_output": "Runs mif-convert emit-jsonld to produce the canonical JSON-LD projection.",
+      "prompt": "Convert skills/arc42-arch-doc/templates/good.md to its JSON-LD form and save it as arc42-good.jsonld so a downstream service can ingest it.",
+      "expected_output": "Runs `node scripts/mif-convert.mjs emit-jsonld skills/arc42-arch-doc/templates/good.md` and saves the JSON-LD output to arc42-good.jsonld with the correct @type, @id, and conceptType.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "json_valid",
+          "file": "arc42-good.jsonld",
+          "description": "Output is valid JSON"
+        },
+        {
+          "type": "json_field_equals",
+          "file": "arc42-good.jsonld",
+          "path": "@type",
+          "expected": "Concept",
+          "description": "@type is Concept"
+        },
+        {
+          "type": "json_field_equals",
+          "file": "arc42-good.jsonld",
+          "path": "@id",
+          "expected": "urn:mif:arc42-linkly",
+          "description": "@id matches the canonical id from the source doc's frontmatter"
+        },
+        {
+          "type": "json_field_exists",
+          "file": "arc42-good.jsonld",
+          "path": "content",
+          "description": "content field is present with the projected body"
+        }
+      ],
       "expectations": [
-        "Invokes scripts/mif-convert.mjs emit-jsonld on the markdown file",
-        "Explains the JSON-LD is the schema-checked canonical form",
+        "Explains the JSON-LD is the schema-checked canonical form, not an ad hoc export",
         "Notes the projection is lossless and reversible via emit-markdown"
       ]
     },
     {
       "id": 3,
-      "prompt": "I have a MIF JSON-LD object from an API. Give me the human-readable markdown version.",
-      "expected_output": "Schema-checks the JSON-LD, then runs emit-markdown to project it to markdown.",
+      "prompt": "I have this MIF JSON-LD object from an internal API and I need the human-readable markdown version to paste into our wiki. Save it as restored.md.\n\n```json\n{\n  \"@context\": \"https://mif-spec.dev/schema/context.jsonld\",\n  \"@type\": \"Concept\",\n  \"@id\": \"urn:mif:scratch-note-api-timeout\",\n  \"conceptType\": \"semantic\",\n  \"created\": \"2026-06-29T10:00:00Z\",\n  \"content\": \"# API Timeout Note\\n\\nThe payments API times out after 30s under load.\"\n}\n```",
+      "expected_output": "Schema-checks the JSON-LD first, then runs `node scripts/mif-convert.mjs emit-markdown` on it, producing restored.md with YAML frontmatter (id, type, created) followed by the body.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "restored.md",
+          "literal": "id: scratch-note-api-timeout",
+          "description": "Frontmatter carries the id derived from the JSON-LD @id"
+        },
+        {
+          "type": "file_contains",
+          "file": "restored.md",
+          "literal": "type: semantic",
+          "description": "Frontmatter carries the type from conceptType"
+        },
+        {
+          "type": "file_contains",
+          "file": "restored.md",
+          "literal": "# API Timeout Note",
+          "description": "Body content is projected into the markdown"
+        }
+      ],
       "expectations": [
-        "Invokes scripts/mif-convert.mjs emit-markdown on the JSON file",
-        "Validates the JSON-LD against the canonical schema before projecting",
-        "Produces markdown with YAML frontmatter plus body"
+        "States or demonstrates that the JSON-LD was validated against the canonical schema before projecting to markdown, not projected blind",
+        "Produces markdown with YAML frontmatter followed by a body, not a raw JSON dump or a partial re-serialization"
       ]
     },
     {
       "id": 4,
-      "prompt": "Prove that converting this document to JSON-LD and back loses no information.",
-      "expected_output": "Runs the roundtrip oracle and reports lossless or fails closed.",
+      "prompt": "Prove that converting skills/changelog/templates/good.md to JSON-LD and back to markdown loses no information, and save the oracle's output to roundtrip-report.md.",
+      "expected_output": "Runs `node scripts/mif-convert.mjs roundtrip skills/changelog/templates/good.md` (or mif-validate, which includes the same check), gets exit 0, and reports the round-trip as lossless in roundtrip-report.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "roundtrip-report.md",
+          "pattern": "(?i)round-trip ok \\(lossless md<->jsonld\\)|round-trip:\\s*lossless",
+          "description": "Report states the round-trip is lossless"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "roundtrip-report.md",
+          "literal": "FAILED",
+          "description": "Report does not contain a FAILED marker"
+        }
+      ],
       "expectations": [
-        "Invokes scripts/mif-convert.mjs roundtrip (or mif-validate which includes the round-trip)",
-        "Reports the markdown<->JSON-LD round-trip as lossless on success",
-        "Fails non-zero if information is lost"
+        "Reports the result as a fact from the tool's exit code and stdout, not an inference from reading the file by eye",
+        "Names the round-trip as markdown<->JSON-LD specifically, not a vague 'conversion worked' claim"
       ]
     },
     {
       "id": 5,
-      "prompt": "The validator says the schema isn't hydrated. What do I do?",
-      "expected_output": "Runs npm run hydrate-schema to refresh the canonical schema cache from mif-spec.dev.",
+      "prompt": "This markdown doc is missing required MIF frontmatter — I stripped it down while testing. Run the gate against it at Level 1 and save what happens to invalid-report.md so I can see exactly why it fails.\n\n```markdown\n---\ntype: semantic\ntitle: Draft Note\n---\n\n# Draft Note\n\nSome content without required MIF fields.\n```\n\nSave that content as draft-note.md first, then validate it.",
+      "expected_output": "Saves the doc as draft-note.md, runs mif-validate against it at --level 1, gets a non-zero exit because the required `id` field is missing, and records the fail-closed error (not a silent pass) in invalid-report.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "draft-note.md",
+          "description": "The stripped-down doc was saved as instructed"
+        },
+        {
+          "type": "regex_match",
+          "file": "invalid-report.md",
+          "pattern": "(?i)missing required field.*id|required field: id|missing.*[\"']id[\"']",
+          "description": "Report captures the specific missing-field error naming id"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "invalid-report.md",
+          "literal": "RESULT: VALID",
+          "description": "Report does not claim VALID for a doc missing a required field"
+        }
+      ],
       "expectations": [
-        "Recommends running npm run hydrate-schema",
-        "Explains the bundled schema is a refreshable cache, not the authority",
-        "Notes offline fallback to the last hydrated version with a staleness warning"
+        "Treats the non-zero exit as a hard failure (fail-closed) rather than a warning or a suggestion to double-check manually",
+        "Does not fabricate a passing verdict or paper over the missing field"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "skills/feature-spec/templates/good.md only needs to clear Level 1 right now, but I want to know exactly what's still missing for Level 2 so I can plan the follow-up. Check it at --level 2 and save the results to level2-gap-report.md. Use a scratch copy at scratch-l1.md that has only the core fields (id, type, created) so the gap is obvious.\n\n```markdown\n---\nid: urn:mif:test-doc-scratch\ntype: semantic\ncreated: 2026-06-29T10:00:00Z\ntitle: Scratch Note\n---\n\n# Scratch Note\n\nMinimal L1 content.\n```",
+      "expected_output": "Saves the scratch doc as scratch-l1.md, runs mif-validate at --level 2, gets a non-zero exit, and reports the specific missing Level 2 fields (namespace, modified, temporal) in level2-gap-report.md rather than a generic failure.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "level2-gap-report.md",
+          "pattern": "(?i)namespace",
+          "description": "Names the missing namespace field"
+        },
+        {
+          "type": "regex_match",
+          "file": "level2-gap-report.md",
+          "pattern": "(?i)modified",
+          "description": "Names the missing modified field"
+        },
+        {
+          "type": "regex_match",
+          "file": "level2-gap-report.md",
+          "pattern": "(?i)temporal",
+          "description": "Names the missing temporal field"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "level2-gap-report.md",
+          "literal": "RESULT: VALID",
+          "description": "Does not claim the scratch doc is valid at L2"
+        }
+      ],
+      "expectations": [
+        "Explains the L1/L2/L3 floors as a required-field overlay on top of the canonical core schema, not a separate schema",
+        "Frames this as expected/informative for planning, not a bug in the doc"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "The validator just told me the schema isn't hydrated yet on this fresh clone. What do I run, and what does 'hydrated' even mean here? Write the answer to hydrate-notes.md.",
+      "expected_output": "Recommends `npm run hydrate-schema` to refresh the canonical schema cache from mif-spec.dev, and explains the cache/authority distinction in hydrate-notes.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "hydrate-notes.md",
+          "literal": "npm run hydrate-schema",
+          "description": "Names the exact command to run"
+        },
+        {
+          "type": "regex_match",
+          "file": "hydrate-notes.md",
+          "pattern": "(?i)mif-spec\\.dev",
+          "description": "Names mif-spec.dev as the canonical source"
+        },
+        {
+          "type": "regex_match",
+          "file": "hydrate-notes.md",
+          "pattern": "(?i)(cache|refreshable)",
+          "description": "Describes the bundled schema as a cache, not the authority"
+        }
+      ],
+      "expectations": [
+        "Notes the offline fallback: without connectivity, validation falls back to the last hydrated version and warns of staleness, rather than blocking outright",
+        "Frames mif-spec.dev as the authority and the bundled copy as a cache pinned in schema/VENDOR.lock, not the other way around"
       ]
     }
   ]

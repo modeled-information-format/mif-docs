@@ -3,36 +3,194 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write the architecture spec for our notification service so a coding agent can build it.",
-      "expected_output": "A composite doc with context, an arc42/C4-style structure, testable NFRs, and an embedded decision log.",
+      "prompt": "We're building a Notification Service that sends transactional email/SMS/push on behalf of other internal services — it needs per-channel provider failover and an auditable delivery record. Write the architecture spec so a coding agent can implement it directly, and save it as architecture.md.",
+      "expected_output": "A composite doc with a Context section (drivers, external dependencies), an arc42/C4-style building-block/component view, testable EARS-style NFRs, and an embedded ADR-style decision log — plus MIF frontmatter — saved to architecture.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "architecture.md",
+          "literal": "## Context",
+          "description": "Has a Context section"
+        },
+        {
+          "type": "regex_match",
+          "file": "architecture.md",
+          "pattern": "(?i)(Non-Functional Requirements|NFRs)",
+          "description": "Has a Non-Functional Requirements section"
+        },
+        {
+          "type": "regex_match",
+          "file": "architecture.md",
+          "pattern": "(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "description": "At least one NFR is expressed as a testable EARS-style (WHEN/IF/WHILE ... SHALL) requirement"
+        },
+        {
+          "type": "file_contains",
+          "file": "architecture.md",
+          "literal": "Decision Log",
+          "description": "Has a Decision Log section"
+        }
+      ],
       "expectations": [
-        "Includes Context, an architecture/component view, NFRs, and a decision log",
-        "Expresses NFRs as testable/EARS-style criteria",
-        "Captures decisions with status and rationale",
-        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+        "Building blocks trace back to the stated drivers: The architecture/component view's building blocks (e.g. dispatcher, channel workers, delivery store) are motivated by the drivers named in Context (failover, audit trail), not generic boilerplate unrelated to the prompt",
+        "Decision log entries carry rationale and consequences, not just a label: Each Decision Log entry states a status (e.g. Accepted/Proposed), the rationale for the choice, and at least one consequence — not just a decision title"
       ]
     },
     {
       "id": 2,
-      "prompt": "Our architecture doc is just diagrams. What does it need to be implementation-ready?",
-      "expected_output": "Recommends adding context, NFRs, and a decision log.",
+      "prompt": "Our architecture doc for the payments-reconciliation service is just a C4 component diagram someone drew in Mermaid — no prose at all. What does it need before a coding agent could actually build from it? Save your answer as gap-analysis.md so I can share it with the team.",
+      "expected_output": "Identifies that testable NFRs and an embedded decision log are missing, explains why a diagram alone isn't implementation-ready, and recommends adding both together as part of the composite structure.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "gap-analysis.md",
+          "pattern": "(?i)(non-functional requirement|nfr)",
+          "description": "Flags the missing Non-Functional Requirements"
+        },
+        {
+          "type": "regex_match",
+          "file": "gap-analysis.md",
+          "pattern": "(?i)decision log",
+          "description": "Flags the missing Decision Log"
+        },
+        {
+          "type": "regex_match",
+          "file": "gap-analysis.md",
+          "pattern": "(?i)(ears|testable)",
+          "description": "Recommends testable/EARS-style requirements"
+        }
+      ],
       "expectations": [
-        "Identifies the missing NFRs and decision log",
-        "Explains why diagrams alone are insufficient for an implementer/agent",
-        "Recommends testable non-functional requirements"
+        "Explains why a diagram alone is insufficient for an implementer/agent: The response explains that a diagram shows structure but not the quality constraints or the rationale a coding agent needs to make correct implementation decisions",
+        "Frames the fix as filling out the composite structure, not a single bolt-on section: The response recommends adding NFRs and a decision log as part of the same composite spec-channel document, not as two unrelated afterthoughts"
       ]
     },
     {
       "id": 3,
-      "prompt": "How is this different from a plain arc42 doc or a standalone ADR?",
-      "expected_output": "Explains it composes structure + NFRs + an embedded ADR log into one spec-channel artifact.",
+      "prompt": "How is this ai-architecture-doc thing different from just writing a plain arc42 doc, or writing a standalone ADR for the big decisions? Write the explanation up as comparison.md so I can paste it into our wiki.",
+      "expected_output": "Explains that it composes an arc42/C4-style structural view, testable NFRs, and an embedded ADR-style decision log into one spec-channel artifact, and names arc42-arch-doc and adr as the standalone alternatives.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "comparison.md",
+          "literal": "arc42-arch-doc",
+          "description": "Names arc42-arch-doc as the standalone structural alternative"
+        },
+        {
+          "type": "regex_match",
+          "file": "comparison.md",
+          "pattern": "(?i)\\badr\\b",
+          "description": "Names ADR as the standalone decision-record alternative"
+        },
+        {
+          "type": "regex_match",
+          "file": "comparison.md",
+          "pattern": "(?i)(composite|one artifact|single artifact|spec-channel)",
+          "description": "Describes itself as a composite/spec-channel artifact"
+        }
+      ],
       "expectations": [
-        "Explains the composite nature (structure + NFRs + decisions together)",
-        "Notes arc42-arch-doc and adr are the standalone alternatives",
-        "Frames it as the spec-channel one-stop contract"
+        "Explains the three-part composition explicitly: The response names all three ingredients — structural view, non-functional requirements, and decision log — as the things combined into one artifact, not just one or two of them",
+        "States why a downstream agent benefits from the composite over three separate docs: The response gives a reason (e.g. the agent needs the whole contract in one place instead of chasing three documents) rather than just asserting the difference"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We're speccing a new Rate Limiter service for a coding agent to build, but we don't have concrete SLA numbers yet from the product team. Sketch the full architecture doc structure now, mark where real numbers need to go, and save it as architecture.md.",
+      "expected_output": "Produces the full composite structure (Context, architecture, NFRs, decision log) but marks the NFR thresholds as placeholders/TBD rather than inventing specific unverified numbers.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "architecture.md",
+          "literal": "## Context",
+          "description": "Still produces a Context section despite missing data"
+        },
+        {
+          "type": "regex_match",
+          "file": "architecture.md",
+          "pattern": "(?i)(tbd|placeholder|to be determined|\\[fill in\\])",
+          "description": "Marks unknown NFR values as placeholders rather than fabricating them"
+        },
+        {
+          "type": "regex_match",
+          "file": "architecture.md",
+          "pattern": "(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "description": "Still expresses NFRs in EARS form even with placeholder values"
+        }
+      ],
+      "expectations": [
+        "Does not fabricate specific unfounded SLA numbers: The response does not invent precise latency/throughput/rate-limit numbers that were never provided by the user; any concrete numbers are flagged as examples or placeholders, not asserted as the real requirement",
+        "Keeps the full composite structure rather than dropping sections for missing data: All four parts (Context, architecture, NFRs, decision log) are still present in skeleton form, not omitted because concrete SLAs are missing"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Before I call our new architecture spec for the Feature Flag Service done, what frontmatter and validation gate does this ai-architecture-doc genre actually require? Write it up in gate-notes.md.",
+      "expected_output": "States the MIF type is semantic, that L1 is the floor with climbing to L2 via namespace/tags/title, and that the gate is mif-validate --level 1.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: semantic",
+          "description": "States the MIF type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the specific gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as an L2 field to climb to"
+        }
+      ],
+      "expectations": [
+        "Frames L1 as the floor and L2 as an optional climb, not a hard requirement: The response explains L1 (type: semantic) is the minimum gate, and namespace/tags/title are what climbs the document to L2 rather than being mandatory for every doc",
+        "Names namespace, tags, and title as the specific L2 fields, not vague 'more metadata' language"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "For our Feature Flag Service, skip the rest of the composite doc for now — just give me the Decision Log entry for choosing LaunchDarkly over building flag evaluation in-house. Save it as decision-log.md.",
+      "expected_output": "A single ADR-style decision log entry (status, rationale, consequences) naming LaunchDarkly and the in-house alternative, with a note that it normally lives embedded in the full composite doc.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "decision-log.md",
+          "pattern": "(?i)(accepted|proposed|rejected|superseded)",
+          "description": "Decision entry carries a status from the ADR lifecycle"
+        },
+        {
+          "type": "regex_match",
+          "file": "decision-log.md",
+          "pattern": "(?i)consequence",
+          "description": "Decision entry states at least one consequence"
+        },
+        {
+          "type": "file_contains",
+          "file": "decision-log.md",
+          "literal": "LaunchDarkly",
+          "description": "Names the chosen option"
+        }
+      ],
+      "expectations": [
+        "States a rationale that weighs LaunchDarkly against building in-house: The entry explains why LaunchDarkly was chosen over the in-house alternative, referencing a concrete trade-off (e.g. build cost, time-to-market, operational burden), not just naming the winner",
+        "Notes this entry normally lives inside the full composite document: The response mentions that this Decision Log section is normally embedded alongside the Context/architecture/NFR sections in the composite doc, rather than presenting it as a fully standalone artifact"
       ]
     }
   ]

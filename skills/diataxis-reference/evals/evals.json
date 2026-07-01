@@ -6,13 +6,54 @@
       "prompt": "Document our `deploy` CLI command as a reference: all its arguments, flags, defaults, and exit codes.",
       "expected_output": "An information-oriented Diataxis reference: a neutral subject line, a synopsis, and uniform tables describing every argument and option with name, type, default, and constraints, plus an exit-code table.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)```\\s*(text|bash|sh)?\\n?deploy\\b",
+          "description": "Includes a synopsis/usage line naming the deploy command"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\|\\s*(flag|option|name)\\s*\\|.*\\|\\s*(type)\\s*\\|.*\\|\\s*default\\s*\\|",
+          "description": "Options are tabulated with name/type/default columns"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)exit code",
+          "description": "An exit-code table or section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?m)^type:\\s*semantic\\s*$",
+          "description": "Frontmatter declares type: semantic"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "Step 1",
+          "description": "Contains no numbered tutorial-style learning steps"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "we recommend",
+          "description": "Contains no 'we recommend' rationale/opinion language"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "best practice",
+          "description": "Contains no 'best practice' rationale/opinion language"
+        }
+      ],
       "expectations": [
-        "Opens with a neutral one-line statement of the single thing described, not a learning promise",
-        "Includes a synopsis/usage line that the rest of the document mirrors",
-        "Describes every option uniformly with name, type, default, and description (table or definition list)",
-        "Tabulates boundary facts such as exit codes rather than narrating them",
-        "Contains no numbered learning steps, rationale, or recommendations",
-        "Includes MIF frontmatter with type: semantic and passes mif-validate --level 1"
+        "Opens with a neutral one-line statement of the single thing described, not a learning promise or greeting",
+        "Every option is described with the same fields in the same order — no entry is abbreviated relative to the others",
+        "Passes mif-validate at least at Level 1"
       ]
     },
     {
@@ -20,11 +61,36 @@
       "prompt": "I wrote reference docs for our config file but a reviewer says they read like a tutorial. Show me what's wrong and a corrected version.",
       "expected_output": "Identifies mode-mixing (tutorial steps, opinions, rationale inside a reference) and rewrites it as a dry, exhaustive, uniformly structured description.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(tutorial|learning[- ]oriented|numbered step)",
+          "description": "Names the tutorial-mode violation explicitly"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(rationale|opinion|why|recommend)",
+          "description": "Names the rationale/opinion violation explicitly"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)information[- ]oriented",
+          "description": "States that reference is information-oriented"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)first[,.].{0,80}then[,.]",
+          "description": "Corrected version does not contain a first/then narrative sequence"
+        }
+      ],
       "expectations": [
-        "Names the specific Diataxis violations (numbered steps, 'why we built it', opinions, non-exhaustive lists)",
-        "Explains a reference is information-oriented, distinct from tutorial and explanation",
-        "Produces a corrected reference with uniform per-field entries and a structure mirroring the config file",
-        "Moves rationale out to a linked explanation rather than inlining it"
+        "Distinguishes reference from tutorial and explanation as distinct Diataxis modes, not just 'more concise'",
+        "Produces a corrected reference with uniform per-field entries and a structure mirroring the config file's own layout",
+        "Moves rationale out to a linked explanation rather than inlining it in the corrected version"
       ]
     },
     {
@@ -32,11 +98,36 @@
       "prompt": "Turn this OpenAPI endpoint definition into a human-readable reference page for the GET /orders endpoint.",
       "expected_output": "A conformant reference describing the endpoint: request parameters, response schema fields, and status codes, each as a uniform table entry.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "GET\\s*/orders",
+          "description": "Subject line or synopsis names the concrete GET /orders endpoint"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\|\\s*(name|field|parameter)\\s*\\|.*\\|\\s*type\\s*\\|",
+          "description": "Parameters/fields are tabulated with name and type columns"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\|\\s*(status|code)\\s*\\|.*\\|",
+          "description": "A status-code table is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?m)^type:\\s*semantic\\s*$",
+          "description": "Frontmatter declares type: semantic"
+        }
+      ],
       "expectations": [
-        "Describes parameters and response fields uniformly with name, type, required/default, and constraints",
-        "Lists all status codes in a table with their meanings",
-        "Document order mirrors the endpoint's own structure (path, parameters, responses)",
-        "Emits MIF-conformant frontmatter (type: semantic) and the body passes mif-validate"
+        "Describes every parameter and response field uniformly with required/default and constraints, not just a subset",
+        "Document order mirrors the endpoint's own structure (path, parameters, then responses)",
+        "Contains no guided walkthrough of how to call the endpoint, only the facts about its shape"
       ]
     },
     {
@@ -44,10 +135,108 @@
       "prompt": "Should our docs for the settings schema be a tutorial, a how-to, or reference? Users come to it to look up what each field means.",
       "expected_output": "Recommends reference because the goal is fact lookup, and explains the Diataxis distinction.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\breference\\b",
+          "description": "Response names reference as the recommended genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)tutorial",
+          "description": "Response contrasts with tutorial"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)how-to",
+          "description": "Response contrasts with how-to"
+        }
+      ],
       "expectations": [
-        "Recommends the reference mode for information-oriented, lookup goals",
-        "Contrasts with tutorial (learning by doing) and how-to (accomplishing a known task)",
-        "Offers to draft the reference with uniform per-field entries mirroring the schema"
+        "Ties the recommendation specifically to fact-lookup intent, not a generic 'reference is more formal' argument",
+        "Contrasts tutorial as learning-by-doing and how-to as accomplishing a known task, distinct from lookup",
+        "Offers to draft the reference with uniform per-field entries mirroring the schema's own structure"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Here's our environment-variables list for the worker service — about 20 vars, half of them I'm not totally sure about the defaults for. Write a reference page for them anyway.",
+      "expected_output": "A reference that lists every variable uniformly, using an explicit 'none' or em-dash placeholder for unknown defaults rather than omitting the field or guessing, and does not fabricate values.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(none|—|n/a|unknown)",
+          "description": "Uses an explicit placeholder for missing/unknown defaults rather than leaving them silent"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\|\\s*(name|variable)\\s*\\|.*\\|\\s*default\\s*\\|",
+          "description": "Variables are tabulated with a default column"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(unconfirmed|uncertain|unsure|not confirmed|double[- ]check)",
+          "description": "Flags to the user that some defaults are unconfirmed rather than silently guessing"
+        }
+      ],
+      "expectations": [
+        "Does not fabricate specific default values for the variables the user said were uncertain",
+        "Every variable in the list gets the same table columns, including the ones with unknown defaults"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review my reference doc for the `mifx export` command — I think it's fine but wanted a second pair of eyes: 'Getting Started with mifx export. So you want to export your documents? Great — let's walk through it together. Step 1: First, run the command. Why we built it this way: We chose JSON-LD because it's best practice. Options: There are a bunch of useful flags, `--format` is probably the most important, `--out` is also handy.'",
+      "expected_output": "Identifies every Diataxis violation in the draft (tutorial title, learning-oriented tone, numbered steps, embedded rationale, vague non-exhaustive options) and rewrites it as a proper reference.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(getting started|tutorial[- ]oriented|title)",
+          "description": "Flags the tutorial-style title as a violation"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step 1",
+          "description": "Flags the numbered 'Step 1' learning step as a violation"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(why we built|best practice|rationale)",
+          "description": "Flags the embedded rationale/opinion as a violation"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(bunch|probably|vague|non-exhaustive|exhaustive)",
+          "description": "Flags the vague, non-exhaustive options list as a violation"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "let's walk through it together",
+          "description": "Rewritten version does not retain the conversational tutorial tone"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?m)^#\\s*(mifx export|`mifx export`)\\s*$",
+          "description": "The rewrite's heading is a neutral subject line naming the command, not a greeting"
+        }
+      ],
+      "expectations": [
+        "Names all four violation categories, not just one or two of them",
+        "The rewrite lists every flag mentioned uniformly instead of singling out '--format' as 'most important'"
       ]
     }
   ]

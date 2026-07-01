@@ -4,36 +4,194 @@
     {
       "id": 1,
       "prompt": "Start a CHANGELOG for our library and add an entry for the unreleased work: a new export command and a fixed crash on empty input.",
-      "expected_output": "A Keep a Changelog file with an Unreleased section grouping Added and Fixed entries.",
+      "expected_output": "A Keep a Changelog file with an Unreleased section grouping Added and Fixed entries, plus MIF frontmatter at the L1 floor.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "## [Unreleased]",
+          "description": "Top-level Unreleased section is present"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "### Added",
+          "description": "Added subsection is present"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "### Fixed",
+          "description": "Fixed subsection is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)type:\\s*episodic",
+          "description": "Frontmatter declares type: episodic"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)mif-validate.{0,20}--level\\s*1",
+          "description": "Response gates the output with mif-validate --level 1"
+        }
+      ],
       "expectations": [
-        "Has a top-level Unreleased section",
-        "Groups entries under the fixed categories (Added, Fixed)",
-        "Follows Keep a Changelog conventions (human-readable, latest first)",
-        "Emits MIF frontmatter type: episodic and passes mif-validate --level 1"
+        "The export command entry lands under Added and the crash fix lands under Fixed, not merged into one bullet",
+        "Entries are written as curated, past-tense, user-facing summaries rather than restated commit messages"
       ]
     },
     {
       "id": 2,
       "prompt": "We're cutting version 2.1.0 today. Move the unreleased entries into a dated release section.",
-      "expected_output": "Promotes Unreleased to a versioned section header with today's date in reverse-chronological order.",
+      "expected_output": "Promotes Unreleased to a versioned section header with today's date, above older versions, leaving a fresh empty Unreleased section at the top.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "##\\s*\\[2\\.1\\.0\\]\\s*-\\s*\\d{4}-\\d{2}-\\d{2}",
+          "description": "Creates a ## [2.1.0] - YYYY-MM-DD section header"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "## [Unreleased]",
+          "description": "A fresh Unreleased section remains at the top"
+        }
+      ],
       "expectations": [
-        "Creates a section like ## [2.1.0] - YYYY-MM-DD",
-        "Places the new version above older versions (reverse chronological)",
-        "Leaves a fresh empty Unreleased section at the top",
-        "Preserves the grouped category subsections"
+        "The [2.1.0] section appears above every older version section, keeping reverse-chronological order",
+        "The new Unreleased section is empty of the entries that were just promoted into 2.1.0, not duplicated",
+        "The category subsections (e.g. Added/Fixed) that were under Unreleased are preserved under [2.1.0], not flattened into one paragraph"
       ]
     },
     {
       "id": 3,
       "prompt": "Should I just paste our git log into the changelog?",
-      "expected_output": "Explains that a changelog is curated for humans, grouped by type, not a git log dump.",
+      "expected_output": "Explains that a changelog is curated for humans, grouped by type and versioned with SemVer, not a raw git log dump.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(not|isn't|shouldn't|don't).{0,60}git log",
+          "description": "Response tells the user not to paste the raw git log"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is)Added.{0,60}Changed.{0,60}Deprecated.{0,60}Removed.{0,60}Fixed.{0,60}Security",
+          "description": "Response names the six canonical categories in order"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(semver|semantic versioning)",
+          "description": "Response mentions SemVer"
+        }
+      ],
       "expectations": [
-        "States a changelog is for humans, not a commit dump",
-        "Recommends grouping by Added/Changed/Deprecated/Removed/Fixed/Security",
-        "Notes one entry per notable change with SemVer versioning"
+        "Explains the difference is curation for a human deciding whether to upgrade, not just a style preference",
+        "Recommends one entry per notable change per version rather than one line per commit"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Here's our changelog, it's just commit hashes pasted under a header called 'Changes' with no dates or version numbers — a1b2c3d fix stuff, 9f8e7d6 wip, 4c5d6e7 update deps. Can you fix it up into something real?",
+      "expected_output": "Identifies the git-log-dump antipattern (no versions, no dates, no grouping, commit noise) and rewrites it as a proper Keep a Changelog structure.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(no|missing|lacks).{0,30}(date|version)",
+          "description": "Response flags the missing dates or version headers"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "a1b2c3d",
+          "description": "Rewritten output does not carry over raw commit hashes verbatim"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "##\\s*\\[",
+          "description": "Rewrite introduces a bracketed version section header"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "9f8e7d6",
+          "description": "Rewritten output does not carry over the second raw commit hash either"
+        }
+      ],
+      "expectations": [
+        "Points out that a single commit mixing an add, a change, and a removal needs to be split across the matching categories, not left as one line",
+        "The corrected version groups the deduplicated changes under the fixed category headings rather than one flat bullet list"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Our changelog frontmatter only has id, type, and created right now. What would L2 add, and could we go all the way to L3 with citations?",
+      "expected_output": "Explains the L1->L2 climb (modified, temporal validity, a relates-to relationship) and states L2 is the honest ceiling for a changelog because provenance/citations would be fabricated for a release history.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)temporal",
+          "description": "Response names the temporal field added at L2"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)relates-to",
+          "description": "Response names the relates-to relationship added at L2"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(L3|level 3).{0,80}(not|shouldn't|shouldn t|shouldn|avoid|fabricat)",
+          "description": "Response advises against reaching for L3 citations/provenance for this genre"
+        }
+      ],
+      "expectations": [
+        "States that L2 is the honest ceiling for a changelog specifically because it is episodic, not because L3 is generally forbidden",
+        "Does not recommend adding citations or provenance fields to a release history"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We removed the --legacy-import flag and added a --batch flag this release. Does that make this a major, minor, or patch bump, and how should the entries look?",
+      "expected_output": "Identifies the flag removal as a breaking change requiring a MAJOR bump under SemVer, with the removal under Removed and the addition under Added.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)major",
+          "description": "Response identifies a MAJOR version bump"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "### Removed",
+          "description": "Removal entry is placed under the Removed category"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "### Added",
+          "description": "New flag entry is placed under the Added category"
+        }
+      ],
+      "expectations": [
+        "Ties the MAJOR bump specifically to the breaking removal, not to the sum of two changes",
+        "Does not classify the new --batch flag as a reason to bump major on its own"
       ]
     }
   ]

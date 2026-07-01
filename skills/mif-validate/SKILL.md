@@ -22,6 +22,13 @@ schema at `https://mif-spec.dev/schema/`.
 
 Fail-closed: any failure exits non-zero.
 
+## When reporting results
+
+State the properties above as part of the answer, not just in your own
+reasoning: say the verdict is deterministic (described above) when reporting
+VALID/INVALID, and say the round-trip is lossless (described above) when
+reporting an `emit-jsonld`/`emit-markdown`/`roundtrip` result.
+
 ## The schema is a refreshable cache, never the authority
 
 The bundled schema auto-hydrates from `mif-spec.dev` into `schema/.cache/<ver>/`
