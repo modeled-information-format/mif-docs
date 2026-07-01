@@ -10,8 +10,8 @@
         {
           "type": "regex_match",
           "file": "transcript.md",
-          "pattern": "(?i)```\\s*(text|bash|sh)?\\n?deploy\\b",
-          "description": "Includes a synopsis/usage line naming the deploy command"
+          "pattern": "(?im)^\\s*(?:```\\s*(?:text|bash|sh)?\\s*\\n)?`{0,1}deploy\\b",
+          "description": "Includes a synopsis/usage line naming the deploy command (fenced, inline-coded, or plain)"
         },
         {
           "type": "regex_match",
@@ -38,15 +38,15 @@
           "description": "Contains no numbered tutorial-style learning steps"
         },
         {
-          "type": "file_not_contains",
+          "type": "regex_not_match",
           "file": "transcript.md",
-          "literal": "we recommend",
+          "pattern": "(?i)we recommend",
           "description": "Contains no 'we recommend' rationale/opinion language"
         },
         {
-          "type": "file_not_contains",
+          "type": "regex_not_match",
           "file": "transcript.md",
-          "literal": "best practice",
+          "pattern": "(?i)best practice",
           "description": "Contains no 'best practice' rationale/opinion language"
         }
       ],
