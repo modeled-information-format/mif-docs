@@ -16,8 +16,8 @@
         {
           "type": "regex_match",
           "file": "pep-draft.md",
-          "pattern": "(?im)^Status:\\s*(Draft|Accepted|Final|Provisional)",
-          "description": "Header Status is a valid open lifecycle state"
+          "pattern": "(?im)^Status:\\s*Draft",
+          "description": "Header Status is Draft, the only valid state for a brand-new PEP"
         },
         {
           "type": "regex_match",
