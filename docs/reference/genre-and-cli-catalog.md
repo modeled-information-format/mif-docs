@@ -67,7 +67,7 @@ extensions:
 
 # mif-docs genre and CLI catalog
 
-An exhaustive lookup for the **mif-docs v0.1.0** plugin: every skill it ships,
+An exhaustive lookup for the **mif-docs v0.2.0** plugin: every skill it ships,
 every doc-set recipe, and every script in `scripts/` with its arguments and exit
 behavior. Consult an entry; do not read this end to end.
 
