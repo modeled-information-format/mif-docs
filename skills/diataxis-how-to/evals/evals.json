@@ -175,10 +175,10 @@
           "description": "recommendation.md output file exists"
         },
         {
-          "type": "file_contains",
+          "type": "regex_match",
           "file": "recommendation.md",
-          "literal": "Recommendation: how-to",
-          "description": "Recommendation line names how-to as the mode"
+          "pattern": "^Recommendation: how-to",
+          "description": "File starts with the line 'Recommendation: how-to', not buried later"
         },
         {
           "type": "file_contains",
