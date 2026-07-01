@@ -22,7 +22,7 @@
         {
           "type": "regex_match",
           "file": "prd.md",
-          "pattern": "(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "pattern": "(?i)(WHEN|IF|WHILE)[^\\n]+SHALL",
           "description": "At least one requirement is expressed as a testable EARS (WHEN/IF/WHILE ... SHALL) criterion"
         },
         {
@@ -82,7 +82,7 @@
         {
           "type": "regex_match",
           "file": "requirements.md",
-          "pattern": "(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "pattern": "(?i)(WHEN|IF|WHILE)[^\\n]+SHALL",
           "description": "At least one requirement uses EARS WHEN/IF/WHILE ... SHALL form"
         },
         {
