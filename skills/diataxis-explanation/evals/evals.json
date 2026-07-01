@@ -4,35 +4,123 @@
     {
       "id": 1,
       "prompt": "Write a doc explaining why our system uses event sourcing instead of CRUD.",
-      "expected_output": "An understanding-oriented explanation covering background, rationale, trade-offs, and alternatives.",
+      "expected_output": "An understanding-oriented explanation covering background, rationale, trade-offs, and alternatives, gated by mif-validate --level 1.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)event sourcing",
+          "description": "Body actually discusses event sourcing, not a generic placeholder topic"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bCRUD\\b",
+          "description": "The rejected alternative (CRUD) is named and weighed"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)type:\\s*semantic",
+          "description": "MIF frontmatter declares type: semantic"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?im)^#{1,2}\\s*Step\\s*1",
+          "description": "No numbered 'Step 1' procedure appears (would indicate how-to drift)"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "\\|[-:\\s|]+\\|\\n",
+          "description": "No markdown table divider row (would indicate reference-style catalog drift)"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(cost|trade-?off|downside|give[sn]? up)",
+          "description": "Response names a concrete cost or trade-off, not only benefits"
+        }
+      ],
       "expectations": [
-        "Discusses the 'why' — context, rationale, and trade-offs",
-        "Avoids step-by-step instructions and exhaustive reference tables",
-        "Considers alternatives and their consequences",
-        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+        "Discusses the why — context, rationale, and trade-offs — rather than asserting the choice as inevitable",
+        "Names concrete costs or downsides accepted by choosing event sourcing over CRUD, not just its benefits",
+        "Reads as discursive prose rather than a numbered procedure or task list"
       ]
     },
     {
       "id": 2,
       "prompt": "This explanation doc has turned into a numbered setup procedure. Fix the mode.",
-      "expected_output": "Identifies how-to content inside an explanation and refocuses it on understanding.",
+      "expected_output": "Identifies how-to content inside an explanation and refocuses it on understanding, pointing the procedural steps at a how-to instead.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)how-to",
+          "description": "Response names the how-to genre as where the steps belong"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(procedur|numbered step|step-by-step)",
+          "description": "Response explicitly flags the procedural content as the problem"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?im)^#{1,2}\\s*Step\\s*1",
+          "description": "The rewritten body no longer contains a 'Step 1' style procedure"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)relat",
+          "description": "Response mentions linking the moved-out steps via a relationship (e.g. relates-to)"
+        }
+      ],
       "expectations": [
-        "Flags the procedural/how-to content as out of mode",
-        "Recommends moving steps to a how-to and linking it",
-        "Rewrites the content as discursive understanding-oriented prose"
+        "Flags the procedural/how-to content as out of mode for an explanation, not just as poorly worded",
+        "The rewritten sample is discursive understanding-oriented prose, not a relabeled procedure"
       ]
     },
     {
       "id": 3,
       "prompt": "What's the difference between an explanation and a reference doc in Diataxis?",
-      "expected_output": "Explains explanation is understanding-oriented (the why) and reference is information-oriented (the what).",
+      "expected_output": "Explains that explanation is understanding-oriented (the why) and reference is information-oriented (the what/lookup), each with an example topic.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)understanding-oriented",
+          "description": "Response uses the Diataxis term understanding-oriented for explanation"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)information-oriented",
+          "description": "Response uses the Diataxis term information-oriented for reference"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(discursive|prose)",
+          "description": "Response notes explanation is discursive/prose-driven"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(exhaustive|structured|catalog)",
+          "description": "Response characterizes reference as exhaustive/structured/catalog-like"
+        }
+      ],
       "expectations": [
-        "Contrasts understanding-oriented vs information-oriented",
-        "Notes explanation is discursive while reference is structured/neutral",
-        "Gives an example topic for each"
+        "Contrasts understanding-oriented explanation against information-oriented reference, not just naming both",
+        "Notes reference is structured/exhaustive/dry while explanation is discursive and reasoned",
+        "Gives at least one concrete example topic suited to each mode"
       ]
     },
     {
@@ -40,11 +128,127 @@
       "prompt": "Promote our two-view design rationale to MIF Level 3 so an agent can tell if it's current, who authored it, and what it cites.",
       "expected_output": "An understanding-oriented explanation whose frontmatter carries temporal, provenance, citations, and typed relationships, passing mif-validate --level 3.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)temporal",
+          "description": "Frontmatter includes a temporal block"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)provenance",
+          "description": "Frontmatter includes a provenance block"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)citations",
+          "description": "Frontmatter includes citations[]"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)relationships",
+          "description": "Frontmatter includes typed relationships[]"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)level\\s*3",
+          "description": "Response states the target is MIF Level 3"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(TBD|example\\.com|lorem ipsum)",
+          "description": "No placeholder filler values appear in the described metadata"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)round-?trip",
+          "description": "Response addresses the markdown<->JSON-LD round-trip"
+        }
+      ],
       "expectations": [
-        "Keeps the body discursive and understanding-oriented (still an explanation, not a how-to)",
-        "Adds temporal (validFrom/ttl/recordedAt), provenance (sourceType + trustLevel + wasAttributedTo), citations[], and typed relationships[]",
-        "Every metadata value is genuine for the document, not placeholder filler",
-        "Passes mif-validate --level 3 with a lossless markdown<->JSON-LD round-trip"
+        "Keeps the body discursive and understanding-oriented — still an explanation, not a how-to or reference",
+        "Every metadata value described is genuine for this document's subject, not generic or interchangeable with any other topic"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I need docs on our new caching layer. Should this be an explanation or should I just write a reference doc listing the config options?",
+      "expected_output": "Distinguishes the two needs, recommending an explanation only if the user wants readers to understand the rationale/trade-offs, and a reference doc for the config option listing.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)reference",
+          "description": "Response names reference as the fit for a config option listing"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)explanation",
+          "description": "Response names explanation as a distinct genre from reference"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(rationale|trade-?off|why)",
+          "description": "Response ties the explanation recommendation to rationale/trade-offs, not just topic overlap"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)cach",
+          "description": "Response engages with the actual caching-layer subject, not a generic answer"
+        }
+      ],
+      "expectations": [
+        "Recommends a reference doc, not an explanation, for an exhaustive config option listing",
+        "Explains that an explanation is warranted only if the goal is understanding the design rationale behind the cache, not cataloging its options",
+        "Does not conflate the two genres or suggest one document can serve both purposes equally well"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Here's my explanation doc draft on why we chose gRPC over REST — it's basically a bulleted feature comparison table with no prose. Is that okay for an explanation?",
+      "expected_output": "Flags that a bare comparison table is reference-mode, not explanation, and asks for discursive reasoning about the trade-offs and why gRPC won for this system.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(table|catalog|list)",
+          "description": "Response identifies the tabular/catalog structure as the issue"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)reference",
+          "description": "Response names reference as the mode the draft has drifted into"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(gRPC|REST)",
+          "description": "Response engages with the actual gRPC-vs-REST subject, not a generic answer"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)prose",
+          "description": "Response explicitly calls for prose as the fix"
+        }
+      ],
+      "expectations": [
+        "States plainly that a bare comparison table without prose is not an explanation in the Diataxis sense",
+        "Explains what is missing — discursive reasoning about why gRPC was chosen and what was given up",
+        "Offers concrete guidance for turning the table into prose rather than just telling the user to add words"
       ]
     }
   ]

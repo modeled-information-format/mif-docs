@@ -37,7 +37,11 @@ Draft ──> Accepted ──> Final
   implementation lands.
 - **Rejected**, **Withdrawn**, and **Deferred** are terminal-for-now outcomes;
   **Superseded** points forward to the PEP that replaced it.
-- The header's `Status:` field always reflects exactly one of these states.
+- **The header's `Status:` field always reflects exactly one of these states at
+  a time** — a PEP is never simultaneously Draft and Rejected, or Accepted and
+  Superseded. State this single-state constraint explicitly any time you
+  discuss, review, or recommend a `Status:` value — don't let it stay implicit
+  just because it's obvious to you; the reader needs it spelled out too.
 
 ## Pattern (industry: PEP 1 / PEP 12)
 
@@ -64,6 +68,28 @@ Draft ──> Accepted ──> Final
 - **Never omit Backwards Compatibility or Rejected Ideas** — reviewers read those
   first. "None" is an acceptable answer; silence is not.
 - Address the reader as the Steering Council: state the change, then defend it.
+
+## Reviewing an existing draft
+
+When asked to review, critique, or give feedback on a draft PEP (rather than
+author one from scratch), a list of named gaps is not a review — it's a todo
+list the author still has to solve alone. For every gap you flag, also supply
+the concrete text that fills it, not just an instruction to fill it:
+
+- **Header problems**: write out a corrected header block (or the corrected
+  line) with real values, e.g. `Status: Draft` instead of "fix the Status
+  field to a valid lifecycle state."
+- **Missing or empty required sections** (Backwards Compatibility, Security
+  Implications, Rejected Ideas, etc.): draft the actual replacement text —
+  even a short paragraph or a one-line "None: this change touches no public
+  API" — not just "add a Backwards Compatibility section."
+- **Vague or unspecified prose**: rewrite the offending sentence or paragraph
+  as it should read, inline or as a suggested replacement block, not merely a
+  description of what's wrong with it.
+
+Naming a gap tells the author what's missing; drafting the fix tells them what
+"done" looks like and saves a review round-trip. Include both in every review
+output — the diagnosis and the corrected text — never the diagnosis alone.
 
 ## MIF frontmatter
 

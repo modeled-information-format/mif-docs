@@ -3,36 +3,225 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Generate the Kiro tasks.md for the avatar upload feature from its design.",
-      "expected_output": "An ordered checkbox task list with small tasks, sub-tasks, and per-task requirement references.",
+      "prompt": "We just finished design.md for the profile avatar upload feature (validator, avatar store, controller, preview flow, integration tests). Generate the Kiro tasks.md from it and save it as tasks.md.",
+      "expected_output": "A numbered checkbox task list with sub-tasks, per-task requirement/design references, incremental ordering, and MIF frontmatter (type: procedural) that gates at mif-validate --level 1.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?m)^- \\[ \\] 1\\.",
+          "description": "Top-level task 1 is a checkbox list item"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?m)^\\s+- \\[ \\] 1\\.1",
+          "description": "Task 1 has a checkbox sub-task 1.1"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "_Requirements:\\s*[0-9]",
+          "description": "At least one task cites a numbered requirement"
+        },
+        {
+          "type": "file_contains",
+          "file": "tasks.md",
+          "literal": "type: procedural",
+          "description": "Frontmatter declares type: procedural"
+        }
+      ],
       "expectations": [
-        "Uses a numbered checkbox list with sub-tasks",
-        "Each task cites the requirements/design it implements (e.g. _Requirements: 1.2_)",
-        "Tasks are small, incremental, and test-driven",
-        "Emits MIF frontmatter type: procedural and passes mif-validate --level 1"
+        "Every top-level task is broken into small, independently testable sub-tasks rather than one giant step",
+        "Task ordering is incremental: later tasks build on artifacts introduced by earlier tasks (e.g. controller wiring comes after the validator and store exist)",
+        "The task breakdown reflects the specific components named in the prompt (validator, avatar store, controller, preview flow), not generic placeholder steps"
       ]
     },
     {
       "id": 2,
-      "prompt": "Our task list is three giant bullets with no references. Make it Kiro-conformant.",
-      "expected_output": "Breaks tasks into small checkbox items with traceability and ordering.",
+      "prompt": "Our task list is three giant bullets with no checkboxes, no requirement references, and no order: 'Build the whole feature.' 'Make it work end to end.' 'Test everything.' Turn this into a proper Kiro tasks.md and save it as tasks.md.",
+      "expected_output": "Replaces the giant bullets with small checkbox tasks and sub-tasks, adds per-task requirement/design references, and establishes an incremental build order.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?m)^- \\[ \\] [0-9]+\\.",
+          "description": "Uses numbered checkbox tasks, not unordered bullets"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "_Requirements:\\s*[0-9]",
+          "description": "At least one task cites a requirement reference"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "tasks.md",
+          "literal": "Build the whole feature.",
+          "description": "Does not carry over the original giant, untestable bullet verbatim"
+        }
+      ],
       "expectations": [
-        "Converts giant tasks into small, checkable sub-tasks",
-        "Adds per-task requirement/design references",
-        "Establishes an incremental order"
+        "The vague 'build the whole feature' bullet is decomposed into multiple small, independently testable tasks with their own sub-tasks",
+        "'Test everything' is replaced with specific, scoped test tasks tied to the components being built, not left as a single catch-all bullet"
       ]
     },
     {
       "id": 3,
-      "prompt": "Why does each Kiro task reference a requirement number?",
-      "expected_output": "Explains traceability: every task implements a requirement, and every requirement should have a task.",
+      "prompt": "Why does each Kiro task in tasks.md reference a requirement number, and what happens if a requirement has no matching task? Write the explanation to traceability-notes.md.",
+      "expected_output": "Explains that tasks.md traces back to requirements/design so coverage is auditable, and that a requirement with no task is unimplemented while a task with no reference is a smell.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "traceability-notes.md",
+          "pattern": "(?i)_Requirements:",
+          "description": "References the _Requirements: citation convention"
+        },
+        {
+          "type": "regex_match",
+          "file": "traceability-notes.md",
+          "pattern": "(?i)unimplemented",
+          "description": "States a requirement with no task is unimplemented"
+        },
+        {
+          "type": "regex_match",
+          "file": "traceability-notes.md",
+          "pattern": "(?i)(design\\.md|requirements\\.md)",
+          "description": "Names the upstream Kiro document(s) tasks.md derives from"
+        }
+      ],
       "expectations": [
-        "Explains traceability from tasks back to requirements/design",
-        "Notes a requirement with no task is unimplemented",
-        "Notes tasks.md is generated from design.md and drives implementation"
+        "Explains the traceability chain runs requirements -> design -> tasks, not just 'tasks reference requirements' in isolation",
+        "States that a task with no requirement/design reference is itself a smell worth flagging, not only the reverse gap"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Here's our current tasks.md — task 3 ('Wire the AvatarController') has no _Requirements: line, and requirement 2.2 (preview cancel behavior) isn't referenced by any task. Point out the gaps and save the findings to gap-report.md.",
+      "expected_output": "Identifies task 3 as missing its requirement citation and requirement 2.2 as an orphaned requirement with no implementing task.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gap-report.md",
+          "literal": "2.2",
+          "description": "Flags the orphaned requirement 2.2 by number"
+        },
+        {
+          "type": "regex_match",
+          "file": "gap-report.md",
+          "pattern": "(?i)AvatarController",
+          "description": "Names the task missing its requirement citation"
+        },
+        {
+          "type": "regex_match",
+          "file": "gap-report.md",
+          "pattern": "(?i)(orphan|no task|unimplemented|uncovered)",
+          "description": "Uses coverage-gap language for the untraced requirement"
+        }
+      ],
+      "expectations": [
+        "Distinguishes the two distinct gap types: a task missing a requirement citation versus a requirement missing an implementing task",
+        "Does not report false gaps against tasks/requirements that were not actually flagged in the prompt"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We don't have a design.md yet, just a one-line feature description: 'let users export their data as a CSV from account settings.' Draft a best-effort Kiro tasks.md anyway and save it as tasks.md, but be clear about what's assumed.",
+      "expected_output": "Produces a small, ordered checkbox task list for the CSV export feature and explicitly flags that it is a best-effort breakdown made without a design.md, calling out assumptions instead of inventing firm requirement numbers.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?m)^- \\[ \\] 1\\.",
+          "description": "Still produces a numbered checkbox task list despite missing design.md"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?i)(assum|no design\\.md|without a design|best.effort)",
+          "description": "Explicitly flags the missing design.md / assumptions made"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?i)csv",
+          "description": "Task breakdown is scoped to the CSV export feature named in the prompt"
+        }
+      ],
+      "expectations": [
+        "Does not fabricate specific numbered requirement citations (e.g. '_Requirements: 1.2, 3.1_') as if a real requirements.md existed when none was provided",
+        "The resulting task breakdown is scoped to CSV export specifically (e.g. data query, CSV formatting, download/export endpoint), not generic boilerplate unrelated to the prompt"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Before I mark our tasks.md for the Feature Flag Service done, what frontmatter and validation gate does this kiro-tasks genre actually require? Write it up in gate-notes.md.",
+      "expected_output": "States the MIF type is procedural, that L1 (id, type, created) is the floor with climbing to L2 via namespace/tags/title, and that the gate is mif-validate --level 1.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: procedural",
+          "description": "States the MIF type is procedural"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the specific gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as an L2 field to climb to"
+        }
+      ],
+      "expectations": [
+        "Frames L1 as the minimum floor and L2 as an optional climb rather than a hard requirement for every tasks.md",
+        "Names namespace, tags, and title together as the specific fields that climb the doc to L2, not vague 'more metadata' language"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "We're speccing tasks.md for a full authentication overhaul (password reset, MFA enrollment, session revocation, and audit logging) from a 40-item design.md. Generate the ordered task list and save it as tasks.md.",
+      "expected_output": "A checkbox task list with multiple top-level tasks grouped by sub-feature (password reset, MFA, session revocation, audit logging), each with sub-tasks and requirement references, ordered so foundational work precedes dependent work.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?m)^- \\[ \\] [4-9]\\.",
+          "description": "Has at least 4 top-level tasks (large feature is not compressed into 1-2 bullets)"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?i)(mfa|multi-factor)",
+          "description": "Covers the MFA enrollment sub-feature named in the prompt"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "(?i)audit",
+          "description": "Covers the audit logging sub-feature named in the prompt"
+        },
+        {
+          "type": "regex_match",
+          "file": "tasks.md",
+          "pattern": "_Requirements:\\s*[0-9]",
+          "description": "Tasks still cite requirement references at this larger scale"
+        }
+      ],
+      "expectations": [
+        "All four named sub-features (password reset, MFA enrollment, session revocation, audit logging) appear as distinct top-level tasks or task groups, not merged into one vague bucket",
+        "The ordering places foundational/shared work (e.g. session/auth primitives) before sub-features that depend on it, rather than an arbitrary sequence"
       ]
     }
   ]

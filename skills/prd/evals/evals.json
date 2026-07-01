@@ -3,36 +3,194 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write a PRD for a saved-carts feature to reduce checkout abandonment.",
-      "expected_output": "A problem-first PRD with success metrics, personas, EARS requirements, and explicit non-goals.",
+      "prompt": "We're losing checkout revenue: 30% of signed-in shoppers abandon a cart to compare prices elsewhere and never come back because we don't preserve the cart. Write a PRD for a saved-carts feature that persists a signed-in user's cart across sessions and devices for 30 days. Save it as prd.md.",
+      "expected_output": "A problem-first PRD saved to prd.md with a Problem Statement, measurable Goals & Success Metrics, Users/Personas, EARS-style Requirements, an explicit Scope & Non-Goals section, and MIF frontmatter (type: semantic).",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "## Problem Statement",
+          "description": "Has a Problem Statement section"
+        },
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "## Goals & Success Metrics",
+          "description": "Has a Goals & Success Metrics section"
+        },
+        {
+          "type": "regex_match",
+          "file": "prd.md",
+          "pattern": "(?i)(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "description": "At least one requirement is expressed as a testable EARS (WHEN/IF/WHILE ... SHALL) criterion"
+        },
+        {
+          "type": "regex_match",
+          "file": "prd.md",
+          "pattern": "(?i)non-goals",
+          "description": "Has a Non-Goals section"
+        },
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "type: semantic",
+          "description": "MIF frontmatter declares type: semantic"
+        }
+      ],
       "expectations": [
-        "Opens with the problem and its evidence, not a solution",
-        "Includes measurable success metrics and a Non-Goals section",
-        "Expresses functional requirements as EARS criteria",
-        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+        "The Problem Statement opens with the user/business problem and cites the abandonment evidence from the prompt, not a proposed solution",
+        "The Goals & Success Metrics section states a numeric target (e.g. a percentage or count), not a vague aspiration like 'improve retention'"
       ]
     },
     {
       "id": 2,
-      "prompt": "Review this PRD — it starts with 'we'll build a Go microservice'. What's wrong?",
-      "expected_output": "Flags solution-first framing and missing metrics/non-goals; refocuses on the problem.",
+      "prompt": "Here's the draft PRD my team wrote for our new inventory sync feature: it opens with 'We'll build a Go microservice that polls the warehouse API every 5 minutes and writes to Postgres.' There are no success metrics and no non-goals section anywhere in the doc. Review it and rewrite it as a proper PRD, saving your rewrite as prd.md.",
+      "expected_output": "Identifies the solution-first opening and missing metrics/non-goals as antipatterns, then produces a corrected PRD (saved to prd.md) that leads with the problem, adds measurable metrics, and includes a Non-Goals section.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "## Problem Statement",
+          "description": "Rewrite has a Problem Statement section"
+        },
+        {
+          "type": "regex_match",
+          "file": "prd.md",
+          "pattern": "(?i)non-goals",
+          "description": "Rewrite adds a Non-Goals section that the draft lacked"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "prd.md",
+          "literal": "We'll build a Go microservice",
+          "description": "Rewrite does not keep the original solution-first opening line verbatim"
+        }
+      ],
       "expectations": [
-        "Identifies the solution-first opening as an antipattern",
-        "Notes missing success metrics and non-goals",
-        "Recommends leading with the user problem and adding measurable goals"
+        "The response explicitly names the solution-first opening (leading with 'Go microservice') as the antipattern before rewriting it",
+        "The rewritten Problem Statement no longer mentions the Go microservice implementation as the lead sentence; it leads with the inventory-sync problem instead"
       ]
     },
     {
       "id": 3,
-      "prompt": "Make these PRD requirements testable for our QA and coding agents.",
-      "expected_output": "Rewrites vague requirements as EARS acceptance criteria.",
+      "prompt": "Our PRD for the notifications-preferences feature has vague requirements like 'the system should let users manage their notification settings reasonably quickly.' Rewrite the requirements section as testable EARS acceptance criteria our QA team and coding agent can verify directly. Save the rewritten requirements as requirements.md.",
+      "expected_output": "Each vague requirement is rewritten as an individually verifiable EARS (WHEN/IF/WHILE ... SHALL) criterion in requirements.md, replacing subjective language like 'reasonably quickly'.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "requirements.md",
+          "pattern": "(?i)(WHEN|IF|WHILE)[^\\n]+SHALL",
+          "description": "At least one requirement uses EARS WHEN/IF/WHILE ... SHALL form"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "requirements.md",
+          "literal": "reasonably quickly",
+          "description": "Vague subjective phrasing from the original draft is removed"
+        }
+      ],
       "expectations": [
-        "Converts prose requirements into EARS criteria",
-        "Each requirement becomes individually verifiable",
-        "References the ears-acceptance-criteria helper conventions"
+        "Each rewritten requirement names a concrete, checkable trigger and system response instead of a subjective adverb like 'quickly' or 'reasonably'",
+        "The response references the EARS acceptance-criteria conventions (e.g. mentions the ears-acceptance-criteria skill or its WHEN/IF/WHILE/SHALL pattern) rather than inventing an unrelated requirements format"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We want to scope a fraud-detection-alerts feature for the risk team, but product hasn't given us target metrics yet — no abandonment numbers, no percentages, nothing concrete. Sketch the full PRD structure now anyway so design can start, and mark the sections that need real numbers later. Save it as prd.md.",
+      "expected_output": "Produces the full PRD structure (Problem Statement through Open Questions) but marks the Goals & Success Metrics as placeholders/TBD rather than inventing specific unverified numbers.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "## Goals & Success Metrics",
+          "description": "Still produces a Goals & Success Metrics section despite missing data"
+        },
+        {
+          "type": "regex_match",
+          "file": "prd.md",
+          "pattern": "(?i)(tbd|placeholder|to be determined|\\[fill in\\])",
+          "description": "Marks unknown metric values as placeholders rather than fabricating them"
+        },
+        {
+          "type": "file_contains",
+          "file": "prd.md",
+          "literal": "## Open Questions",
+          "description": "Still produces an Open Questions section"
+        }
+      ],
+      "expectations": [
+        "The response does not fabricate specific unfounded percentages or counts for the Goals & Success Metrics section; any numbers shown are clearly flagged as examples, not asserted as the real target",
+        "All seven PRD sections from the pattern (Problem Statement through Open Questions) are still present in skeleton form rather than dropped for missing data"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I keep mixing up when to write a PRD versus a feature-spec versus a Google-style design doc for the same project. Explain the difference for our team wiki and save it as comparison.md.",
+      "expected_output": "Explains that a PRD is problem-first and outcome-focused (what/why, not how), while feature-spec and design docs cover the technical how, and names feature-spec explicitly as the anti-trigger alternative from the skill description.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "comparison.md",
+          "literal": "feature-spec",
+          "description": "Names feature-spec as the technical-how alternative"
+        },
+        {
+          "type": "regex_match",
+          "file": "comparison.md",
+          "pattern": "(?i)(design doc)",
+          "description": "Names a design doc as another technical-how alternative"
+        },
+        {
+          "type": "regex_match",
+          "file": "comparison.md",
+          "pattern": "(?i)(problem|why)[^\\n]{0,60}(what|solution|how)",
+          "description": "States the PRD answers what/why rather than how"
+        }
+      ],
+      "expectations": [
+        "The response clearly states a PRD scopes what to build and why, before design, while feature-spec/design docs cover the implementation approach",
+        "The comparison gives a concrete reason for choosing one over the other (e.g. a PRD precedes a feature-spec in the workflow) rather than just listing names"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Before I call our new PRD for the loyalty-points feature done, what MIF frontmatter and validation gate does the prd genre actually require? Write it up in gate-notes.md so the rest of the team knows.",
+      "expected_output": "States the MIF type is semantic, that L1 is the floor with climbing to L2 via namespace/tags/title, and that the gate is mif-validate --level 1.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: semantic",
+          "description": "States the MIF type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the specific gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as an L2 field to climb to"
+        }
+      ],
+      "expectations": [
+        "Frames L1 (type: semantic) as the minimum required floor and L2 as an optional climb, not a hard requirement for every doc",
+        "Names namespace, tags, and title together as the specific L2 fields, not vague 'more metadata' language"
       ]
     }
   ]

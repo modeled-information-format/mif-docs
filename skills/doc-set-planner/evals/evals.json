@@ -3,36 +3,98 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Document our authentication system end to end — we need the full set, not one doc.",
-      "expected_output": "Selects a recipe, decomposes the subject into member docs, fans out to the genre skills, and reconciles cross-links.",
+      "prompt": "Document our authentication system end to end — I want the full doc set: something for new users to learn from, task guides, reference material, and the why behind it, all cross-linked.",
+      "expected_output": "Selects the diataxis recipe, decomposes the subject into tutorial/how-to/reference/explanation, fans out to those four genre skills, and reconciles relates-to cross-links across them.",
       "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "diataxis-tutorial", "description": "names the diataxis-tutorial member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "diataxis-how-to", "description": "names the diataxis-how-to member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "diataxis-reference", "description": "names the diataxis-reference member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "diataxis-explanation", "description": "names the diataxis-explanation member" }
+      ],
       "expectations": [
-        "Recognizes this is a multi-document subject and picks an appropriate recipe",
-        "Decomposes into the recipe's member documents with a shared namespace",
-        "Fans out to the member genre skills rather than writing one doc",
-        "Reconciles MIF relationships[] across members and checks link-completeness"
+        "Explains why a single document wouldn't serve all four user needs, justifying the doc-set approach over a single genre artifact",
+        "Confirms the cross-document relationships[] graph is link-complete before considering the set done"
       ]
     },
     {
       "id": 2,
       "prompt": "Produce the Kiro spec set for the new export feature.",
-      "expected_output": "Uses the kiro recipe to produce requirements, design, and tasks with traceability.",
+      "expected_output": "Uses the kiro recipe to produce kiro-requirements, kiro-design, and kiro-tasks in sequence, with each document derived-from the one before it.",
       "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "kiro-requirements", "description": "names the kiro-requirements member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "kiro-design", "description": "names the kiro-design member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "kiro-tasks", "description": "names the kiro-tasks member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "derived-from", "description": "uses the recipe's derived-from cross-link type" }
+      ],
       "expectations": [
-        "Selects the kiro recipe (kiro-requirements, kiro-design, kiro-tasks)",
-        "Produces the three documents in sequence with traceability links",
-        "Ensures tasks trace to design and design traces to requirements"
+        "Selects the kiro recipe rather than a generic multi-document plan",
+        "Sequences the three documents so design is grounded in requirements and tasks are grounded in design, not produced independently"
       ]
     },
     {
       "id": 3,
       "prompt": "I just need a single ADR for choosing Postgres. Do I need the planner?",
-      "expected_output": "Explains ADR is a singleton invoked directly, not via the planner.",
+      "expected_output": "Explains ADR is a standalone singleton invoked directly, not decomposed via a doc-set recipe.",
       "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "adr", "description": "recommends the adr skill by name" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "singleton", "description": "names it a singleton, not a doc-set" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "directly", "description": "recommends invoking the skill directly" },
+        { "type": "file_not_contains", "file": "transcript.md", "literal": "fans out", "description": "does not describe fanning out to member skills for a singleton" }
+      ],
       "expectations": [
-        "States the ADR is a standalone singleton, not a doc-set",
-        "Recommends invoking the adr skill directly",
-        "Notes the planner is for multi-document subjects"
+        "States clearly that this request does not require the planner",
+        "Explains that a single ADR has no cross-linked member set, unlike a doc-set recipe"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We need the full AI-ready spec channel for our new billing engine — problem statement, the solution spec, and the architecture with NFRs, all linked.",
+      "expected_output": "Selects the ai-spec recipe: prd, feature-spec, and ai-architecture-doc, with the PRD realized-by the feature spec.",
+      "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "prd", "description": "names the prd member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "feature-spec", "description": "names the feature-spec member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "ai-architecture-doc", "description": "names the ai-architecture-doc member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "realized-by", "description": "uses the recipe's realized-by cross-link type" }
+      ],
+      "expectations": [
+        "Selects the ai-spec recipe rather than diataxis or kiro",
+        "Explains the problem -> solution -> architecture decomposition order and that the feature spec depends on the architecture doc"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Produce a full architecture doc set for our payments service — the narrative plus the diagrams, kept in sync.",
+      "expected_output": "Selects the architecture recipe: an arc42-arch-doc narrative plus c4-model-diagram, cross-linked via relates-to.",
+      "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "arc42-arch-doc", "description": "names the arc42-arch-doc member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "c4-model-diagram", "description": "names the c4-model-diagram member" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "relates-to", "description": "uses the recipe's relates-to cross-link type" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "narrative", "description": "describes the arc42 doc as the narrative half of the pair" }
+      ],
+      "expectations": [
+        "Selects the architecture recipe rather than a single arc42 document",
+        "Explains that the diagrams and narrative should reference the same architectural elements, not be produced in isolation"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I ran the doc-set planner for our export feature's Kiro set, but tasks.md references design section 4.2 and design.md only has sections 1-3. Is that a problem?",
+      "expected_output": "Flags this as a link-completeness failure in the kiro recipe's cross-link contract — a dangling reference means the set is not link-complete — and recommends a concrete fix rather than shipping as-is.",
+      "files": [],
+      "deterministic_checks": [
+        { "type": "file_contains", "file": "transcript.md", "literal": "link-complete", "description": "names the failure as a link-completeness problem" },
+        { "type": "file_not_contains", "file": "transcript.md", "literal": "not a problem", "description": "does not dismiss the dangling reference" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "4.2", "description": "addresses the specific dangling section reference" },
+        { "type": "file_contains", "file": "transcript.md", "literal": "kiro-design", "description": "identifies the design document as the source of the gap" }
+      ],
+      "expectations": [
+        "Identifies the dangling reference as a link-completeness failure specific to this recipe's cross-link contract",
+        "Recommends a concrete fix (add the missing design section or correct the reference) rather than dismissing the mismatch"
       ]
     }
   ]

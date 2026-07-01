@@ -25,10 +25,45 @@ modes out.
 
 - Assume competence. Do not teach concepts or define terms — link out instead.
 - No theory, background, or "why it works" prose — that is an explanation doc.
+  This holds inside a step's own sentence, not just as separate paragraphs or
+  sections: a trailing clause that justifies *why the step is safe* or explains
+  a system's internal mechanics (e.g. "...so both are valid at the same time",
+  "...so any replica still mid-rollout keeps authenticating") is rationale
+  riding on the same sentence as a real action — cut it, or move it to the
+  linked explanation doc. A clause naming the step's own direct, immediate
+  effect (e.g. "restart the service so it loads the new config") is still
+  action-scoped and fine; the test is whether the clause explains the reader's
+  own next observable result, or reaches past it to justify the mechanism.
 - Serve the user's one goal; do not document every flag or option — that is
   reference. Pick the path that accomplishes the task.
 - Real, runnable commands — no `TODO`, no `<your-value-here>` left unexplained.
 - End at task completion. No "next you could also…" tours.
+
+## Correcting a draft that has drifted into another genre
+
+When the task is to fix an *existing* how-to (not author from scratch), it will
+often contain theory, background, or "why it works" prose that belongs in
+explanation, or an exhaustive option catalog that belongs in reference. **Do
+not delete that content.** Deleting it discards knowledge the author put there
+for a reason — it just needs a different home. Instead, relocate it:
+
+1. Identify a target document for the misplaced content: an existing
+   explanation/reference doc in the doc set, or — if none exists — a new stub
+   (e.g. `/explanation/<topic>.md`) that captures the removed material.
+2. Move the theory/background prose (or option catalog) into that target
+   document, not into a comment or an unreferenced scratch file.
+3. Add a typed relationship in the corrected how-to's frontmatter pointing at
+   it — `relationships: [{type: relates-to, target: <path>}]` (see the L2
+   exemplar below) — using an explanation-typed target for theory content,
+   distinct from the reference-typed target the how-to already carries for its
+   command catalog.
+4. Leave one short pointer sentence in the how-to's prose (e.g. "See `<link>`
+   for why this works") so a human reader isn't left wondering where the
+   context went.
+
+Only when no target can plausibly hold the content (it's genuinely redundant
+or wrong) is outright deletion correct — and that should be the exception, not
+the default move when cleaning up a draft.
 
 ## MIF frontmatter
 

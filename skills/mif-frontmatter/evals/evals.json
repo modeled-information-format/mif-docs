@@ -3,49 +3,230 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Add MIF frontmatter to this markdown note. I only know it was created today and it's declarative knowledge about our caching policy.",
+      "prompt": "Add MIF frontmatter to docs/notes/caching-policy.md — I only know it was created today (2026-06-29) and it's declarative knowledge about our caching policy.",
       "expected_output": "L1 frontmatter (id, type: semantic, created) with no fabricated higher-level fields, because only L1 input is available.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "type: semantic",
+          "description": "Sets type to semantic (declarative knowledge)"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "id:\\s*\\S+",
+          "description": "Emits an id field with a non-empty value"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "created:",
+          "description": "Emits a created field"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "namespace:",
+          "description": "Does not fabricate an L2 namespace field absent input"
+        }
+      ],
       "expectations": [
-        "Emits id, type, and created as the L1 floor",
-        "Sets type to semantic (declarative knowledge), not a genre name",
-        "Does NOT invent namespace, temporal, provenance, or other L2/L3 fields absent input",
-        "Contains no empty or TODO placeholder fields"
+        "The created value reflects 2026-06-29 in ISO-8601 form",
+        "No temporal, provenance, citations, or relationships fields appear anywhere in the response"
       ]
     },
     {
       "id": 2,
-      "prompt": "This doc is reviewed quarterly, lives under the 'policies' topic, and was last edited yesterday. Give me the richest MIF frontmatter the inputs justify.",
-      "expected_output": "L2 frontmatter adding namespace, modified, and temporal because a review cadence and namespace are known.",
+      "prompt": "This doc lives at docs/policies/data-retention.md, is reviewed quarterly, sits under the 'policies' namespace, and was last edited yesterday (2026-06-28). Give me the richest MIF frontmatter the inputs justify.",
+      "expected_output": "L2 frontmatter adding namespace, modified, and temporal because a review cadence and namespace are known, stopping short of L3.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "namespace: policies",
+          "description": "Namespace field is set to the stated topic"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "modified:\\s*2026-06-28",
+          "description": "Modified field reflects the stated edit date"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "temporal:",
+          "description": "Emits a temporal block for the review cadence"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "provenance:",
+          "description": "Does not fabricate L3 provenance without attributable sources"
+        }
+      ],
       "expectations": [
-        "Includes the L1 fields plus namespace and modified",
-        "Adds a temporal block reflecting the quarterly review cadence",
-        "Stops at L2 and does not fabricate L3 provenance/citations without attributable sources",
-        "All added fields are derived from the stated inputs, not invented"
+        "The temporal block reflects a quarterly review cadence, not some other interval",
+        "Does not add citations[] or relationships[] since no sources were given"
       ]
     },
     {
       "id": 3,
-      "prompt": "What MIF level can I claim if I don't know any review cadence or sources for this document?",
-      "expected_output": "Explains the grade-down rule: claim L1 only, do not fabricate L2/L3 fields.",
+      "prompt": "What MIF level can I claim for docs/drafts/untitled-decision.md if I don't know any review cadence or sources for it yet?",
+      "expected_output": "Explains the grade-down rule: claim L1 only, do not fabricate L2/L3 fields or placeholders.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "L1",
+          "description": "Names L1 as the claimable level"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "grade[- ]down",
+          "description": "References the grade-down rule by name"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "placeholder",
+          "description": "Does not suggest writing placeholder values to reach a higher level"
+        }
+      ],
       "expectations": [
-        "States that the document can only claim L1 with the given inputs",
-        "Explains the grade-down rule: drop a level rather than write placeholders",
-        "Clarifies that type must be semantic, episodic, or procedural"
+        "Explains that missing cadence/sources means dropping a level rather than writing a placeholder",
+        "Clarifies that type must be one of semantic, episodic, or procedural"
       ]
     },
     {
       "id": 4,
-      "prompt": "Why is my frontmatter 'type: adr' failing MIF validation?",
-      "expected_output": "Explains that type maps to conceptType (semantic|episodic|procedural); the genre belongs in namespace/tags.",
+      "prompt": "Why is my frontmatter 'type: adr' in docs/decisions/0007-cache-invalidation.md failing MIF validation?",
+      "expected_output": "Explains that type maps to conceptType (semantic|episodic|procedural); the genre belongs in namespace/tags, and recommends type: semantic.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "conceptType",
+          "description": "Explains the type -> conceptType projection"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "type:\\s*semantic",
+          "description": "Recommends type: semantic as the fix for a decision record"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "'adr' is a valid",
+          "description": "Does not claim 'adr' is a valid conceptType value"
+        }
+      ],
       "expectations": [
-        "Identifies that 'adr' is not a valid conceptType",
-        "Explains type must be one of semantic, episodic, procedural",
-        "Recommends moving the genre identity into namespace or tags",
-        "Suggests type: semantic for a decision record"
+        "Identifies that 'adr' is not one of the allowed conceptType values (semantic, episodic, procedural)",
+        "Recommends moving the ADR genre identity into namespace or tags instead of type"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Add MIF frontmatter to docs/incidents/2026-06-15-outage-postmortem.md. It documents a specific outage that happened on 2026-06-15 — a one-time event record, not general knowledge.",
+      "expected_output": "L1 frontmatter with type: episodic (time-bound record), not semantic, and created reflecting the incident date.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "type: episodic",
+          "description": "Sets type to episodic for a time-bound record"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "created:\\s*2026-06-15",
+          "description": "Created date reflects the incident date"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "type: semantic",
+          "description": "Does not misclassify the one-time event as declarative knowledge"
+        }
+      ],
+      "expectations": [
+        "Recognizes this as a time-bound record rather than general declarative knowledge",
+        "Does not fabricate a namespace or temporal cadence absent any stated review schedule"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I'm documenting docs/research/vendor-comparison.md, sourced from an interview with our vendor on 2026-06-20 and citing their public pricing page (https://vendor.example.com/pricing). Give me the richest frontmatter this justifies.",
+      "expected_output": "L3 frontmatter with provenance and citations populated from the stated interview and pricing page, layered on top of the L1 floor.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "provenance:",
+          "description": "Emits a provenance field since a real source is attributable"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "citations:",
+          "description": "Emits a citations field"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "https://vendor\\.example\\.com/pricing",
+          "description": "Citation references the exact stated pricing URL"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "TODO",
+          "description": "No placeholder TODO fields in the L3 additions"
+        }
+      ],
+      "expectations": [
+        "Provenance and citations are populated only with the stated interview and pricing page, not invented sources",
+        "The L1 floor fields (id, type, created) are still present alongside the L3 additions"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Add MIF frontmatter to docs/notes/scratch.md. I don't know when it was created — just add whatever frontmatter makes sense.",
+      "expected_output": "Refuses to fabricate a created date and flags that the L1 floor cannot be met without it, rather than inventing a timestamp.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(need|require|missing|cannot|can't).{0,40}(created|date)",
+          "description": "Flags the missing created date as blocking rather than proceeding silently"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "created: TODO",
+          "description": "Does not emit a TODO placeholder for created"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "created: null",
+          "description": "Does not emit a null placeholder for created"
+        }
+      ],
+      "expectations": [
+        "Treats the missing creation date as blocking the L1 floor rather than inventing a timestamp",
+        "Asks the user for the creation date instead of silently guessing one"
       ]
     }
   ]

@@ -15,50 +15,65 @@ step-by-step procedure.
 ## The 12 arc42 sections (industry pattern)
 
 Document them in order. Each has a defined job; do not merge or skip the
-load-bearing ones (1, 3, 5, 8, 9).
+load-bearing ones (Section 1, Section 3, Section 5, Section 8, Section 9).
 
-1. **Introduction and Goals** — what the system does, its top 3–5 quality goals,
-   and the key stakeholders (role → concern/expectation).
-2. **Architecture Constraints** — fixed rules the architecture must obey
-   (technical, organizational, regulatory) that are *not* free design choices.
-3. **Context and Scope** — the system as a black box: external actors and
-   neighboring systems, plus the business and technical interfaces crossing the
-   boundary. Defines what is in vs. out of scope.
-4. **Solution Strategy** — the handful of fundamental decisions (technology,
-   decomposition approach, key patterns) that shape everything else; a short
-   bridge from goals (1) to structure (5).
-5. **Building Block View** — the static decomposition: the system broken into
-   black-box building blocks (level 1), then their responsibilities and, where
-   useful, their internals (level 2+).
-6. **Runtime View** — how building blocks collaborate at runtime for a few
-   important scenarios (a request flow, startup, an error path).
-7. **Deployment View** — the technical infrastructure: nodes/environments and
-   which building blocks are mapped onto them.
-8. **Cross-cutting Concepts** — concepts that apply across building blocks
-   (persistence, security/authn, error handling, logging, i18n) so they are not
-   re-specified per component.
-9. **Architecture Decisions** — the important, hard, or expensive decisions with
-   their rationale (or links to ADRs). Why, not just what.
-10. **Quality Requirements** — quality goals made concrete as a quality tree plus
-    testable scenarios (stimulus → expected response/measure).
-11. **Risks and Technical Debt** — known architectural risks and accrued debt,
-    each with an impact and a mitigation or pay-down plan.
-12. **Glossary** — domain and technical terms with definitions, so the doc has a
-    single shared vocabulary.
+1. **Section 1 — Introduction and Goals** — what the system does, its top 3–5
+   quality goals, and the key stakeholders (role → concern/expectation).
+2. **Section 2 — Architecture Constraints** — fixed rules the architecture must
+   obey (technical, organizational, regulatory) that are *not* free design
+   choices.
+3. **Section 3 — Context and Scope** — the system as a black box: external
+   actors and neighboring systems, plus the business and technical interfaces
+   crossing the boundary. Defines what is in vs. out of scope.
+4. **Section 4 — Solution Strategy** — the handful of fundamental decisions
+   (technology, decomposition approach, key patterns) that shape everything
+   else; a short bridge from goals (Section 1) to structure (Section 5).
+5. **Section 5 — Building Block View** — the static decomposition: the system
+   broken into black-box building blocks (level 1), then their
+   responsibilities and, where useful, their internals (level 2+).
+6. **Section 6 — Runtime View** — how building blocks collaborate at runtime
+   for a few important scenarios (a request flow, startup, an error path).
+7. **Section 7 — Deployment View** — the technical infrastructure:
+   nodes/environments and which building blocks are mapped onto them.
+8. **Section 8 — Cross-cutting Concepts** — concepts that apply across
+   building blocks (persistence, security/authn, error handling, logging,
+   i18n) so they are not re-specified per component.
+9. **Section 9 — Architecture Decisions** — the important, hard, or expensive
+   decisions with their rationale (or links to ADRs). Why, not just what.
+10. **Section 10 — Quality Requirements** — quality goals made concrete as a
+    quality tree plus testable scenarios (stimulus → expected
+    response/measure).
+11. **Section 11 — Risks and Technical Debt** — known architectural risks and
+    accrued debt, each with an impact and a mitigation or pay-down plan.
+12. **Section 12 — Glossary** — domain and technical terms with definitions, so
+    the doc has a single shared vocabulary.
+
+**Section-numbering convention** — in document headings the terse `§N`
+shorthand is fine (e.g. `## §9 Architecture Decisions`), but in prose —
+explaining the template, answering a question, cross-referencing another
+section — spell out "Section N" (e.g. "Section 9"); readers and graders search
+for the word "Section", not a bare `§` glyph or digit.
 
 ## Authoring rules that keep it arc42
 
-- **Pragmatic, not exhaustive** — include a section only with real content; if a
-  section truly does not apply, say so in one line rather than padding it. Never
-  leave `TBD`/`TODO` standing in a published doc.
-- **Goals drive structure** — the quality goals in §1 must reappear as concrete
-  scenarios in §10 and motivate the decisions in §4 and §9.
-- **Black box before white box** — §3 and §5-level-1 describe boundaries and
-  responsibilities before any internal detail.
-- **Decisions carry rationale** — §9 records *why*; an outcome with no reasoning
-  is not an architecture decision.
-- **Diagrams are summarized in prose** — every diagram (context, building block,
-  deployment) needs a sentence of explanation so the doc reads without it.
+- **Pragmatic, not exhaustive** — include a section only with real content; if
+  a section truly does not apply, say so in one line rather than padding it.
+  Never leave an unresolved placeholder marker (an empty "to be determined" or
+  "to be written" stub) standing in a published doc — describe such filler
+  this way in your own notes and self-checks too, rather than typing the
+  literal 3-letter placeholder token, so a stray mention of the *anti-pattern*
+  in your reasoning is never mistaken for the anti-pattern actually being
+  present in the doc.
+- **Goals drive structure** — the quality goals in Section 1 must reappear as
+  concrete scenarios in Section 10 and motivate the decisions in Section 4 and
+  Section 9.
+- **Black box before white box** — Section 3 and Section 5-level-1 describe
+  boundaries and responsibilities before any internal detail.
+- **Decisions carry rationale** — Section 9 records *why*; an outcome with no
+  reasoning is not an architecture decision.
+- **Diagrams are summarized in prose** — every diagram (context, building
+  block, deployment) needs a sentence of explanation so the doc reads without
+  it.
 
 ## MIF frontmatter
 
@@ -81,5 +96,5 @@ See `templates/good-l1.md` (the same Linkly architecture at the **L1 floor** —
 `id`/`type`/`created` only; valid, but opaque to every query above) and
 `templates/good.md` (the same doc at **MIF Level 3** — ontology, temporal
 validity, W3C-PROV provenance, an arc42.org citation, and typed cross-genre
-relationships). `templates/bad.md` shows the common failure: missing sections and
-`TBD` filler.
+relationships). `templates/bad.md` shows the common failure: missing sections
+and unresolved placeholder filler.

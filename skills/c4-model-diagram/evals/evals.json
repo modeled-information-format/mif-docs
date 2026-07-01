@@ -6,11 +6,41 @@
       "prompt": "Create C4 diagrams for our internet banking system showing context and containers.",
       "expected_output": "A C4 document with System Context and Container levels as Mermaid diagrams plus element catalogs.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "```mermaid[\\s\\S]{0,40}C4Context",
+          "description": "Emits a Mermaid C4Context (Level 1) fenced block"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "```mermaid[\\s\\S]{0,40}C4Container",
+          "description": "Emits a Mermaid C4Container (Level 2) fenced block"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "Person\\(",
+          "description": "Declares at least one Person actor"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(System_Boundary|Container_Boundary)\\(",
+          "description": "Declares a system or container boundary"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "type: semantic",
+          "description": "MIF frontmatter declares type: semantic"
+        }
+      ],
       "expectations": [
-        "Includes a System Context (Level 1) and a Container (Level 2) view",
-        "Uses Mermaid C4 fenced blocks (C4Context / C4Container)",
-        "Shows people/actors and system boundaries, not just technology boxes",
-        "Emits MIF frontmatter type: semantic and passes mif-validate --level 1"
+        "Element catalog beneath each diagram names every actor, system, and container with its single responsibility, not just repeating the diagram code",
+        "Relationships in the diagrams are labeled with what flows between elements and how, not left as bare unlabeled arrows"
       ]
     },
     {
@@ -18,10 +48,29 @@
       "prompt": "My C4 diagram is just a box for every microservice. What's wrong?",
       "expected_output": "Explains the abstraction levels and that Context/Container views need actors and boundaries, not a flat service map.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\b(people|actors?|users?)\\b",
+          "description": "Response calls out the missing people/actors"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(system )?boundary",
+          "description": "Response calls out the missing system boundary"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)abstraction",
+          "description": "Response frames the problem as an abstraction-level issue"
+        }
+      ],
       "expectations": [
-        "Identifies the missing abstraction layering (Context vs Container vs Component)",
-        "Notes that people and system boundaries are required at the Context level",
-        "Recommends starting at Level 1 and zooming in deliberately"
+        "Identifies that mixing containers and components (or services) into one flat diagram is the core problem, not just that it looks cluttered",
+        "Recommends starting at Level 1 (System Context) and zooming in one level at a time rather than redrawing the same flat diagram"
       ]
     },
     {
@@ -29,10 +78,41 @@
       "prompt": "What are the four levels of the C4 model and which do I usually need?",
       "expected_output": "Lists Context, Container, Component, Code and notes Code is usually omitted.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bcontext\\b",
+          "description": "Names the Context level"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bcontainer\\b",
+          "description": "Names the Container level"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bcomponent\\b",
+          "description": "Names the Component level"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bcode\\b",
+          "description": "Names the Code level"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(usually omitted|rarely (used|needed)|generated on demand|most .{0,20}stop at)",
+          "description": "Notes the Code level is usually omitted or generated on demand"
+        }
+      ],
       "expectations": [
-        "Names all four levels in order",
-        "Explains each level zooms into the previous",
-        "Notes the Code level is usually generated/omitted"
+        "States that each level zooms into the previous one rather than describing the four as unrelated, interchangeable views",
+        "Frames Level 3 (Component) as the typical stopping point for most systems, not Level 4"
       ]
     },
     {
@@ -40,11 +120,101 @@
       "prompt": "Upgrade this C4 model so a tool can tell whether the view is stale, what kind of document it is, and where it came from.",
       "expected_output": "A Level 3 C4 document adding temporal validity, an architecture-view ontology type, W3C-PROV provenance, and a typed relationship, while keeping the Mermaid C4 diagrams.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(validFrom|validUntil|\\bttl\\b)",
+          "description": "Adds temporal validity frontmatter"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)architecture-view",
+          "description": "Sets an architecture-view ontology type"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)provenance",
+          "description": "Adds W3C-PROV provenance"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)relates-to",
+          "description": "Adds a typed relates-to relationship"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "```mermaid",
+          "description": "Keeps the Mermaid C4 diagrams intact"
+        }
+      ],
       "expectations": [
-        "Adds temporal (validFrom/validUntil/ttl), ontology (id architecture-view), and provenance frontmatter",
-        "Adds a typed relationships[] entry (e.g. relates-to the arc42 architecture document)",
-        "Keeps type: semantic and the Mermaid C4 diagrams intact",
-        "Passes mif-validate --level 3 with a lossless markdown<->JSON-LD round-trip"
+        "Keeps type: semantic unchanged while climbing to L3 rather than switching the document's fundamental type",
+        "References mif-validate --level 3 and a lossless markdown<->JSON-LD round-trip, not just the added frontmatter fields"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Here's my C4 doc: one diagram has Person, external system boxes, AND internal service components all together, with no boundary box anywhere. Is this valid C4?",
+      "expected_output": "Identifies the mixed abstraction levels and missing boundary as the core defects and recommends splitting into separate Context/Container/Component diagrams.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(mix(es|ing)?|combin(e|ing|es)|conflat(e|es|ing)).{0,60}(level|container|component)",
+          "description": "Response identifies the mixed abstraction levels"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(no|missing|lacks?|without).{0,30}boundary",
+          "description": "Response calls out the missing boundary"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(split|separate|redraw|break (it|this) (up|out)).{0,40}(diagram|level)",
+          "description": "Response recommends splitting into separate per-level diagrams"
+        }
+      ],
+      "expectations": [
+        "Explains the fix is one diagram per abstraction level rather than a single merged picture with everything on it",
+        "Calls out the missing system/container boundary as a Level 1 requirement, not merely a stylistic suggestion"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We already have Context and Container diagrams for the checkout service. Now drill into the 'Order API' container and show its components.",
+      "expected_output": "A Level 3 Component diagram scoped to the Order API container, naming its components with a matching container name and an element catalog of responsibilities.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "```mermaid[\\s\\S]{0,40}C4Component",
+          "description": "Emits a Mermaid C4Component (Level 3) fenced block"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "Component\\(",
+          "description": "Declares at least one Component"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)Order API",
+          "description": "Keeps the container name consistent with the prior Level 2 diagram"
+        }
+      ],
+      "expectations": [
+        "The Level 3 diagram stays scoped to components inside Order API only, not other containers from the checkout service's Level 2 view",
+        "Element catalog lists each component's single responsibility, matching the pattern used at the Context and Container levels"
       ]
     }
   ]

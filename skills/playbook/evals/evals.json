@@ -3,36 +3,225 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write a playbook for how we handle a Sev1 production outage.",
-      "expected_output": "A strategic playbook with scenario scope, roles, decision framework, phases, comms plan, and review.",
+      "prompt": "We just had a really messy Sev1 outage last night -- the checkout API went fully down for 40 minutes and nobody knew who was in charge or when to loop in the VP of Eng. Write a playbook coordinating how we handle Sev1 production outages going forward, and save it as playbook.md.",
+      "expected_output": "A strategic playbook with Scenario & Scope, Roles & Responsibilities (with authority), a Decision Framework with concrete escalation criteria, Phases with exit criteria, a Communications Plan, and a Post-Incident Review, plus MIF frontmatter with type: procedural, saved to playbook.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Roles & Responsibilities",
+          "description": "Has a Roles & Responsibilities section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Decision Framework",
+          "description": "Has a Decision Framework section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Communications Plan",
+          "description": "Has a Communications Plan section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Post-Incident Review",
+          "description": "Has a Post-Incident Review section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "type: procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        }
+      ],
       "expectations": [
-        "Defines roles (Incident Commander, Comms Lead) with authority",
-        "Includes a decision framework (severity, escalation criteria) and phases",
-        "Includes a communications plan and a post-incident review",
-        "Emits MIF frontmatter type: procedural and passes mif-validate --level 1"
+        "Decision framework names a concrete escalation criterion (e.g. a time threshold for looping in the VP of Eng), not vague guidance like 'escalate as needed'",
+        "Roles table assigns explicit authority (who can declare Sev1, escalate, or roll back), directly addressing the 'nobody knew who was in charge' complaint from the prompt",
+        "Phases move Detect -> Triage -> Respond -> Recover -> Review with a stated exit condition for each phase"
       ]
     },
     {
       "id": 2,
-      "prompt": "Is this a playbook or a runbook? It's a list of commands to restart the queue worker.",
-      "expected_output": "Identifies it as a tactical runbook, not a playbook.",
+      "prompt": "Someone on my team wrote this and called it our 'playbook': 'Step 1: SSH into the queue-worker box. Step 2: run systemctl restart queue-worker. Step 3: tail the logs for 2 minutes to confirm.' Is that actually a playbook? Write your assessment to classification.md.",
+      "expected_output": "Identifies the command list as a tactical runbook, not a playbook, explains the strategic/tactical distinction, and recommends the sre-runbook skill instead, saved to classification.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "classification.md",
+          "pattern": "(?i)runbook",
+          "description": "Recommends the runbook genre for this content"
+        },
+        {
+          "type": "regex_match",
+          "file": "classification.md",
+          "pattern": "(?i)tactical",
+          "description": "Uses 'tactical' framing to describe the command list"
+        },
+        {
+          "type": "regex_match",
+          "file": "classification.md",
+          "pattern": "(?i)sre-runbook",
+          "description": "Names the sre-runbook skill by name"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "classification.md",
+          "literal": "## Roles & Responsibilities",
+          "description": "Does not restructure the answer into a full playbook with a roles section"
+        }
+      ],
       "expectations": [
-        "Classifies a single tactical command list as a runbook",
-        "Explains a playbook is strategic (roles, decisions, phases across a scenario class)",
-        "Recommends the sre-runbook skill for the command list"
+        "Explains why the three restart steps are strategy-free: no roles, decisions, or coordination across a scenario class -- just steps for one symptom on one service",
+        "Does not rewrite the three restart steps into a full playbook with roles or a decision framework, since the request was to classify the content, not produce a new document"
       ]
     },
     {
       "id": 3,
-      "prompt": "Our outage playbook has no defined roles or comms cadence. Fix it.",
-      "expected_output": "Adds a roles/responsibilities matrix and a communications plan with cadence.",
+      "prompt": "Our outage playbook for the API team has no roles section and no comms cadence -- it just says 'we handle sev1s together.' Fix it and save the corrected playbook as playbook.md.",
+      "expected_output": "Adds an explicit Roles & Responsibilities table with named authority and a Communications Plan with a concrete internal/external cadence, saved to playbook.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Roles & Responsibilities",
+          "description": "Has a Roles & Responsibilities section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Communications Plan",
+          "description": "Has a Communications Plan section"
+        },
+        {
+          "type": "regex_match",
+          "file": "playbook.md",
+          "pattern": "(?i)(every\\s+\\d+\\s*minutes|cadence)",
+          "description": "States a concrete communications cadence, not just 'regular updates'"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "type: procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        }
+      ],
       "expectations": [
-        "Adds explicit roles with authority (IC, Comms Lead, Ops)",
-        "Adds internal and external communications cadence",
-        "Adds escalation criteria and phase exit conditions"
+        "Roles & Responsibilities table names at least an Incident Commander and a Communications Lead, replacing the vague 'we handle sev1s together'",
+        "Communications plan distinguishes an internal update cadence from an external/status-page cadence, rather than one undifferentiated cadence"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We're a social-media team, not SRE, and we keep improvising every time a post blows up with a wave of angry replies. Write a playbook coordinating how we respond to a viral negative-reaction incident on social media, and save it as playbook.md.",
+      "expected_output": "A playbook whose roles, decision framework, and phases are adapted to a social-media crisis (not reused verbatim from an SRE outage template), saved to playbook.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Roles & Responsibilities",
+          "description": "Has a Roles & Responsibilities section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Decision Framework",
+          "description": "Has a Decision Framework section"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Phases",
+          "description": "Has a Phases section"
+        },
+        {
+          "type": "regex_match",
+          "file": "playbook.md",
+          "pattern": "(?i)(social media|viral|negative reaction)",
+          "description": "Content is grounded in the social-media incident domain from the prompt"
+        }
+      ],
+      "expectations": [
+        "Roles and decision framework are adapted to the social-media domain (e.g. comms/moderation/legal roles, thresholds like reply volume or press pickup) rather than an SRE Incident Commander/on-call template pasted in unchanged",
+        "Phases map Detect -> Triage -> Respond -> Recover -> Review onto the social-media scenario with domain-appropriate exit criteria, not server-outage language"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Before I ship our new playbook for the Feature Flag rollback process, what MIF frontmatter type does the playbook genre need, and what's the validation gate? Write it up in gate-notes.md.",
+      "expected_output": "States the MIF type is procedural, that L1 (type: procedural) is the floor gate, namespace/tags/title climb it to L2, and the gate is mif-validate --level 1, saved to gate-notes.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: procedural",
+          "description": "States the MIF type is procedural"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the specific gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as an L2 field to climb to"
+        }
+      ],
+      "expectations": [
+        "Frames L1 (type: procedural) as the floor gate and namespace/tags/title as an optional climb to L2, not a hard requirement for every playbook",
+        "Answer is specific to the playbook genre rather than a generic MIF frontmatter tutorial unrelated to the Feature Flag rollback question asked"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Just write me 'a playbook.' That's literally all the detail I have right now -- save it as playbook.md and mark whatever you don't actually know.",
+      "expected_output": "Produces the full playbook section structure in skeleton form, marking the unspecified scenario/scope and other unknowns as placeholders instead of inventing a fabricated incident class, saved to playbook.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Roles & Responsibilities",
+          "description": "Has a Roles & Responsibilities section even with no scenario given"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Decision Framework",
+          "description": "Has a Decision Framework section even with no scenario given"
+        },
+        {
+          "type": "file_contains",
+          "file": "playbook.md",
+          "literal": "## Communications Plan",
+          "description": "Has a Communications Plan section even with no scenario given"
+        },
+        {
+          "type": "regex_match",
+          "file": "playbook.md",
+          "pattern": "(?i)(tbd|placeholder|to be determined|\\[fill in\\]|unspecified)",
+          "description": "Marks unspecified scenario details as placeholders rather than inventing a fake scenario"
+        }
+      ],
+      "expectations": [
+        "Does not silently invent a fabricated incident class (e.g. assuming a Sev1 server outage) without flagging that the scenario/scope was never specified by the user",
+        "Still produces the full section structure (Scenario & Scope, Roles, Decision Framework, Phases, Communications, Post-Incident Review) in skeleton form rather than refusing or replying with only a clarifying question and no draft"
       ]
     }
   ]

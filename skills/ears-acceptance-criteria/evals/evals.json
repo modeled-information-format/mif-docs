@@ -4,36 +4,248 @@
     {
       "id": 1,
       "prompt": "Rewrite this requirement as an EARS criterion: 'The system should handle too many login attempts.'",
-      "expected_output": "An Unwanted-behavior EARS criterion using the If/then template with a concrete system and observable response.",
+      "expected_output": "An Unwanted-behavior EARS criterion using the If/then template, naming a concrete component (e.g., the auth service) and an observable response (e.g., locking the account or returning a 429), as a single testable sentence.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bif\\b.{0,200}\\bshall\\b",
+          "description": "Uses the Unwanted-behavior If/then template"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bthe system shall\\b",
+          "description": "Does not name the system generically as 'the system'"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\b(todo|tbd|placeholder)\\b",
+          "description": "Contains no placeholder text"
+        }
+      ],
       "expectations": [
-        "Uses the Unwanted-behavior template: If <condition>, then the <system> shall <response>",
-        "Names a concrete system component rather than 'the system' generically where possible",
-        "Specifies an observable, verifiable response (e.g., lock account, return an error code)",
-        "Produces exactly one testable requirement, not a compound sentence"
+        "Specifies an observable, verifiable response such as locking the account, rate-limiting, or returning a specific error code",
+        "Produces exactly one testable requirement, not a compound sentence joining two behaviors with 'and'"
       ]
     },
     {
       "id": 2,
-      "prompt": "Turn these three PRD bullet points into machine-readable acceptance criteria.",
-      "expected_output": "Three EARS criteria, each using the most specific matching template.",
+      "prompt": "Convert this into an EARS acceptance criterion: when an upload exceeds 25MB, the API should reject it with a 413 and tell the client why.",
+      "expected_output": "An Event-driven EARS criterion using the When/shall template that names a concrete component and preserves the 413 status code and the reason-in-response detail.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhen\\b.{0,200}\\bshall\\b",
+          "description": "Uses the Event-driven When/shall template"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "413",
+          "description": "Preserves the 413 status code from the input"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhile\\b.{0,200}\\bshall\\b",
+          "description": "Does not misclassify a one-time trigger as the State-driven While template"
+        }
+      ],
       "expectations": [
-        "Produces one EARS criterion per bullet",
-        "Selects the most specific template (event/state/unwanted/optional/ubiquitous) per item",
-        "Each criterion has a concrete system and an observable response",
-        "Does not collapse two requirements into one criterion"
+        "Names a concrete system component such as the upload API or upload handler, not 'the app'",
+        "The response includes both the 413 status and the client-facing reason, as one testable sentence"
       ]
     },
     {
       "id": 3,
-      "prompt": "Which EARS pattern fits 'while the connection is degraded, retries must back off exponentially'?",
-      "expected_output": "Identifies the State-driven (While) template and writes the criterion.",
+      "prompt": "Which EARS pattern fits 'while the connection is degraded, retries must back off exponentially'? Give me the finished criterion.",
+      "expected_output": "Identifies the State-driven (While) template, explains why an ongoing condition fits it, and writes the criterion with a concrete system and the exponential-backoff detail preserved.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhile\\b.{0,200}\\bshall\\b",
+          "description": "Uses the State-driven While/shall template"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bif\\b.{0,200}\\bshall\\b",
+          "description": "Does not misuse the Unwanted If/then template for an ongoing state"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "exponential",
+          "description": "Preserves the exponential-backoff detail from the input"
+        }
+      ],
       "expectations": [
-        "Identifies the State-driven template (While <state>, the <system> shall <response>)",
-        "Explains why a state-driven trigger fits an ongoing condition",
-        "Writes the criterion with a concrete system and observable response"
+        "Explains why a state-driven (While) trigger fits an ongoing condition rather than a one-time event",
+        "Names a concrete retry/client component rather than 'the system'"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn these three PRD bullets into EARS acceptance criteria: 1) Users must be able to export their data at any time. 2) If the export fails, the user should be notified. 3) When the export completes, an email with a download link should be sent.",
+      "expected_output": "Three EARS criteria, each using the most specific matching template (Ubiquitous, Unwanted, Event-driven respectively), each a single testable sentence.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is:(?:.*?\\bshall\\b){3})",
+          "description": "Produces at least three separate 'shall' statements, one per bullet"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bif\\b.{0,150}\\bshall\\b",
+          "description": "Uses the Unwanted/If-then template for the export-failure bullet"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhen\\b.{0,150}\\bshall\\b",
+          "description": "Uses the Event-driven/When template for the export-completion bullet"
+        }
+      ],
+      "expectations": [
+        "Selects the most specific template per bullet rather than defaulting everything to Ubiquitous",
+        "Each criterion is a single testable sentence and does not merge two bullets together"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write an EARS criterion for: 'The scheduler must always process jobs in FIFO order.'",
+      "expected_output": "A Ubiquitous EARS criterion (The <system> shall <response>) with no trigger condition, naming a concrete scheduler component and preserving the FIFO detail.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "shall",
+          "description": "Uses the required EARS keyword 'shall'"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "FIFO",
+          "description": "Preserves the FIFO ordering detail from the input"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bif\\b.{0,150}\\bshall\\b",
+          "description": "Does not introduce an If-conditional for an always-true invariant"
+        }
+      ],
+      "expectations": [
+        "Names a concrete component such as 'the job scheduler' rather than 'the system'",
+        "The criterion is a single, unconditional invariant with no embedded trigger or condition"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We only need this criterion when dark mode is enabled: 'if dark mode is on, all charts must use the high-contrast palette.' Turn it into the right EARS pattern — this is a feature toggle, not an error condition.",
+      "expected_output": "An Optional EARS criterion using the Where/shall template rather than the Unwanted If/then template, naming a concrete chart-rendering component and preserving the high-contrast-palette detail.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhere\\b.{0,150}\\bshall\\b",
+          "description": "Uses the Optional Where/shall template"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bif\\b.{0,150}\\bshall\\b",
+          "description": "Does not misuse the Unwanted If/then template for a feature toggle"
+        },
+        {
+          "type": "file_contains",
+          "file": "transcript.md",
+          "literal": "high-contrast",
+          "description": "Preserves the high-contrast palette detail from the input"
+        }
+      ],
+      "expectations": [
+        "Explains why Optional (Where) fits a feature-conditional case rather than Unwanted (If/then), which is for error handling",
+        "Names a concrete component such as the chart renderer rather than 'the system'"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Here's a requirement from our driver: 'When a payment fails, the checkout service shall log the error and notify the customer via email.' Is this one EARS criterion or two? Fix it if needed.",
+      "expected_output": "Identifies that the sentence hides two separate testable requirements (logging and notifying) joined by 'and', and splits it into two independent Event-driven criteria, each naming the checkout service and each with one observable response.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bwhen\\b.{0,150}\\bshall\\b",
+          "description": "Produces at least one Event-driven When/shall criterion"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is:(?:.*?\\bshall\\b){2})",
+          "description": "Splits the compound requirement into at least two separate 'shall' statements"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\blog\\b",
+          "description": "Retains the logging behavior from the input"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(notify|email)",
+          "description": "Retains the notification behavior from the input"
+        }
+      ],
+      "expectations": [
+        "Identifies that the original sentence hides two separate testable requirements joined by 'and'",
+        "Each resulting criterion names the checkout service concretely, not 'the system'"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Make this testable: 'The app should be fast.'",
+      "expected_output": "Flags 'fast' as not observable or verifiable as stated, and either asks for a measurable threshold or proposes one explicitly as a stated assumption, naming a concrete component instead of 'the app' rather than fabricating a precise number silently.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bthe app shall\\b",
+          "description": "Does not name 'the app' verbatim as the concrete system"
+        },
+        {
+          "type": "regex_not_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\bshall\\s+be\\s+fast\\b",
+          "description": "Does not leave the unobservable word 'fast' unqualified in a final criterion"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(assum|clarif|threshold|specify|measurable)",
+          "description": "Engages with the ambiguity by asking for or proposing a measurable threshold"
+        }
+      ],
+      "expectations": [
+        "Flags 'fast' as not observable or verifiable as stated",
+        "Either asks the user for a measurable threshold or proposes one explicitly, marking it as an assumption rather than presenting a fabricated number as given",
+        "If a criterion is produced, it names a concrete component (e.g., the API, the page renderer) instead of 'the app'"
       ]
     }
   ]

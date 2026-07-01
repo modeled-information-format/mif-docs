@@ -6,13 +6,41 @@
       "prompt": "Write a getting-started tutorial that takes a complete beginner through installing our CLI and running their first command successfully.",
       "expected_output": "A learning-oriented Diataxis tutorial: a one-sentence promise, prerequisites, numbered steps each with a visible checkable result, and a conclusion pointing onward.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)##\\s*prerequisites",
+          "description": "Has a Prerequisites section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*1\\b",
+          "description": "Has a numbered Step 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*2\\b",
+          "description": "Has at least two ordered steps"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "TODO",
+          "description": "No TODO placeholder markers"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "type:\\s*procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        }
+      ],
       "expectations": [
         "Opens with a single concrete promise of what the learner will have done by the end",
-        "Has a Prerequisites section listing minimal already-working setup",
-        "Uses numbered, ordered steps in the imperative with a visible result after each",
-        "Contains no branching, options, or 'choose whichever fits' decision trees",
-        "Includes MIF frontmatter with type: procedural and passes mif-validate --level 1",
-        "Does not include placeholder text like TODO or 'configure as needed'"
+        "Each step states a visible, checkable result after the action, not just the instruction itself"
       ]
     },
     {
@@ -20,11 +48,41 @@
       "prompt": "I wrote this as a tutorial but reviewers say it reads like reference docs. Show me what's wrong and a corrected version.",
       "expected_output": "Identifies mode-mixing (reference/explanation content inside a tutorial) and rewrites it as a single hands-on happy path.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(reference|explanation)",
+          "description": "Names the specific Diataxis mode it drifted into"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)learning-oriented",
+          "description": "States that a tutorial is learning-oriented"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*1\\b",
+          "description": "Corrected version has ordered numbered steps"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)##\\s*prerequisites",
+          "description": "Corrected version keeps a Prerequisites section"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "TODO",
+          "description": "Corrected version has no TODO placeholder markers"
+        }
+      ],
       "expectations": [
-        "Names the specific Diataxis mode violations (theory dumps, exhaustive option lists, branching)",
-        "Explains a tutorial is learning-oriented, distinct from how-to and reference",
-        "Produces a corrected tutorial with one happy path and self-check checkpoints",
-        "Moves the 'why' content out to a linked explanation rather than inlining it"
+        "Produces a corrected tutorial with one happy path and no branching decision points",
+        "Moves the 'why it works' content out to a linked explanation rather than inlining it"
       ]
     },
     {
@@ -32,11 +90,35 @@
       "prompt": "Turn these raw setup notes into a proper tutorial for onboarding new contributors.",
       "expected_output": "A conformant tutorial derived from the notes, with prerequisites, verifiable numbered steps, and a forward-pointing conclusion.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)##\\s*prerequisites",
+          "description": "Adds a Prerequisites section"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*1\\b",
+          "description": "Has a numbered Step 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*2\\b",
+          "description": "Has at least two ordered steps"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "type:\\s*procedural",
+          "description": "Emits MIF frontmatter with type: procedural"
+        }
+      ],
       "expectations": [
-        "Reorders the notes into a strictly linear learning path",
-        "Adds a promise sentence and a Prerequisites section",
-        "Each step has an observable result the learner can confirm",
-        "Emits MIF-conformant frontmatter (type: procedural) and the body passes mif-validate"
+        "Reorders the notes into a strictly linear, single happy-path sequence rather than preserving their original grouping",
+        "Each step has an observable, checkable result the learner can confirm"
       ]
     },
     {
@@ -44,10 +126,102 @@
       "prompt": "Should this onboarding content be a tutorial, a how-to, or reference? It's about helping new users feel confident with the product.",
       "expected_output": "Recommends a tutorial because the goal is learner confidence, and explains the Diataxis distinction.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)\\btutorial\\b",
+          "description": "Recommends the tutorial mode"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)how-to",
+          "description": "Contrasts with the how-to genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)reference",
+          "description": "Contrasts with the reference genre"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)(confidence|learning)",
+          "description": "Ties the recommendation to learner confidence or learning, not task completion"
+        }
+      ],
       "expectations": [
-        "Recommends the tutorial mode for confidence/learning-oriented goals",
-        "Contrasts with how-to (accomplish a known task) and reference (look up facts)",
-        "Offers to draft the tutorial following the learning-oriented pattern"
+        "Explains the distinction is about reader stance (beginner vs. competent) rather than the topic itself",
+        "Offers to draft the tutorial following the promise-then-steps learning-oriented pattern"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write a tutorial for our onboarding flow, but it needs to cover both the Mac setup and the Windows setup since our other docs list separate steps per OS.",
+      "expected_output": "A tutorial that keeps a single happy path (e.g. picks one OS or a shared path) instead of branching per platform mid-lesson, per the 'no options, no alternatives' rule.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*1\\b",
+          "description": "Has a numbered Step 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)##\\s*prerequisites",
+          "description": "Has a Prerequisites section"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "TODO",
+          "description": "No TODO placeholder markers"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "choose whichever",
+          "description": "Does not use 'choose whichever fits' branching language"
+        }
+      ],
+      "expectations": [
+        "Picks a single concrete path (e.g. one OS) rather than presenting Mac and Windows as parallel branches",
+        "Does not include a 'pick your platform' decision point mid-tutorial",
+        "Still delivers a complete set of numbered steps with checkable results for the one path chosen"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Here's a tutorial draft with steps but no way for the learner to tell if they did each one right. Add checkpoints so they know they're on track.",
+      "expected_output": "A revised tutorial with a self-verification checkpoint after each step ('you should now see...'), without turning it into a troubleshooting guide.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)you should (now )?see",
+          "description": "Adds a self-check checkpoint phrase after a step"
+        },
+        {
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?i)step\\s*1\\b",
+          "description": "Retains numbered steps"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "transcript.md",
+          "literal": "troubleshoot",
+          "description": "Does not introduce a troubleshooting section"
+        }
+      ],
+      "expectations": [
+        "Adds a checkpoint after each individual step, not only at the very end",
+        "Does not introduce troubleshooting branches or alternative recovery paths for failures"
       ]
     }
   ]

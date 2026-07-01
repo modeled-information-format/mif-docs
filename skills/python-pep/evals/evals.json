@@ -3,50 +3,279 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Draft a PEP proposing a new function for the standard library math module that clamps a number to a range.",
-      "expected_output": "A Standards Track PEP with the RFC822 header preamble and all main sections, specifying the new function precisely and defending the design.",
+      "prompt": "Draft a PEP proposing a new function for the standard library math module that clamps a number to a range. Save it as pep-draft.md.",
+      "expected_output": "A Standards Track PEP with the RFC822 header preamble and all main sections, specifying the new function precisely and defending the design, saved to pep-draft.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^Type:\\s*Standards Track",
+          "description": "Header declares Type: Standards Track"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^Status:\\s*Draft",
+          "description": "Header Status is Draft, the only valid state for a brand-new PEP"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^Python-Version:",
+          "description": "Header includes Python-Version (required for Standards Track)"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^##?\\s*Abstract",
+          "description": "Has an Abstract section"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^##?\\s*Backwards Compatibility",
+          "description": "Has a Backwards Compatibility section"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-draft.md",
+          "pattern": "(?im)^##?\\s*Rejected Ideas",
+          "description": "Has a Rejected Ideas section"
+        },
+        {
+          "type": "file_contains",
+          "file": "pep-draft.md",
+          "literal": "type: semantic",
+          "description": "Emits MIF frontmatter with type: semantic"
+        }
+      ],
       "expectations": [
-        "Includes an RFC822-style header preamble with PEP, Title, Author, Status, Type, Created, and Python-Version fields",
-        "Type is one of Standards Track, Informational, or Process; Status is a valid lifecycle state",
-        "Contains Abstract, Motivation, Rationale, Specification, Backwards Compatibility, Security Implications, How to Teach This, Reference Implementation, Rejected Ideas, and Open Issues sections",
-        "The Specification is precise enough to implement (defines behavior for edge cases, not just the happy path)",
-        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+        "Contains Motivation, Rationale, Specification, Security Implications, How to Teach This, Reference Implementation, and Open Issues sections in addition to the header-checked sections",
+        "The Specification is precise enough to implement: it defines the function signature and behavior for edge cases (e.g. min > max, non-numeric input), not just the happy path",
+        "The MIF frontmatter appears ahead of the RFC822 header preamble, not interleaved with it"
       ]
     },
     {
       "id": 2,
-      "prompt": "Review this PEP draft for me — reviewers keep bouncing it. What required sections am I missing and why does it matter?",
-      "expected_output": "Identifies the missing Backwards Compatibility and Rejected Ideas sections, the malformed header, and explains why each blocks acceptance.",
+      "prompt": "Review this PEP draft for me — reviewers keep bouncing it. What required sections am I missing and why does it matter? Write your findings to review-notes.md.",
+      "expected_output": "Identifies the missing Backwards Compatibility and Rejected Ideas sections, the malformed header, and explains why each blocks acceptance, written to review-notes.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)backwards compat",
+          "description": "Flags missing Backwards Compatibility"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)rejected ideas",
+          "description": "Flags missing Rejected Ideas"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)header",
+          "description": "Calls out the header preamble as a problem"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)pep number",
+          "description": "Flags a missing or invalid PEP number in the header"
+        }
+      ],
       "expectations": [
-        "Flags missing Backwards Compatibility and Rejected Ideas as the most common review blockers",
-        "Checks the header preamble for a valid Type, a valid Status lifecycle state, and an assigned PEP number",
-        "Explains that 'None' is an acceptable answer for compatibility/security but silence is not",
-        "Offers a corrected version that fills the required sections"
+        "Explains that 'None' is an acceptable answer for compatibility/security but silence (an omitted section) is not",
+        "Checks the header preamble for a valid Type, a valid Status lifecycle state, and an assigned PEP number, not just prose sections",
+        "Offers a corrected version or concrete text that fills the required sections rather than only naming the gaps"
       ]
     },
     {
       "id": 3,
-      "prompt": "What is the difference between the three PEP types, and which one should a governance change use?",
-      "expected_output": "Explains Standards Track, Informational, and Process types and recommends Process for a governance change.",
+      "prompt": "What is the difference between the three PEP types, and which one should a governance change use? Write the explanation to pep-types.md.",
+      "expected_output": "Explains Standards Track, Informational, and Process types and recommends Process for a governance change, written to pep-types.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "pep-types.md",
+          "literal": "Standards Track",
+          "description": "Names the Standards Track type"
+        },
+        {
+          "type": "file_contains",
+          "file": "pep-types.md",
+          "literal": "Informational",
+          "description": "Names the Informational type"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-types.md",
+          "pattern": "(?i)recommend.{0,60}process",
+          "description": "Recommends the Process type for the governance change"
+        },
+        {
+          "type": "regex_match",
+          "file": "pep-types.md",
+          "pattern": "(?i)governance",
+          "description": "Uses governance vocabulary tying the recommendation to the prompt"
+        }
+      ],
       "expectations": [
-        "Defines Standards Track as a new language, C API, or standard-library feature",
-        "Defines Informational and Process, contrasting Process (a change to a process around Python) with the others",
-        "Recommends the Process type for a governance/decision-making change",
+        "Defines Standards Track as a new language, C API, or standard-library feature change",
+        "Contrasts Process (a change to a process around Python, e.g. governance/decision-making) with Informational (design guidance/conventions that propose no feature)",
         "References that the Type field appears in the PEP header preamble"
       ]
     },
     {
       "id": 4,
-      "prompt": "My PEP was turned down but I want to keep it on record pointing at the proposal that replaced it. What status should it carry?",
-      "expected_output": "Explains the status lifecycle and recommends Superseded (pointing forward) versus Rejected/Withdrawn/Deferred.",
+      "prompt": "My PEP was turned down but I want to keep it on record pointing at the proposal that replaced it. What status should it carry? Answer in status-advice.md.",
+      "expected_output": "Explains the status lifecycle and recommends Superseded (pointing forward) versus Rejected/Withdrawn/Deferred, written to status-advice.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "status-advice.md",
+          "literal": "Superseded",
+          "description": "Recommends Superseded status"
+        },
+        {
+          "type": "regex_match",
+          "file": "status-advice.md",
+          "pattern": "(?i)rejected",
+          "description": "Mentions Rejected as a contrasting status"
+        },
+        {
+          "type": "regex_match",
+          "file": "status-advice.md",
+          "pattern": "(?i)withdrawn",
+          "description": "Mentions Withdrawn as a contrasting status"
+        },
+        {
+          "type": "regex_match",
+          "file": "status-advice.md",
+          "pattern": "(?i)deferred",
+          "description": "Mentions Deferred as a contrasting status"
+        }
+      ],
       "expectations": [
-        "Recommends Superseded when a later PEP replaces this one, and explains it points forward",
-        "Contrasts Superseded with Rejected (turned down on merits), Withdrawn (author abandons), and Deferred (no champion)",
+        "Explains that Superseded points forward to the PEP that replaced it, distinct from a terminal-for-now outcome",
+        "Contrasts Superseded with Rejected (turned down on its merits), Withdrawn (author abandons it), and Deferred (no champion / not ready)",
         "Notes the Status field reflects exactly one lifecycle state at a time"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I'm proposing a new 'match' statement syntax variant for the language itself. What sections does a Standards Track PEP need before it can reach Final status, and what happens if I skip the reference implementation? Write this up as final-status-requirements.md.",
+      "expected_output": "Explains that a working Reference Implementation is required before a Standards Track PEP can be marked Final, lists the other required sections, and states what happens if it's skipped (the PEP cannot progress past Accepted/Draft).",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "final-status-requirements.md",
+          "pattern": "(?i)reference implementation",
+          "description": "Names Reference Implementation section"
+        },
+        {
+          "type": "regex_match",
+          "file": "final-status-requirements.md",
+          "pattern": "(?i)final",
+          "description": "References the Final status"
+        },
+        {
+          "type": "regex_match",
+          "file": "final-status-requirements.md",
+          "pattern": "(?i)(accepted|draft)",
+          "description": "Names the status the PEP is stuck at without a reference implementation"
+        },
+        {
+          "type": "regex_match",
+          "file": "final-status-requirements.md",
+          "pattern": "(?i)backwards compat",
+          "description": "Names Backwards Compatibility among the other required sections"
+        }
+      ],
+      "expectations": [
+        "States explicitly that a working reference implementation is required before Standards Track can reach Final",
+        "Lists at least three other required sections (e.g. Backwards Compatibility, Specification, Security Implications) beyond Reference Implementation",
+        "Ties the answer back to the Standards Track type specifically, not the other two PEP types"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Draft a Process-type PEP proposing that the Steering Council require a security sign-off before merging any PEP touching the C API. Save it to security-process-pep.md.",
+      "expected_output": "A Process PEP (not Standards Track) with the header preamble, main sections, and a Security Implications section addressing the proposal's own governance impact rather than code security, saved to security-process-pep.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "security-process-pep.md",
+          "pattern": "(?im)^Type:\\s*Process",
+          "description": "Header declares Type: Process, not Standards Track"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "security-process-pep.md",
+          "literal": "Python-Version:",
+          "description": "Header omits Python-Version (not required outside Standards Track)"
+        },
+        {
+          "type": "regex_match",
+          "file": "security-process-pep.md",
+          "pattern": "(?im)^##?\\s*Backwards Compatibility",
+          "description": "Still includes Backwards Compatibility (required regardless of type)"
+        },
+        {
+          "type": "regex_match",
+          "file": "security-process-pep.md",
+          "pattern": "(?im)^##?\\s*Security Implications",
+          "description": "Has a Security Implications section"
+        }
+      ],
+      "expectations": [
+        "Does not include a Python-Version header field, since that field is specific to Standards Track PEPs",
+        "The Security Implications section discusses governance/process risk (e.g. gatekeeping, review bottlenecks) rather than a code vulnerability surface",
+        "Contains Motivation, Rationale, Specification, and Rejected Ideas sections appropriate to a process change"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I have a rough idea for a PEP but no header, no status, nothing formal yet — just a paragraph of prose about adding a new 'freeze' builtin. Turn it into a proper Draft PEP skeleton and save it as freeze-builtin-pep.md.",
+      "expected_output": "Produces a complete Draft-status Standards Track PEP skeleton with the header preamble and all required sections populated (even briefly) from the rough idea, not just the Abstract, saved to freeze-builtin-pep.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "freeze-builtin-pep.md",
+          "pattern": "(?im)^Status:\\s*Draft",
+          "description": "Header Status is Draft for a brand-new proposal"
+        },
+        {
+          "type": "regex_match",
+          "file": "freeze-builtin-pep.md",
+          "pattern": "(?im)^##?\\s*Specification",
+          "description": "Has a Specification section"
+        },
+        {
+          "type": "regex_match",
+          "file": "freeze-builtin-pep.md",
+          "pattern": "(?im)^##?\\s*Open Issues",
+          "description": "Has an Open Issues section"
+        },
+        {
+          "type": "regex_match",
+          "file": "freeze-builtin-pep.md",
+          "pattern": "(?im)^##?\\s*Backwards Compatibility",
+          "description": "Has a Backwards Compatibility section even for a rough-idea skeleton"
+        }
+      ],
+      "expectations": [
+        "Does not leave any of the eleven required sections entirely blank or omitted, even when the source material was informal prose",
+        "The Open Issues section reflects genuinely unresolved questions about the freeze builtin rather than boilerplate placeholder text",
+        "Frames the new builtin's behavior in the Specification precisely enough that two implementers would produce the same result"
       ]
     }
   ]

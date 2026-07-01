@@ -24,7 +24,10 @@ machine-readable and unambiguous. Invoked by `prd`, `feature-spec`,
 ## Rules
 
 - One criterion = one testable sentence. No conjunctions hiding two requirements.
-- `<system>` is a concrete named component, not "the app".
+- `<system>` is a concrete named component, not "the app". If the input doesn't
+  name one, commit to a specific, plausible component name (e.g. `the payment
+  gateway`, `the auth service`) rather than deferring the choice to the reader,
+  and flag it as an assumption.
 - `<response>` is observable and verifiable (a state change, an output, a code).
 - Prefer the most specific template that fits; do not default everything to
   Ubiquitous.

@@ -3,52 +3,249 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write a design doc for a new outbound webhook delivery service so we can align the team before building it.",
-      "expected_output": "A Google-style engineering design doc with Context and Scope, Goals and Non-Goals, the proposed design (APIs, schema, key flows), Alternatives Considered with pros/cons and why each was rejected, and cross-cutting security/privacy/observability concerns.",
+      "prompt": "Write a design doc for a new outbound webhook delivery service so we can align the team before building it. Save it as design-doc.md.",
+      "expected_output": "A Google-style engineering design doc with Context and Scope, Goals and Non-Goals, the proposed design (APIs, schema, key flows), Alternatives Considered with pros/cons and why each was rejected, and cross-cutting security/privacy/observability concerns, saved to design-doc.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "design-doc.md",
+          "pattern": "(?i)##\\s*Context and Scope",
+          "description": "Has a Context and Scope section"
+        },
+        {
+          "type": "regex_match",
+          "file": "design-doc.md",
+          "pattern": "(?i)##\\s*Goals and Non-Goals",
+          "description": "Has a Goals and Non-Goals section"
+        },
+        {
+          "type": "regex_match",
+          "file": "design-doc.md",
+          "pattern": "(?i)##\\s*Alternatives Considered",
+          "description": "Has an Alternatives Considered section"
+        },
+        {
+          "type": "regex_match",
+          "file": "design-doc.md",
+          "pattern": "(?i)(security|privacy|observability)",
+          "description": "Mentions at least one cross-cutting concern"
+        },
+        {
+          "type": "file_contains",
+          "file": "design-doc.md",
+          "literal": "type: semantic",
+          "description": "MIF frontmatter declares type: semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "design-doc.md",
+          "pattern": "(?i)non-goals:",
+          "description": "Non-Goals appears as its own labeled list, not folded into prose"
+        }
+      ],
       "expectations": [
-        "Has a Context and Scope section that states the problem and what is in vs out of scope",
-        "Includes both Goals and explicit Non-Goals as separate bulleted lists",
-        "The Design section covers APIs, data storage/schema, and key flows (happy and failure paths)",
-        "Alternatives Considered lists at least two rejected options, each with pros, cons, and a why-rejected tied to a goal or constraint",
-        "Addresses security, privacy, and observability as cross-cutting concerns",
-        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+        "The Context and Scope section states the current problem and explicitly bounds what is in vs out of scope",
+        "The Design section covers APIs, data storage/schema, and key flows (a happy path and a failure path)",
+        "Alternatives Considered lists at least two rejected options, each with a pro, a con, and a why-rejected tied to a stated goal or constraint, not a strawman"
       ]
     },
     {
       "id": 2,
-      "prompt": "Review this design doc draft — my reviewers say it reads like a foregone conclusion. What's missing and how do I fix it?",
-      "expected_output": "Identifies the absence of honest Alternatives Considered and explicit Non-Goals, and shows how to add weighed options and scope boundaries so the decision is justified rather than asserted.",
+      "prompt": "Review this design doc draft — my reviewers say it reads like a foregone conclusion. What's missing and how do I fix it? Write your review as review-notes.md.",
+      "expected_output": "review-notes.md identifies the absence of honest Alternatives Considered and explicit Non-Goals, and shows how to add weighed options and scope boundaries so the decision is justified rather than asserted.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)alternatives considered",
+          "description": "Names the missing Alternatives Considered section"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)non-goals",
+          "description": "Flags the absence of Non-Goals"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)(pro|con|trade-off|tradeoff)",
+          "description": "Discusses pros/cons or trade-offs as the fix"
+        },
+        {
+          "type": "regex_match",
+          "file": "review-notes.md",
+          "pattern": "(?i)strawman",
+          "description": "Warns explicitly against a strawman alternative"
+        }
+      ],
       "expectations": [
-        "Names the missing Alternatives Considered section as the core flaw",
-        "Flags the absence of Non-Goals and explains they bound scope in review",
-        "Recommends giving each alternative an honest pro/con and a why-rejected that ties to a goal, not a strawman",
-        "Frames the doc as trade-off-driven rather than a single-option proposal"
+        "Names the missing Alternatives Considered section as the core flaw causing the foregone-conclusion feel",
+        "Explains that Non-Goals bound scope and pre-empt scope creep in review, not just that they're missing"
       ]
     },
     {
       "id": 3,
-      "prompt": "I have a chosen approach for a per-tenant rate limiter already. Should I still write a design doc, and what should it contain?",
-      "expected_output": "Recommends a Google-style design doc whose value is the trade-offs, and outlines the section structure including the alternatives that were rejected on the way to the chosen approach.",
+      "prompt": "I have a chosen approach for a per-tenant rate limiter already. Should I still write a design doc, and what should it contain? Write your recommendation as recommendation.md.",
+      "expected_output": "recommendation.md recommends a Google-style design doc whose value is the trade-offs, and outlines the section structure including the alternatives that were rejected on the way to the chosen approach.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)context and scope",
+          "description": "Lists Context and Scope as an expected section"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)alternatives considered",
+          "description": "Lists Alternatives Considered as an expected section"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)\\badr\\b",
+          "description": "Distinguishes the design doc from an ADR by name"
+        },
+        {
+          "type": "file_contains",
+          "file": "recommendation.md",
+          "literal": "type: semantic",
+          "description": "Notes the MIF frontmatter type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "(?i)feature spec",
+          "description": "Distinguishes the design doc from a feature spec by name"
+        }
+      ],
       "expectations": [
-        "Explains the doc's purpose is to record rationale and the rejected alternatives, not just the chosen design",
-        "Lists the expected sections: Context and Scope, Goals and Non-Goals, the Design, Alternatives Considered, Cross-cutting Concerns",
-        "Distinguishes a design doc from an ADR (single immutable decision) and a feature spec (requirements)",
-        "Notes the MIF frontmatter should use type: semantic"
+        "Explains the doc's purpose is to record rationale and the rejected alternatives, not just document the chosen design",
+        "Advises writing the doc even though the approach is already chosen, because reviewers need to see what was weighed"
       ]
     },
     {
       "id": 4,
-      "prompt": "Turn these architecture meeting notes about our event ingestion redesign into a proper design doc.",
-      "expected_output": "A conformant design doc derived from the notes, with scoped context, goals and non-goals, the design surfaces, the alternatives that were debated with their trade-offs, and cross-cutting concerns.",
+      "prompt": "Turn these architecture meeting notes about our event ingestion redesign into a proper design doc. Save it as event-ingestion-design.md.",
+      "expected_output": "event-ingestion-design.md is a conformant design doc derived from the notes, with scoped context, goals and non-goals, the design surfaces, the alternatives that were debated with their trade-offs, and cross-cutting concerns.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "event-ingestion-design.md",
+          "pattern": "(?i)##\\s*context and scope",
+          "description": "Reorganizes notes into a Context and Scope section"
+        },
+        {
+          "type": "regex_match",
+          "file": "event-ingestion-design.md",
+          "pattern": "(?i)##\\s*goals and non-goals",
+          "description": "Reorganizes notes into a Goals and Non-Goals section"
+        },
+        {
+          "type": "regex_match",
+          "file": "event-ingestion-design.md",
+          "pattern": "(?i)##\\s*alternatives considered",
+          "description": "Recovers debated options into an Alternatives Considered section"
+        },
+        {
+          "type": "file_contains",
+          "file": "event-ingestion-design.md",
+          "literal": "type: semantic",
+          "description": "Produces MIF frontmatter with type: semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "event-ingestion-design.md",
+          "pattern": "(?i)non-goals:",
+          "description": "Non-Goals appears as its own labeled list"
+        }
+      ],
       "expectations": [
-        "Reorganizes the notes into the standard design-doc sections",
-        "Recovers the debated options from the notes into Alternatives Considered with pros/cons and why-rejected",
-        "Makes scope explicit via Goals and Non-Goals",
-        "Produces MIF-conformant frontmatter (type: semantic) and a body that passes mif-validate --level 1"
+        "Recovers the options debated in the notes into Alternatives Considered, each with pros, cons, and a why-rejected",
+        "Does not simply reformat the raw notes verbatim — the content is organized into the genre's section structure"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "What MIF frontmatter and validation gate does the google-design-doc genre require, and how far can I climb past the floor? Write it up as gate-notes.md.",
+      "expected_output": "gate-notes.md states the MIF type is semantic, that L1 (id, type, created) is the floor gated by mif-validate --level 1, and that the genre supports climbing to L3 with namespace, temporal, provenance, citations, and relationships when the context supports it.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "type: semantic",
+          "description": "States the MIF type is semantic"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)mif-validate",
+          "description": "Names mif-validate as the gate"
+        },
+        {
+          "type": "file_contains",
+          "file": "gate-notes.md",
+          "literal": "--level 1",
+          "description": "Names the floor gate invocation --level 1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)namespace",
+          "description": "Names namespace as a field used to climb past L1"
+        },
+        {
+          "type": "regex_match",
+          "file": "gate-notes.md",
+          "pattern": "(?i)(provenance|citations|relationships)",
+          "description": "Names at least one L3 field (provenance, citations, or relationships)"
+        }
+      ],
+      "expectations": [
+        "States L1 (id, type, created) is the floor and is the minimum every doc must meet, not an optional level",
+        "Frames climbing to L2/L3 as conditional on what the drafting context supplies, not mandatory for every doc"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Here's a one-page proposal for switching our session store from Redis to Postgres — it just states the decision and says 'this is the best option.' Does this count as a Google-style design doc? Write your assessment as assessment.md.",
+      "expected_output": "assessment.md says no — it is a proposal masquerading as a design doc because it omits Non-Goals and Alternatives Considered — and explains what must be added to make it a real design doc.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "regex_match",
+          "file": "assessment.md",
+          "pattern": "(?i)non-goals",
+          "description": "Flags missing Non-Goals"
+        },
+        {
+          "type": "regex_match",
+          "file": "assessment.md",
+          "pattern": "(?i)alternatives considered",
+          "description": "Flags missing Alternatives Considered"
+        },
+        {
+          "type": "regex_match",
+          "file": "assessment.md",
+          "pattern": "(?i)(no|not a design doc|does not count)",
+          "description": "States clearly that the one-pager does not qualify as-is"
+        },
+        {
+          "type": "regex_match",
+          "file": "assessment.md",
+          "pattern": "(?i)(pro|con|trade-off|tradeoff)",
+          "description": "Frames the gap in terms of missing trade-offs/pros-cons"
+        }
+      ],
+      "expectations": [
+        "Identifies the proposal as the antipattern of a single-option proposal masquerading as a design doc, not a minor style issue",
+        "Names both Non-Goals and Alternatives Considered as the specific missing sections, not a vague 'needs more detail'"
       ]
     }
   ]

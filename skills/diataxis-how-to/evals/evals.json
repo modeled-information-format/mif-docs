@@ -3,51 +3,259 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write a how-to guide for rotating a production API key without taking the service down.",
-      "expected_output": "A task-oriented Diataxis how-to: a goal-stating title, a short context line, prerequisites, ordered real-command action steps, and a completion line — no teaching or theory.",
+      "prompt": "Write a how-to guide for rotating a production API key without taking the service down. Save it to `how-to.md`.",
+      "expected_output": "A task-oriented Diataxis how-to saved to how-to.md: a goal-stating title, a short context line, prerequisites, ordered real-command action steps, and a completion line — no teaching or theory.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "how-to.md",
+          "description": "how-to.md output file exists"
+        },
+        {
+          "type": "regex_match",
+          "file": "how-to.md",
+          "pattern": "(?m)^# How to ",
+          "description": "H1 title states the goal in 'How to <accomplish X>' form"
+        },
+        {
+          "type": "file_contains",
+          "file": "how-to.md",
+          "literal": "## Prerequisites",
+          "description": "Prerequisites section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "how-to.md",
+          "pattern": "(?m)^## Step 1",
+          "description": "Numbered action steps begin at Step 1"
+        },
+        {
+          "type": "file_contains",
+          "file": "how-to.md",
+          "literal": "type: procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        },
+        {
+          "type": "file_contains",
+          "file": "how-to.md",
+          "literal": "namespace",
+          "description": "Climbs to the genre's L2 ceiling: namespace field is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "how-to.md",
+          "pattern": "(?i)relates-to",
+          "description": "Climbs to the genre's L2 ceiling: a typed relates-to relationship is present"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "how-to.md",
+          "literal": "TODO",
+          "description": "No TODO placeholders remain"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "how-to.md",
+          "literal": "<your-value-here>",
+          "description": "No unexplained placeholder values remain"
+        }
+      ],
       "expectations": [
-        "Title states the goal directly in the form 'How to <accomplish X>'",
-        "Has a Prerequisites section naming the assumed starting state and access",
-        "Uses numbered action steps with real, runnable commands, each doing one thing",
-        "Contains no concept teaching, background theory, or exhaustive option catalogs",
-        "Includes MIF L2 frontmatter (type: procedural, namespace, modified, temporal validity, a typed relates-to relationship) and passes mif-validate --level 2",
-        "Ends at task completion with no placeholder text like TODO or 'configure as needed'"
+        "Each numbered step performs exactly one concrete action, in the correct order, that moves toward completing the key rotation without downtime",
+        "The guide contains no concept teaching, background theory, or 'why it works' explanation — only task-oriented instructions",
+        "The document ends immediately at confirmed task completion, with no 'next you could also...' follow-on tour"
       ]
     },
     {
       "id": 2,
-      "prompt": "I wrote this how-to but reviewers say it reads like a tutorial with a lot of background. Show me what's wrong and a corrected version.",
-      "expected_output": "Identifies mode-mixing (tutorial hand-holding and explanation/reference content inside a how-to) and rewrites it as a lean ordered task recipe.",
+      "prompt": "I wrote this how-to but reviewers say it reads like a tutorial with a lot of background:\n\n---\n# Learn All About API Keys and How They Work\n\nWelcome! Don't worry if you've never rotated a key before — we'll learn together and you'll feel confident by the end.\n\n## What is an API key, anyway?\n\nAn API key is a shared secret. Authentication works by the server comparing the presented key against its store; cryptographically this is just... (four paragraphs on HMAC, entropy, and token history).\n\n## Every flag the keys command supports\n\n`provider keys create` accepts --name, --scopes, --expires, --ip-allow, --description, --rate-limit, and twelve more, each documented below in full.\n\n## Rotate the key when you feel ready\n\nOnce you've absorbed all of the above, go ahead and set things up however suits your environment, then revoke the old key whenever it makes sense for you.\n---\n\nShow me what's wrong and save the corrected version to `how-to-fixed.md`.",
+      "expected_output": "Identifies mode-mixing (tutorial hand-holding and explanation/reference content inside a how-to) and rewrites it as a lean ordered task recipe saved to how-to-fixed.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "how-to-fixed.md",
+          "description": "how-to-fixed.md output file exists"
+        },
+        {
+          "type": "regex_match",
+          "file": "how-to-fixed.md",
+          "pattern": "(?m)^# How to ",
+          "description": "Corrected H1 title states the goal in 'How to <accomplish X>' form"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "how-to-fixed.md",
+          "literal": "Don't worry",
+          "description": "Beginner reassurance language is removed"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "how-to-fixed.md",
+          "literal": "What is an API key, anyway?",
+          "description": "Theory-dump heading is removed"
+        },
+        {
+          "type": "file_contains",
+          "file": "how-to-fixed.md",
+          "literal": "## Prerequisites",
+          "description": "Prerequisites section is present in the corrected version"
+        },
+        {
+          "type": "regex_match",
+          "file": "how-to-fixed.md",
+          "pattern": "(?m)^## Step 1",
+          "description": "Corrected version uses numbered action steps starting at Step 1"
+        }
+      ],
       "expectations": [
-        "Names the specific Diataxis violations (beginner reassurance, theory dumps, full option lists)",
-        "Explains a how-to is task-oriented, distinct from tutorial, reference, and explanation",
-        "Produces a corrected how-to with a goal title, prerequisites, and ordered real-command steps",
-        "Moves 'why it works' content out to a linked explanation rather than inlining it"
+        "Names the specific Diataxis violations in the original (beginner reassurance, theory dump, exhaustive option catalog)",
+        "Explains that a how-to is task-oriented and distinct from tutorial, reference, and explanation",
+        "Moves the 'why it works' content out to a linked explanation rather than inlining it in the corrected version"
       ]
     },
     {
       "id": 3,
-      "prompt": "Turn these scratch deployment notes into a proper how-to guide for rolling back a bad release.",
-      "expected_output": "A conformant how-to derived from the notes: a goal-stating title, prerequisites, verifiable numbered command steps, and a completion line.",
+      "prompt": "Here are my scratch deployment notes: \"if the new release is bad, first check svc status to confirm which version is live, then run svc rollback --to <previous-tag>, then watch svc status until healthy, then post in #incidents that we rolled back.\" Turn these into a proper how-to guide for rolling back a bad release and save it to `rollback.md`.",
+      "expected_output": "A conformant how-to derived from the notes saved to rollback.md: a goal-stating title, prerequisites, verifiable numbered command steps drawn from the notes, and a completion line.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "rollback.md",
+          "description": "rollback.md output file exists"
+        },
+        {
+          "type": "regex_match",
+          "file": "rollback.md",
+          "pattern": "(?m)^# How to ",
+          "description": "H1 title states the rollback goal"
+        },
+        {
+          "type": "file_contains",
+          "file": "rollback.md",
+          "literal": "## Prerequisites",
+          "description": "Prerequisites section is present"
+        },
+        {
+          "type": "regex_match",
+          "file": "rollback.md",
+          "pattern": "(?m)^## Step 1",
+          "description": "Numbered action steps begin at Step 1"
+        },
+        {
+          "type": "file_contains",
+          "file": "rollback.md",
+          "literal": "svc rollback",
+          "description": "The specific rollback command from the notes is preserved"
+        },
+        {
+          "type": "file_contains",
+          "file": "rollback.md",
+          "literal": "type: procedural",
+          "description": "MIF frontmatter declares type: procedural"
+        }
+      ],
       "expectations": [
-        "Reorders the notes into a strictly ordered sequence of action steps",
-        "Adds a goal-stating title and a Prerequisites section for the assumed starting state",
-        "Each step is a single real command or action with a checkable result",
-        "Emits MIF-conformant frontmatter (type: procedural) and the body passes mif-validate"
+        "Reorders the notes into a strictly ordered sequence matching their intent: confirm live version, roll back, wait for health, then notify",
+        "Each step is a single real command or action with a checkable result, not a paraphrase that drops the original commands",
+        "No content from the notes is invented or omitted beyond reformatting"
       ]
     },
     {
       "id": 4,
-      "prompt": "Should this content be a how-to, a tutorial, or reference? It helps an experienced engineer accomplish a specific deployment task they already understand.",
-      "expected_output": "Recommends a how-to because the reader is competent and has a known goal, and explains the Diataxis distinction.",
+      "prompt": "Should this content be a how-to, a tutorial, or reference? It helps an experienced engineer accomplish a specific deployment task they already understand. Write your answer to `recommendation.md`, starting with a line exactly 'Recommendation: how-to'.",
+      "expected_output": "Recommends a how-to because the reader is competent and has a known goal, explains the Diataxis distinction, and saves the recommendation to recommendation.md.",
       "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "recommendation.md",
+          "description": "recommendation.md output file exists"
+        },
+        {
+          "type": "regex_match",
+          "file": "recommendation.md",
+          "pattern": "^Recommendation: how-to",
+          "description": "File starts with the line 'Recommendation: how-to', not buried later"
+        },
+        {
+          "type": "file_contains",
+          "file": "recommendation.md",
+          "literal": "tutorial",
+          "description": "Answer names tutorial as the contrasting mode"
+        },
+        {
+          "type": "file_contains",
+          "file": "recommendation.md",
+          "literal": "reference",
+          "description": "Answer names reference as a contrasting mode"
+        }
+      ],
       "expectations": [
-        "Recommends the how-to mode for a competent reader accomplishing a known task",
-        "Contrasts with tutorial (a beginner learning by doing) and reference (looking up facts)",
-        "Offers to draft the how-to following the task-oriented goal-title-then-steps pattern"
+        "Correctly explains the how-to vs tutorial distinction: competent reader with a known goal, not a beginner learning by doing",
+        "Offers to draft the how-to following the goal-title, prerequisites, then ordered-steps pattern"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "New engineer onboarding — they've never deployed our service before but already know Docker and our internal `svc` CLI cold. Write a how-to for deploying to staging with `svc`, save it to `deploy-staging.md`.",
+      "expected_output": "A how-to that treats the reader as competent with Docker and svc, sequencing only the unfamiliar deploy-to-staging task without tutorial hand-holding, saved to deploy-staging.md.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_exists",
+          "file": "deploy-staging.md",
+          "description": "deploy-staging.md output file exists"
+        },
+        {
+          "type": "regex_match",
+          "file": "deploy-staging.md",
+          "pattern": "(?m)^# How to ",
+          "description": "H1 title states the deploy goal"
+        },
+        {
+          "type": "file_not_contains",
+          "file": "deploy-staging.md",
+          "literal": "Don't worry",
+          "description": "No tutorial-style beginner reassurance despite 'never deployed before' framing"
+        },
+        {
+          "type": "regex_match",
+          "file": "deploy-staging.md",
+          "pattern": "(?m)^## Step 1",
+          "description": "Numbered action steps begin at Step 1"
+        },
+        {
+          "type": "file_contains",
+          "file": "deploy-staging.md",
+          "literal": "## Prerequisites",
+          "description": "Prerequisites section is present"
+        }
+      ],
+      "expectations": [
+        "Treats the reader as competent with Docker and the svc CLI, sequencing only the specific staging-deploy steps rather than teaching either tool",
+        "Does not drift into tutorial mode despite the 'never done this before' framing in the request",
+        "Ends at confirmed successful staging deployment with no additional exploration prompts"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write me a how-to guide.",
+      "expected_output": "The skill recognizes the task/goal is unspecified and asks the user to name the concrete goal rather than fabricating one; no how-to.md is written.",
+      "files": [],
+      "deterministic_checks": [
+        {
+          "type": "file_not_exists",
+          "file": "how-to.md",
+          "description": "No how-to document is fabricated without a stated goal"
+        }
+      ],
+      "expectations": [
+        "Asks the user for the specific task/goal rather than guessing one",
+        "Does not fabricate placeholder or generic template content in place of a real goal",
+        "Explains that a how-to needs a concrete, already-understood goal before it can be drafted"
       ]
     }
   ]
