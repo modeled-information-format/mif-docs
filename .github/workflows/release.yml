@@ -105,6 +105,8 @@ jobs:
         if: github.event_name == 'release'
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
+          # RELEASE_CLIENT_APP_ID holds the App's OAuth client id (Iv23...), not
+          # the numeric app id — create-github-app-token expects the client id.
           client-id: ${{ vars.RELEASE_CLIENT_APP_ID }}
           private-key: ${{ secrets.RELEASE_CLIENT_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
