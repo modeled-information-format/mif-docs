@@ -1,0 +1,52 @@
+{
+  "skill_name": "sustainability-report",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a GRI-Standards sustainability report for 'a global apparel manufacturer' for fiscal year 2025. Include GRI 1 Foundation, GRI 2 General Disclosures, GRI 3 Material Topics (with a materiality determination), Topic Standards across GRI 200/300/400, and a GRI Content Index mapping every disclosure to its location. Findings: 14 manufacturing sites across 6 countries with 22,000 employees (GRI 2); stakeholder engagement identified water use and labor conditions as the two highest-priority material topics (GRI 3); absolute Scope 1 and 2 emissions fell 11% year over year to 480,000 tonnes CO2e (GRI 305); the reported gender pay gap narrowed to 4.2% across the global workforce (GRI 405).",
+      "expected_output": "A GRI-structured sustainability report with sections in order: GRI 1 Foundation, GRI 2 General Disclosures, GRI 3 Material Topics, Topic Standards (GRI 200/300/400), and a GRI Content Index table. The Material Topics section presents the materiality determination, not just a list. The content index maps every disclosure to its location. Every claim traces to a cited finding. The scope caveat (GRI-structured, not GRI-assured) is stated.",
+      "files": [],
+      "expectations": [
+        "All five sections appear in GRI order, ending with a GRI Content Index table (not merely mentioned in prose)",
+        "The Material Topics section explains how water use and labor conditions were identified and prioritized as material, rather than just listing them",
+        "The GRI Content Index maps GRI disclosure numbers (e.g., GRI 305 emissions, GRI 405 pay gap) to where each is reported",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this sustainability-report draft: it opens with 'we care about the planet and our people' and lists unquantified highlights like 'we reduced our carbon footprint this year' and 'we used less water,' with no GRI 1/2/3 structure, no materiality determination, and no GRI Content Index anywhere. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing GRI Content Index as the core defect — the mandatory back-matter table this genre exists to require — and also flags the missing GRI 1/2/3 structure, the absent materiality determination, and the unquantified, uncited claims, explaining how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing GRI Content Index as the central, load-bearing flaw, not a stylistic nitpick",
+        "Flags that claims are unquantified and uncited rather than tied to a finding @id and source URL",
+        "Notes the missing materiality determination (GRI 3) and the absent GRI 1/GRI 2 structure",
+        "Explains that the GRI Content Index must map every disclosure made in the report to its location, including any omissions with reasons"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We need a SOC 2 Type II style report on our access-control and change-management controls for the year, with a tests-of-controls matrix, control gaps, and management's assertion. Should this be a sustainability-report?",
+      "expected_output": "Recommends compliance-audit instead, explaining that an internal controls/process conformance review with an auditor's-report framing and a tests-of-controls matrix belongs in compliance-audit, while sustainability-report exists to disclose economic/environmental/social impacts against the GRI topic standards with a content index, not to attest to internal controls.",
+      "files": [],
+      "expectations": [
+        "Recommends compliance-audit rather than sustainability-report for this request",
+        "Explains that sustainability-report's defining trait is the GRI topic-standard frame plus a mandatory GRI content index, which a controls-assurance report doesn't need",
+        "Distinguishes this from regulatory-disclosure (Reg S-K/Form 10-K statutory filing order), which is also not the right fit"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a GRI-Standards sustainability report on 'an energy utility.' The finding set includes one falsified finding (a marketing claim that the utility is 'fully carbon neutral today across all scopes with no offsets required') and one weakened finding (a methane-leak reduction program whose monitoring data is still preliminary), plus one survived finding (renewable sources supplied 38% of generation capacity by year end). Handle each finding according to the genre's verification rules.",
+      "expected_output": "A GRI report that excludes the falsified carbon-neutral claim from reported facts (referencing it only when describing the exclusion policy, if at all), includes the weakened methane program with an explicit uncertainty qualifier (e.g., 'preliminary' or 'pilot'), reports the survived 38% renewables figure plainly, and still includes the full GRI structure with a content index.",
+      "files": [],
+      "expectations": [
+        "The falsified carbon-neutral claim does not appear as a reported fact anywhere in the disclosures",
+        "The weakened methane-leak program is presented with an explicit uncertainty qualifier, not asserted as a realized reduction",
+        "The survived renewables-share finding (38%) is reported without a qualifier",
+        "The report retains the GRI 1/2/3 structure, Topic Standards, and a GRI Content Index despite the mixed-verdict finding set"
+      ]
+    }
+  ]
+}

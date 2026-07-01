@@ -1,0 +1,50 @@
+{
+  "skill_name": "humanities-mla",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an argumentative humanities essay in MLA style arguing that Emily Dickinson's dash functions as a structural device enacting hesitation and withheld meaning, not a printer's-era accident. Use MLA author-page in-text citations (e.g. (Author 42)) and a Works Cited list. Do NOT include a Method or Results section.",
+      "expected_output": "An essay with an Introduction stating a thesis, body argument sections developing claim/evidence/interpretation, a Conclusion introducing no new evidence, and a Works Cited list. MLA author-page in-text citations appear in the prose, resolving to real sources. No Method and no Results section.",
+      "files": [],
+      "expectations": [
+        "Has an Introduction that states an explicit thesis, body argument sections, and a Conclusion that introduces no new evidence",
+        "Includes a Works Cited section with real, verifiable sources alphabetized by author surname",
+        "Uses MLA author-page in-text citations like '(Cameron 15)', not author-date parentheticals or numbered footnotes",
+        "Contains no Method or Results section heading anywhere in the document"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this MLA humanities-essay draft: it argues that technology alienates characters in modern fiction, uses in-text citations like (Marcuse 45) and (Haraway 12) throughout, raises a counter-reading (the cyborg as a productive rather than alienating figure) and then drops it without engagement, and never includes a Works Cited list. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing Works Cited list as the central defect — every in-text author-page citation is unresolvable without it — and separately flags the unengaged counter-reading and the Conclusion's unearned narrowing of the thesis.",
+      "files": [],
+      "expectations": [
+        "Names the missing Works Cited list as the essay's core defect, not a minor omission, and explains that it leaves every in-text citation unresolvable",
+        "Flags that the cyborg counter-reading is raised and then dropped without engagement or qualification of the thesis",
+        "Explains the fix: add an alphabetized Works Cited entry for every source cited in text, and either engage or qualify against the counter-reading"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I'm writing a literary-criticism essay about narrative unreliability in a modernist novel, and I want to cite my sources with superscript numbered notes resolving to a Bibliography, not parenthetical author-page citations. Should I use the humanities-mla skill for this?",
+      "expected_output": "Recommends humanities-chicago instead, explaining that superscript note citations resolving to a Bibliography is the Chicago note-bibliography convention, while humanities-mla is specifically the author-page parenthetical plus Works Cited convention — the same argumentative essay shape, different citation apparatus.",
+      "files": [],
+      "expectations": [
+        "Recommends humanities-chicago rather than humanities-mla for this citation style",
+        "Explains that humanities-mla's defining trait is MLA author-page parentheticals plus a Works Cited list, not superscript notes plus a Bibliography",
+        "Notes that both genres can share the same argumentative Introduction/body/Conclusion shape and differ only in citation apparatus"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce an MLA essay on 'silence and withholding in the postwar short story' from a supplied findings corpus that includes one falsified finding (a sweeping claim that every postwar short story reduces to a single theme of trauma) and one weakened finding (a contested reading about narrative gaps). Handle each finding according to the genre's verification rules, with the rest of the essay built from the full surviving corpus.",
+      "expected_output": "An essay that excludes the falsified sweeping-theme claim entirely, includes the weakened narrative-gaps reading with an explicit uncertainty qualifier such as 'contested' or 'critics dispute', and builds every remaining section from the full surviving findings without cherry-picking a subset.",
+      "files": [],
+      "expectations": [
+        "Excludes the falsified finding entirely rather than presenting it as a supported reading",
+        "Includes the weakened finding but carries an explicit uncertainty qualifier rather than asserting it with full confidence",
+        "Draws on the full surviving findings corpus rather than a cherry-picked subset, per the genre's exhaustive-coverage rule"
+      ]
+    }
+  ]
+}

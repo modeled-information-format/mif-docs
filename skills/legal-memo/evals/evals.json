@@ -1,0 +1,51 @@
+{
+  "skill_name": "legal-memo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a predictive legal memorandum on whether a former employee's use of a customer list compiled entirely from public trade directories breaches her employer's non-solicitation covenant. Facts: the employee had material contact with these clients for four years, resigned, and began contacting them for a competitor using only two public directories to build the list; the employer has not identified any confidential pricing or account data she used.",
+      "expected_output": "A predictive legal memorandum with front matter (To/From/Date/Re), Question Presented, Brief Answer, Statement of Facts, a Discussion with explicit IRAC (Issue, Rule, Application, Conclusion) sub-structure citing real authority, a Conclusion with a recommendation, and a table of authorities in Bluebook style.",
+      "files": [],
+      "expectations": [
+        "Question Presented states a single yes/no legal question joining the governing rule to the determinative facts, not an open-ended topic",
+        "The Discussion shows explicit Issue -> Rule -> Application -> Conclusion sub-structure for at least one issue, citing real, verifiable authority (not fabricated case names or citations)",
+        "Every legal claim traces to cited authority; no uncited assertions",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this legal-memo draft: it has a Discussion section that says 'courts don't love non-competes but sometimes enforce them, it's probably a toss-up,' with no Question Presented, no Statement of Facts, no cited authority anywhere, and a Conclusion that just says 'we'll probably be fine either way.' What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing IRAC sub-structure in the Discussion as the central defect, and separately flags the missing Question Presented, missing Statement of Facts, the complete absence of cited authority, and the unsupported hedging Conclusion, explaining how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing IRAC (Issue/Rule/Application/Conclusion) sub-structure as the core, most load-bearing defect, not a stylistic nitpick",
+        "Flags the absence of a Question Presented and a Statement of Facts as separate required-section gaps",
+        "Flags that every claim must trace to cited, real authority, and that this draft has none",
+        "Notes the Conclusion gives no reasoned prediction or recommendation"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our compliance team already has a checklist finding that a vendor's data-handling practice fails to meet a specific regulatory retention requirement, and just needs that finding written up with the regulation cited. Should this be a legal memo?",
+      "expected_output": "Recommends compliance-audit instead, explaining that a conformance finding against a named regulatory standard is a compliance-audit checklist item, not a predictive legal-memo analysis, while legal-memo exists to predict how an open legal question resolves on the facts via IRAC.",
+      "files": [],
+      "expectations": [
+        "Recommends compliance-audit rather than legal-memo for this request",
+        "Explains that legal-memo's defining trait is a predictive IRAC analysis of an open legal question, which a settled regulatory-conformance finding doesn't need",
+        "Distinguishes this from adr (a single immutable technical decision) as a second reason legal-memo doesn't fit either"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a predictive legal memorandum on whether an arbitration clause in a click-wrap agreement is enforceable against a consumer. The authority set includes one weakened source (an unconscionability-scrutiny case whose holding has since been narrowed by a later appellate decision) and one falsified source (a blog post claiming all click-wrap arbitration clauses are categorically unenforceable, which is legally incorrect). Handle each according to the genre's rules on adverse and unreliable authority.",
+      "expected_output": "A legal memo that excludes the falsified categorical claim from the analysis (mentioning it only, if at all, to explain why it was excluded), includes the weakened unconscionability authority but with an explicit uncertainty qualifier rather than full confidence, relies on sound authority for the core assent analysis, and still delivers all required sections with IRAC in the Discussion.",
+      "files": [],
+      "expectations": [
+        "The falsified categorical claim does not appear as relied-upon authority anywhere in the Discussion",
+        "The weakened authority is presented with an explicit hedge (e.g. 'contested', 'has been narrowed', 'less firmly established'), not asserted with full confidence",
+        "All required sections remain present with IRAC sub-structure intact despite the mixed-reliability authority set"
+      ]
+    }
+  ]
+}

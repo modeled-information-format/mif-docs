@@ -1,0 +1,52 @@
+{
+  "skill_name": "computing-paper",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an ACM/IEEE computing paper on adaptive batching for LLM inference serving on a mixed A100/H100 GPU cluster. Cover the design of a scheduler that resizes batches from live queue-depth and sequence-length signals and routes batches by GPU generation. Include CCS Concepts / keywords front matter, and an Evaluation section with experimental setup (datasets, baselines, metrics, environment) and results comparing the adaptive scheduler to a fixed-batch baseline. Use IEEE numbered [1]-style citations resolving to a numbered reference list.",
+      "expected_output": "A complete ACM/IEEE computing paper with Abstract, Introduction, Related Work, Approach/System Design, Evaluation (experimental setup + results table), Discussion, Conclusion & Future Work, and a numbered References section, plus CCS Concepts / keywords front matter. Citations are IEEE numbered brackets ordered by first appearance, not author-date.",
+      "files": [],
+      "expectations": [
+        "All eight required sections are present in order: Abstract, Introduction, Related Work, Approach/System Design, Evaluation, Discussion, Conclusion & Future Work, References",
+        "CCS Concepts and keywords/index-terms front matter is present",
+        "The Evaluation section states experimental setup (datasets/baselines/metrics/environment) and reports results rather than collapsing into a single unsupported paragraph",
+        "In-text citations use IEEE numbered brackets (e.g. '[1]') ordered by first appearance, resolving to a numbered reference list; author-date style is not used",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this computing-paper draft: it has an Abstract, Introduction, Approach, a 'Results' paragraph that claims '40% faster and 25% less memory than the baseline,' and a Conclusion — with no Related Work section, no Evaluation section, and no citations anywhere in the document. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing Evaluation section (experimental setup and results, not a bare results paragraph) and the total absence of citations as the core defects, flags the missing Related Work section, and explains how to fix each so every claim is grounded.",
+      "files": [],
+      "expectations": [
+        "Names the missing Evaluation section as the central flaw, not a stylistic nitpick",
+        "Flags that every claim (the '40% faster', '25% less memory' figures) is an orphan fact with no numbered citation backing it",
+        "Notes the missing Related Work section",
+        "Explains that a conformant computing paper needs IEEE numbered citations resolving to a References list, and an Evaluation section stating experimental setup and results"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We have three findings from an empirical benchmarking study of retrieval-augmented generation systems (accuracy scores, ablations, author-date citations expected by our venue). Should this be a computing-paper?",
+      "expected_output": "Recommends the academic genre instead, explaining that academic follows the APA/IMRaD empirical structure with author-date citations, while computing-paper is the ACM/IEEE conference/journal taxonomy (Related Work, Approach/System Design, Evaluation) with IEEE numbered citations — the venue's author-date citation expectation is the deciding signal.",
+      "files": [],
+      "expectations": [
+        "Recommends academic rather than computing-paper for this request",
+        "Explains that academic uses APA/IMRaD structure and author-date citations, while computing-paper uses ACM/IEEE structure and IEEE numbered citations",
+        "Distinguishes this from engineering (a practitioner decision report with a mandatory Trade-offs table, not a research paper with CCS Concepts and an Evaluation section)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write an ACM/IEEE computing paper on failure modes in autonomous agentic systems, drawing on a survived finding (prompt injection succeeds against 67% of tested agents) and a weakened finding (tool-call error rates roughly triple above 80% context utilization, contested by a follow-up study). Handle both findings appropriately in the Evaluation and Discussion, with IEEE numbered citations.",
+      "expected_output": "A computing paper whose Evaluation includes the survived finding as settled evidence with a numbered citation, and includes the weakened finding but annotates it as contested/preliminary rather than stating it with equal confidence, per the genre's rule to hedge uncertain claims.",
+      "files": [],
+      "expectations": [
+        "The survived finding (prompt injection succeeding against 67% of agents) appears in the Evaluation with a numbered citation, stated as settled evidence",
+        "The weakened finding (tool-call error rate roughly tripling) appears but carries an explicit hedge such as 'contested', 'preliminary', or 'weakened evidence suggests' rather than being stated with the same confidence as the survived finding",
+        "Both claims resolve to IEEE numbered bracket citations in a numbered References list, not author-date citations"
+      ]
+    }
+  ]
+}

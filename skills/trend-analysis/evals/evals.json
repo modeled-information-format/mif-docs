@@ -1,0 +1,52 @@
+{
+  "skill_name": "trend-analysis",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate a trend-analysis report on open-source AI adoption in enterprise settings, covering the last 18 months of data through 2026-Q1. I need the full deliverable with trajectory, signals, scenarios, and a diagram.",
+      "expected_output": "A complete trend-analysis document with all five required sections (Trajectory, Signals, Drivers & Inhibitors, Scenarios, Implications & Watch-list), front matter with title/date/horizon, a mandatory Mermaid trajectory or scenario diagram, and inline citations.",
+      "files": [],
+      "expectations": [
+        "Has all five required section headings: Trajectory, Signals, Drivers & Inhibitors, Scenarios, Implications & Watch-list",
+        "Includes a fenced mermaid diagram block (xychart-beta and/or stateDiagram-v2) — this figure is mandatory, not optional",
+        "The Trajectory section states a direction of change (increasing/decreasing/steady) anchored to a specific date range, not an undated assertion",
+        "Scenarios section presents 2-4 named forward paths with conditions or triggers and a stated confidence, not a single deterministic forecast"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this trend-analysis draft: it asserts 'EV adoption has been going up for a few years and will keep going up,' states as fact that 'by 2030, EVs will make up half of all new car sales,' and has no diagram anywhere. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing mandatory trajectory/scenario diagram as the core defect, flags the single forecast presented as settled fact instead of a hedged scenario, and explains how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing trajectory/scenario Mermaid diagram as the central, load-bearing flaw, not a stylistic nitpick",
+        "Flags that presenting the 2030 EV forecast as settled fact violates the rule that a forecast must never be presented as fact",
+        "Explains that undated, unsourced signal assertions are not admissible and each signal needs a date and citation",
+        "Notes the missing Trajectory and Drivers & Inhibitors sections"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We need a full client-facing study of the meal-kit delivery market with a disclosed sample frame and fieldwork dates, presented to stakeholders as a point-in-time market assessment. Should this be a trend-analysis report?",
+      "expected_output": "Recommends market-research-report instead, explaining that a fieldwork-and-sampling study of a market at a point in time belongs there, while trend-analysis exists to track a trajectory and project it forward over a time horizon.",
+      "files": [],
+      "expectations": [
+        "Recommends market-research-report rather than trend-analysis for this request",
+        "Explains that trend-analysis's defining trait is a trajectory over a time horizon with signals and scenarios, not a disclosed sampling/fieldwork study at a point in time",
+        "Distinguishes this from competitive-quadrant (ranking vendors on two axes), noting neither of those fits a fieldwork-and-sampling market study either"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a trend-analysis report on urban micromobility adoption. The audience explicitly requested a STEEP/PESTLE environmental scan and a methodology appendix documenting how signals were sourced, in addition to the standard trajectory report. Horizon: 5 years.",
+      "expected_output": "A trend-analysis report with the five required sections plus the additive STEEP or PESTLE environmental scan and a Methodology Appendix documenting signal sourcing, retaining the mandatory diagram and the convention-not-standard disclosure.",
+      "files": [],
+      "expectations": [
+        "Retains all five default sections and the mandatory trajectory/scenario diagram — the STEEP/PESTLE scan and appendix are additive, not a replacement",
+        "Includes a STEEP or PESTLE environmental scan organized by named dimensions (e.g., Political, Economic, Social, Technological), each factor tied to a source",
+        "Includes a Methodology Appendix documenting how signals and scan inputs were sourced, scoped, and weighted",
+        "States the convention-not-standard caveat rather than claiming conformance to a codified foresight standard"
+      ]
+    }
+  ]
+}

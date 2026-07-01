@@ -63,6 +63,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _No unreleased changes yet._
 
+## [0.3.0] - 2026-07-01
+
+### Added
+
+- 17 new genre skills completing the genre-consolidation migration from
+  `research-harness-template` (research-harness-template#228): `academic`,
+  `systematic-review`, `computing-paper`, `humanities-mla`,
+  `humanities-chicago`, `clinical-submission`, `nist-sp`,
+  `regulatory-disclosure`, `compliance-audit`, `security-pentest`,
+  `legal-memo`, `market-research-report`, `sustainability-report`,
+  `trend-analysis`, `competitive-quadrant`, `briefing`, `exec-summary`. Each
+  ships `good-l1.md` (L1), `good.md` (L3), `bad.md`, `evals/evals.json`, and
+  its own `docs/reference/skills/<name>.md` deep-dive page, and is registered
+  in `tests/level-targets.json`, `docs/reference/genre-and-cli-catalog.md`,
+  `docs/reference/skills-by-purpose.md` (four new purpose groups: Scholarly &
+  scientific writing, Regulated & compliance reports, Research & market
+  intelligence, Business communication), `README.md`, `docs/architecture/`
+  counts, and `doc-set-planner`'s standalone-genre list. The suite now ships
+  37 genre skills (up from 20).
+
 ## [0.2.0] - 2026-06-30
 
 ### Added

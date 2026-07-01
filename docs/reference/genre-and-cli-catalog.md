@@ -60,7 +60,7 @@ entity:
   name: mif-docs genre and CLI catalog
   entity_type: reference-document
 extensions:
-  x-genre-count: 20
+  x-genre-count: 37
   x-substrate-count: 3
   x-recipe-count: 4
 ---
@@ -71,7 +71,7 @@ An exhaustive lookup for the **mif-docs v0.2.0** plugin: every skill it ships,
 every doc-set recipe, and every script in `scripts/` with its arguments and exit
 behavior. Consult an entry; do not read this end to end.
 
-## Genre skills (20)
+## Genre skills (37)
 
 Each genre ships `good-l1.md` (L1 floor), `good.md` (target level), `bad.md`, and
 `evals/evals.json`.
@@ -98,6 +98,23 @@ Each genre ships `good-l1.md` (L1 floor), `good.md` (target level), `bad.md`, an
 | `kiro-requirements` | Kiro `requirements.md` (user stories + EARS) | `semantic` | 3 |
 | `kiro-design` | Kiro `design.md` (technical design) | `semantic` | 3 |
 | `kiro-tasks` | Kiro `tasks.md` (checkbox implementation plan) | `procedural` | 2 |
+| `academic` | Peer-review-style IMRaD scholarly paper | `semantic` | 3 |
+| `systematic-review` | PRISMA systematic review / meta-analysis | `semantic` | 3 |
+| `computing-paper` | ACM/IEEE computing paper (IEEE numbered citations) | `semantic` | 3 |
+| `humanities-mla` | MLA-style humanities paper | `semantic` | 3 |
+| `humanities-chicago` | Chicago-style humanities paper (notes-bibliography) | `semantic` | 3 |
+| `clinical-submission` | Clinical study report (ICH E3 CSR / CTD module frame) | `semantic` | 3 |
+| `nist-sp` | NIST Special Publication structure | `semantic` | 3 |
+| `regulatory-disclosure` | SEC-style annual disclosure (Reg S-K / Form 10-K item order) | `semantic` | 3 |
+| `compliance-audit` | Compliance audit report (SOC 2-style controls + findings) | `semantic` | 3 |
+| `security-pentest` | Penetration-test report (PTES/OWASP-style, CVSS findings) | `semantic` | 3 |
+| `legal-memo` | Predictive legal memorandum (IRAC, Bluebook citations) | `semantic` | 3 |
+| `market-research-report` | Market research report (methodology/fieldwork-grounded) | `semantic` | 3 |
+| `sustainability-report` | GRI-Standards sustainability/ESG report | `semantic` | 3 |
+| `trend-analysis` | Trajectory report (drivers/inhibitors, scenario diagram) | `semantic` | 3 |
+| `competitive-quadrant` | Two-axis competitive-quadrant report (Mermaid quadrant chart) | `semantic` | 3 |
+| `briefing` | One-page briefing / standup update | `episodic` | 3 |
+| `exec-summary` | 1-2 page BLUF decision-oriented executive summary | `semantic` | 3 |
 
 ## Substrate skills (3) and the planner
 

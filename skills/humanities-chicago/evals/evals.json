@@ -1,0 +1,50 @@
+{
+  "skill_name": "humanities-chicago",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an argumentative humanities essay in Chicago Notes-Bibliography style arguing that the unreliable narrator in early modernist fiction functions to foreground the gap between narratorial judgment and the implied author's values. Use numbered footnotes and a full Bibliography. Do not include a Method or Results section.",
+      "expected_output": "An essay with an Introduction stating a thesis, thematic argument sections (claim/evidence/interpretation), a Conclusion, and an alphabetized Bibliography. Numbered footnotes (e.g., [^1]) carry every citation. No Method and no Results section.",
+      "files": [],
+      "expectations": [
+        "Has an Introduction with an explicit thesis, thematic argument sections building claim-evidence-interpretation, a Conclusion, and a Bibliography",
+        "Every claim carries a numbered footnote (e.g. [^1]) with a human-readable source citation",
+        "Contains no Method or Results section heading",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this humanities-essay draft: it argues that unreliable narration is 'widely discussed in the scholarship,' has an Introduction and a Conclusion, but no footnote or endnote marker appears anywhere and there is no Bibliography section. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing footnote/endnote apparatus and missing Bibliography as the core defect, flags the uncited sweeping claims as orphan facts, and explains how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing footnotes/endnotes and missing Bibliography as the central flaw, not a stylistic nitpick",
+        "Flags the uncited claims ('widely discussed in the scholarship') as orphan facts that violate the genre's citation rule",
+        "Explains that every claim needs a numbered footnote and the Bibliography must be alphabetized and complete"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need a humanities paper on postcolonial poetry that cites its sources with in-text parenthetical author-date citations like (Ashcroft 2001) and a Works Cited list at the end, not footnotes. Should I use humanities-chicago?",
+      "expected_output": "Recommends humanities-mla instead, explaining that humanities-chicago is defined by numbered footnotes/endnotes plus a Bibliography, whereas the parenthetical author-date-plus-Works-Cited apparatus described belongs to humanities-mla — same argumentative shape, different citation mechanics.",
+      "files": [],
+      "expectations": [
+        "Recommends humanities-mla rather than humanities-chicago for this request",
+        "Explains that humanities-chicago's defining trait is footnotes/endnotes plus a Bibliography, not in-text parenthetical citations plus a Works Cited list",
+        "Notes the two genres share the same argumentative essay shape and differ only in citation apparatus"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a Chicago Notes-Bibliography essay on memory and place in postcolonial poetry from a finding set that includes one falsified finding (a sweeping claim that all postcolonial poetry rejects every European form, sourced from an uncredentialed blog post) and one weakened finding (that diasporic memory may operate through sensory image rather than narrative, though the evidence base is contested). Handle each according to the genre's verification rules.",
+      "expected_output": "An essay that excludes the falsified sweeping claim entirely, includes the weakened sensory-memory reading but with an explicit uncertainty qualifier such as 'contested' or 'tentatively,' and still has footnotes, a Bibliography, and no Method/Results.",
+      "files": [],
+      "expectations": [
+        "The falsified claim (uniform rejection of European forms) does not appear as a supported argument anywhere in the essay",
+        "The weakened sensory-memory finding is included but carries an explicit hedge or uncertainty qualifier rather than being asserted as settled",
+        "The essay retains footnotes and a Bibliography and has no Method or Results section"
+      ]
+    }
+  ]
+}

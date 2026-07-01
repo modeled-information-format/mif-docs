@@ -1,0 +1,54 @@
+{
+  "skill_name": "clinical-submission",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a clinical study report for 'a phase III trial of an oral antihypertensive' on the ICH E3 skeleton, situated in the CTD module frame. Include: primary objective (superiority in mean systolic blood pressure reduction at 12 weeks vs. placebo), a randomized double-blind placebo-controlled parallel-group design with 1,200 participants, an efficacy result of 9.4 mmHg greater systolic reduction than placebo (95% CI 7.1 to 11.7), and a safety result of mostly mild dizziness with no excess serious adverse events versus placebo.",
+      "expected_output": "A clinical study report following ICH E3 order: Synopsis, Ethics, Investigators/Structure, Objectives, Investigational Plan, Methods (efficacy & safety), Results, Discussion & Conclusions, Tables/Figures/Appendices. The report situates itself in the CTD five-module frame and states that an E3 CSR lives in Module 5. Objectives precede Methods precede Results. Efficacy and safety are reported distinctly, each with a citation resolving it to a source.",
+      "files": [],
+      "expectations": [
+        "Includes all nine ICH E3 sections in order: Synopsis, Ethics, Investigators & Study Structure, Objectives, Investigational Plan, Methods, Results, Discussion & Conclusions, Tables/Figures/Appendices",
+        "States the CTD five-module frame and that an ICH E3 CSR belongs in Module 5",
+        "Reports the efficacy result (9.4 mmHg, 95% CI) and the safety result (mild dizziness, no excess SAEs) as distinct, separately labeled results rather than merged",
+        "Every claim resolves to a citation or reference; no uncited assertions",
+        "States the scope caveat that the genre reproduces CSR structure, not clinical validity or regulatory acceptance",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this clinical-submission draft: it has a Synopsis claiming the drug 'worked great with almost no side effects,' a Results section stating '10 mmHg more reduction than placebo and barely any adverse events' with no reference list, no protocol or statistical-analysis-plan citation anywhere, and no CTD/Module 5 framing. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing citation traceability for every efficacy and safety claim as the core defect, flags the missing CTD/Module 5 framing and the missing scope caveat, and explains how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing citations resolving every claim to a source as the central flaw, not a stylistic nitpick",
+        "Flags that quantities like '10 mmHg' and 'barely any adverse events' are unsourced and unquantified (no CI, no rate)",
+        "Notes the missing CTD five-module framing and the missing scope caveat (structure, not clinical validity or regulatory acceptance)",
+        "Explains that every claim must resolve to a cited source, following the genre's citation-traceability rule"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We have the full manuscript of a peer-reviewed journal article reporting this same antihypertensive trial for a medical journal, written in the journal's own citation style with an abstract, introduction, methods, results, and discussion. Should this be authored as a clinical-submission document?",
+      "expected_output": "Recommends the academic genre instead, explaining that a journal-style manuscript for peer review follows discipline citation conventions rather than the fixed ICH E3 CSR skeleton and CTD module frame that clinical-submission requires.",
+      "files": [],
+      "expectations": [
+        "Recommends academic rather than clinical-submission for a peer-reviewed journal manuscript",
+        "Explains that clinical-submission's defining trait is the fixed ICH E3 section order (Synopsis through Tables/Figures/Appendices) situated in the CTD module frame, which a journal article does not follow",
+        "Distinguishes this from regulatory-disclosure (financial/legal disclosure filings) as a separate anti-trigger"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a clinical study report on 'a phase II oncology trial'. The evidence set includes a falsified claim (a sponsor release claiming the therapy cured 100% of patients with no recurrence ever observed) and a weakened claim (a subgroup signal suggesting longer progression-free survival in PD-L1-high patients, though the subgroup was underpowered), alongside a survived primary endpoint definition (objective response rate by RECIST 1.1 at 24 weeks). Handle each according to the genre's verification rules.",
+      "expected_output": "A CSR that excludes the falsified 100%-cure claim entirely, includes the weakened PD-L1 subgroup signal with an explicit uncertainty qualifier (underpowered/exploratory/hypothesis-generating), uses the survived RECIST 1.1 endpoint definition, and keeps ICH E3 section ordering with CTD framing.",
+      "files": [],
+      "expectations": [
+        "The falsified 100%-cure claim does not appear as an efficacy result; it is referenced only if describing the exclusion policy",
+        "The weakened PD-L1 subgroup signal appears but carries an explicit uncertainty qualifier such as 'underpowered', 'exploratory', or 'hypothesis-generating' rather than being asserted as confirmed",
+        "The survived RECIST 1.1 objective-response-rate endpoint definition is used in Objectives and/or Methods",
+        "Retains ICH E3 section ordering (Objectives before Methods before Results) and CTD Module 5 framing"
+      ]
+    }
+  ]
+}

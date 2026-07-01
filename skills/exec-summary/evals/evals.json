@@ -1,0 +1,51 @@
+{
+  "skill_name": "exec-summary",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have four findings from a study on enterprise AI adoption and need a board-ready executive summary to support a $5M AI transformation budget decision for Q1. Findings: (1) Enterprise AI adoption reached 72% of Fortune 500 firms in 2024, up from 41% in 2022 (Gartner). (2) Implementation costs average $2.3M for mid-market deployments with a 14-month median payback (McKinsey). (3) LLM-based automation reduces analyst hours by 40% in back-office workflows across 3 controlled pilots (HBR). (4) Data governance gaps blocked deployment in 31% of attempted rollouts (Forrester). Write the executive summary.",
+      "expected_output": "A 1-2 page executive summary with BLUF, Key Findings, Recommendation, and Risks & Caveats sections, at least one quantified figure carried through with a citation, a numbered footnote list resolving to the four sources, and no method narration or alternatives discussion.",
+      "files": [],
+      "expectations": [
+        "The BLUF section appears first, before any background, and states the conclusion and recommended action in one paragraph, with a heading that literally contains BLUF",
+        "Key Findings has 3-5 bullets, each a load-bearing fact with its business consequence and a citation marker",
+        "The Recommendation is one specific, actionable directive addressing the $5M budget decision with What/Why/How/Risk",
+        "The document stays within a 1-2 page ceiling with no methodology narration or alternatives-considered discussion"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this executive-summary draft: it opens with a Background section on our data warehouse review, followed by a Methodology section describing how cost data was collected, then a vague Findings section with no numbers, and ends with a 'Next Steps' heading that says we should keep evaluating options. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing BLUF as the core defect — the summary leads with background and method instead of the conclusion and recommended action — and flags the vague, unquantified findings and the buried, non-actionable recommendation.",
+      "files": [],
+      "expectations": [
+        "Names the missing BLUF section as the central flaw, not a stylistic nitpick, and explains it must open the document before any background",
+        "Flags that the Methodology narration violates the genre's rule against exposing intermediate analysis or method",
+        "Flags that the findings lack a quantified figure and citation, and that 'keep evaluating options' is not a specific, actionable recommendation",
+        "Notes the missing Risks & Caveats section and footnote list, meaning the draft cannot stand alone"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We just finished a full market-research study on entering the Southeast Asian logistics market, with sampling methodology, fieldwork disclosure, and a technical appendix. Should the whole thing be written as an exec-summary?",
+      "expected_output": "Recommends market-research-report for the full study and explains that exec-summary only produces the leadership-summary section that introduces it — the sampling basis, fieldwork, and technical appendix belong in the fuller report, not the 1-2 page BLUF brief.",
+      "files": [],
+      "expectations": [
+        "Recommends market-research-report (or notes the ESOMAR composable mode) for the full study rather than writing the whole thing as exec-summary",
+        "Explains exec-summary's defining trait is a short, standalone BLUF brief for decision-makers, not a vehicle for sampling methodology or a technical appendix",
+        "Distinguishes this from prd (requirements) and clarifies that composable mode lets exec-summary render only the management-summary section that introduces the fuller report"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a PTES-style penetration-test leadership summary by composing exec-summary into PTES mode. Findings: an unauthenticated admin panel was exposed on the external attack surface; the password policy permits credential stuffing at scale; network segmentation limits lateral movement from the DMZ. Render it expanded with the PTES Posture, Risk Profile, and Roadmap sub-elements in addition to BLUF and Key Findings.",
+      "expected_output": "A PTES leadership summary with BLUF and Key Findings plus the additive PTES sub-elements Posture, Risk Profile, and Roadmap, still capped at 1-2 pages and free of any internal finding-ID leakage.",
+      "files": [],
+      "expectations": [
+        "BLUF and Key Findings are still present and unchanged in shape, since PTES sub-elements are additive, not a replacement for the standard structure",
+        "Includes a distinct security Posture statement, a business Risk Profile derived from the findings, and a prioritized remediation Roadmap",
+        "Does not claim ESOMAR-format conformance or introduce ESOMAR-specific caveats, since PTES mode — not ESOMAR mode — was requested"
+      ]
+    }
+  ]
+}

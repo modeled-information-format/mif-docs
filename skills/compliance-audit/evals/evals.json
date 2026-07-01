@@ -1,0 +1,50 @@
+{
+  "skill_name": "compliance-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draft a SOC 2 Type II-shaped compliance audit report (a DRAFT for internal readiness, NOT an issued attestation) for 'access-control and change-management controls for a SaaS platform', covering January-June 2026. Include all required sections and a tests-of-controls/findings matrix with severity. Findings: (1) MFA is enforced for all administrative console access, tested and met; (2) all production code changes require peer review and pass CI gates before merge, tested and met; (3) encrypted backups are taken daily and restoration tested quarterly, tested and met.",
+      "expected_output": "A compliance audit report DRAFT with, in order: Independent Service Auditor's Report (framed as a draft expressing no opinion), Management's Assertion, System Description (infrastructure/software/people/data/processes), Criteria/Framework in scope (Security, plus any others the findings support), a Tests of Controls & Findings matrix (Control / Test Performed / Result-Exception / Severity) with one row per finding, a Remediation Plan section (present even if empty/not-applicable for this all-pass scenario), and Other Information/Management's Response. A strongly-stated caveat that this is not an attestation, assurance, or audit opinion by a licensed CPA firm.",
+      "files": [],
+      "expectations": [
+        "Includes the required tests-of-controls/findings matrix as a Markdown table with a Severity column, one row per supplied finding",
+        "States plainly that no audit opinion is expressed and no licensed CPA firm performed an examination",
+        "Names which criteria/framework the audit was assessed against and states scope explicitly",
+        "Includes System Description broken into infrastructure, software, people, data, and processes"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this compliance-audit draft: it is titled 'SOC 2 Type II Report: Acme Widgets', opens with 'We are pleased to confirm that Acme Widgets has achieved SOC 2 Type II compliance,' claims all five Trust Services Criteria are in scope with no findings cited, and has a 'Summary of Results' prose paragraph instead of a tests-of-controls matrix. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing mandatory tests-of-controls/findings matrix as the central structural defect, and separately flags the report's framing as an issued attestation/certification (rather than a draft with the no-attestation caveat) as the highest-severity defect, plus the unsupported claim of coverage across all five criteria with no cited findings.",
+      "files": [],
+      "expectations": [
+        "Names the missing tests-of-controls/findings matrix as a core structural flaw, not a stylistic nitpick",
+        "Flags that the report is framed as an issued SOC 2 attestation/certification instead of a draft carrying the no-attestation caveat, and calls this the highest-severity defect",
+        "Flags the unsupported claim that all five Trust Services Criteria are in scope when no findings are cited to support Processing Integrity, Confidentiality, or Privacy"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We ran a penetration test against our API and have a list of vulnerabilities ranked by CVSS score and exploitability, each with a proof-of-concept and a suggested fix. Should this be written as a compliance-audit report?",
+      "expected_output": "Recommends security-pentest (or the equivalent vulnerability-assessment genre) instead, explaining that compliance-audit's defining trait is a controls-vs-criteria/framework matrix over a coverage period, not a list of technical vulnerabilities scored by exploitability with proofs-of-concept.",
+      "files": [],
+      "expectations": [
+        "Recommends a penetration-test / vulnerability-assessment genre (e.g. security-pentest) rather than compliance-audit for this request",
+        "Explains that compliance-audit's defining structure is a controls-vs-criteria/framework tests-of-controls matrix tied to a coverage period, which a CVSS-ranked vulnerability list does not fit",
+        "Distinguishes this from adr (single immutable decision) and sre-runbook (tactical incident procedure) as also being the wrong genre for this content"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a compliance-audit report draft on 'availability and processing-integrity controls for a payments reconciliation service.' One finding is a control gap: the quarterly access review for Q1 was completed 17 days past its SLA (medium severity). Include the tests-of-controls matrix, the remediation plan for that gap, and management's response.",
+      "expected_output": "A report that includes the access-review control as an exception (not hidden or upgraded to 'met') with Medium severity in the matrix, a Remediation Plan entry naming a concrete action, an owner, and a target date for the gap, and an Other Information/Management's Response section stating whether management concurs and what corrective steps are already scheduled.",
+      "files": [],
+      "expectations": [
+        "The access-review control gap appears in the matrix as an exception with its stated severity (Medium), never reported as fully met",
+        "A Remediation Plan entry exists for the gap naming a concrete action, an owner, and a target date",
+        "A Management's Response is present addressing the exception (e.g. concurrence and planned corrective steps)"
+      ]
+    }
+  ]
+}
