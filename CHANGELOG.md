@@ -63,6 +63,20 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _No unreleased changes yet._
 
+## [0.2.0] - 2026-06-30
+
+### Added
+
+- New `engineering` genre skill: an engineering decision / evaluation report
+  (Problem/Context, Options Considered, a mandatory Trade-offs comparison
+  table, Decision, Implementation Notes, Consequences), with an additive
+  optional ANSI/NISO Z39.18 technical-report front/back-matter overlay. Ships
+  `good-l1.md` (L1), `good.md` (L3), `bad.md`, and `evals/evals.json`,
+  registered in `tests/level-targets.json`. First genre migrated as part of the
+  `research-harness-template` genre-consolidation pilot
+  (research-harness-template#228): the harness's `packs/reports/engineering`
+  pack retires in favor of this skill.
+
 ## [0.1.2] - 2026-06-30
 
 ### Fixed
