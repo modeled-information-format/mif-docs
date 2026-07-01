@@ -1,0 +1,50 @@
+{
+  "skill_name": "competitive-quadrant",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a competitive-quadrant report for the market 'enterprise vector database platforms'. Include Market Definition / Inclusion Criteria, the two-axis evaluation (Completeness of Vision x Ability to Execute), Vendor profiles with Strengths and Cautions per vendor, Quadrant placement with a required quadrant figure, Context & Market Overview, and Methodology. Vendors to place: Pinecone (fully managed serverless, sub-100ms p99 latency at scale, https://example.com/pinecone-bench), Weaviate (open-source core with hybrid search, self-managed scaling required, https://example.com/weaviate-arch), and Milvus (broadest index-type support, less mature managed-cloud offering, https://example.com/milvus-survey). State the not-a-Gartner-Magic-Quadrant caveat.",
+      "expected_output": "A competitive-quadrant report with all six sections in order. The two-axis evaluation names both Completeness of Vision and Ability to Execute. Each of the three vendors has an explicit Strengths and Cautions pair cited to its source. The quadrant placement section names the four quadrant labels (Leaders, Challengers, Visionaries, Niche Players) and includes a Mermaid quadrantChart figure, never ASCII art. The report explicitly states it is not a Gartner Magic Quadrant.",
+      "files": [],
+      "expectations": [
+        "Includes all six required sections (Market Definition/Inclusion Criteria, two-axis evaluation, Vendor profiles, Quadrant placement, Context & Market Overview, Methodology) in order",
+        "The quadrant figure is a fenced mermaid quadrantChart block, not ASCII art or an image",
+        "Each vendor has a distinct Strengths list and Cautions list, both cited to the supplied sources",
+        "States plainly that this is not a Gartner Magic Quadrant and that 'Magic Quadrant' is a Gartner trademark"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this competitive-quadrant draft and say what's wrong: it asserts 'Slack and Microsoft Teams are Leaders, Google Chat is a Niche Player' in prose, followed by a hand-drawn ASCII diagram of the two axes, with no Mermaid figure anywhere in the document.",
+      "expected_output": "Identifies the missing Mermaid quadrantChart as the central defect — the single most load-bearing required element of this genre — and explains that a prose assertion plus ASCII art does not satisfy the required-figure rule, which mandates a fenced mermaid code block and never ASCII art, an image, or Graphviz/DOT.",
+      "files": [],
+      "expectations": [
+        "Names the missing Mermaid quadrantChart figure as the core, load-bearing defect rather than a minor style note",
+        "Explicitly states that ASCII art is not an acceptable substitute for the required quadrant figure",
+        "Explains the fix: render the two-axis placement as a fenced mermaid quadrantChart block with the four quadrant labels and plotted vendors"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We want a report describing the size, growth rate, and emerging segments of the observability-tooling market, without forcing every vendor into a fixed two-axis grid. Is competitive-quadrant the right genre for this?",
+      "expected_output": "Recommends market-research-report instead, explaining that competitive-quadrant's defining trait is a mandatory Completeness-of-Vision-by-Ability-to-Execute placement of every included vendor into exactly one of four quadrants, while a descriptive survey of market size, growth, and segments with no forced vendor placement belongs in market-research-report.",
+      "files": [],
+      "expectations": [
+        "Recommends market-research-report rather than competitive-quadrant for this request",
+        "Explains that competitive-quadrant requires placing every included vendor into exactly one of four fixed quadrants on two named axes, which this request does not need",
+        "Distinguishes the descriptive, market-level scope of market-research-report from the comparative, vendor-level scope of competitive-quadrant"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a competitive-quadrant report on 'managed Kubernetes platforms'. The evidence set includes one falsified finding (a claim that every platform has identical 99.99% uptime) and one weakened finding (GKE Autopilot raises per-pod cost by roughly 20%, contested). Handle each per the genre's evidence rules, place each surviving vendor into a quadrant, and state the not-Gartner caveat.",
+      "expected_output": "The falsified uptime claim is excluded from supporting evidence entirely (may only be mentioned in Methodology as excluded), the weakened GKE cost finding is included but carries an explicit uncertainty qualifier rather than being stated with the same confidence as settled evidence, every surviving vendor is placed into exactly one quadrant with a required Mermaid quadrant figure, and the not-Gartner caveat is present.",
+      "files": [],
+      "expectations": [
+        "Excludes the falsified uptime claim from any placement-supporting evidence, mentioning it only as an excluded finding in Methodology if at all",
+        "Includes the weakened GKE Autopilot cost finding but annotates it with an explicit uncertainty qualifier distinct from settled evidence",
+        "Places every surviving vendor into exactly one of the four quadrants using a Mermaid quadrantChart figure"
+      ]
+    }
+  ]
+}

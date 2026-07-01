@@ -1,0 +1,52 @@
+{
+  "skill_name": "nist-sp",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a NIST Special Publication (SP 800-series style) standards/guidance document on 'baseline controls for securing AI inference services'. Cover mutual TLS between the inference gateway and model server, rate limiting at the gateway to mitigate model-extraction query floods, and per-tenant request logging for incident reconstruction. Include all required front matter (Authority, Purpose & Scope, Audience, Abstract, Keywords), numbered normative sections with explicit shall/should/may force, a Definitions/Glossary, a numbered References list, and at least one appendix.",
+      "expected_output": "A NIST SP document with front matter in order (Authority, Purpose & Scope, Audience, Abstract, Keywords), numbered normative sections stating requirements with shall/should/may force and bracketed [N] citations, a Definitions/Glossary section, a numbered References list, and at least one appendix (e.g. a control-mapping crosswalk). No raw internal identifiers in reader-facing prose.",
+      "files": [],
+      "expectations": [
+        "Front matter appears in order — Authority, Purpose & Scope, Audience, Abstract, Keywords — all ahead of the first numbered section, with Keywords capped at ten terms",
+        "Numbered normative sections state each requirement with explicit normative force (shall/should/may) rather than narrative prose, each with a bracketed [N] citation",
+        "Includes a required Definitions/Glossary section defining every normatively-used term of art",
+        "Includes a numbered References list and at least one lettered appendix (e.g. a control-mapping crosswalk)",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this NIST SP draft: it has a title and two numbered sections ('Runtime Security', 'Access Control') but no Authority statement, no Purpose & Scope, no Audience, no Abstract, no Keywords, and every 'requirement' is written as hedged narrative ('you should probably avoid...', 'teams tend to use RBAC when they can') with no bracketed citations and an empty References section. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing front matter and, as the central defect, that no normative requirement is stated with explicit shall/should/may force or traced to a cited finding — every claim is an uncited, hedged orphan claim — and explains how to fix each, including adding the required Definitions/Glossary and an appendix.",
+      "files": [],
+      "expectations": [
+        "Names the absence of explicit normative force (shall/should/may) and uncited claims as the core defect, not a stylistic nitpick",
+        "Flags the missing required front matter (Authority, Purpose & Scope, Audience, Abstract, Keywords) in the correct order",
+        "Notes the missing required Definitions/Glossary section and the empty References list",
+        "Explains that every normative requirement must trace to a cited finding with a bracketed [N] reference"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We just finished a penetration test against a client's Kubernetes cluster and need to write up the engagement findings, methodology, and remediation recommendations for the client. Should this be a nist-sp document?",
+      "expected_output": "Recommends security-pentest instead, explaining that a one-time engagement report that performs and reports against a standard belongs to security-pentest (or compliance-audit for a controls assessment), while nist-sp is reserved for standing standards/guidance issued under an authority's mandate, with normative requirements and defined terms of art — not for reporting a single engagement's findings.",
+      "files": [],
+      "expectations": [
+        "Recommends security-pentest (or compliance-audit) rather than the nist-sp genre for this request",
+        "Explains that nist-sp's defining trait is issuing standing normative guidance under an authority's mandate, which a one-time engagement report does not do",
+        "Distinguishes nist-sp from adr (a single immutable decision) and from arc42-arch-doc/ai-architecture-doc (an internal system architecture description)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a NIST Special Publication (SP 800-series style) standards/guidance document on 'event logging requirements for incident response' where one candidate claim — that ninety days of log retention is sufficient to investigate every class of incident with no exceptions — has been falsified, and another — that cryptographic log signing deters insider tampering — has only weakened, pilot-stage evidence. Handle each according to the genre's verification-verdict rule, and include an appendix mapping the surviving requirements to an external control framework.",
+      "expected_output": "A NIST SP document that excludes the falsified universal ninety-day-retention claim from the normative sections entirely, includes the weakened log-signing finding but with an explicit inline qualifier (e.g. 'weakened evidence', 'pilot-stage') rather than full shall-level force, retains the settled surviving requirements as normal normative sections, and still carries all required front/back matter plus a control-mapping appendix.",
+      "files": [],
+      "expectations": [
+        "The falsified ninety-day-retention claim does not appear as a normative shall/should requirement anywhere in the document",
+        "The weakened log-signing finding is included but carries an explicit uncertainty qualifier and is not stated with the same normative force as settled requirements",
+        "The appendix contains a control-mapping or crosswalk table for the surviving requirements"
+      ]
+    }
+  ]
+}

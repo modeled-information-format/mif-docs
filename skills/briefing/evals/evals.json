@@ -1,0 +1,52 @@
+{
+  "skill_name": "briefing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a weekly stakeholder-sync briefing for our payments platform migration. Period: 2026-06-23 to 2026-06-30. What's new: staging passed a load test at 2x projected peak volume; the Stripe webhook migration is complete for EU merchants; the legacy nightly reconciliation batch job is still failing intermittently in staging. Cutover is targeted for July 14.",
+      "expected_output": "A one-page briefing with a Headline, a What's New section (three bullets), a paired Why It Matters line for each bullet, and a What's Next / Asks section naming a concrete owner and date for the batch-job fix and the go/no-go decision. Front matter states the title, date, and the 2026-06-23 to 2026-06-30 coverage period. No lengthy re-explanation of the migration's background.",
+      "files": [],
+      "expectations": [
+        "Has a Headline stating the single most important thing to know right now",
+        "Every What's New bullet has a paired Why It Matters line — no orphan updates",
+        "What's Next / Asks names a concrete action, owner, or decision — not a generic 'keep monitoring'",
+        "Stays terse and delta-focused, assuming the recurring audience already knows the migration's background",
+        "Emits MIF frontmatter with type: episodic and the 2026-06-23 to 2026-06-30 coverage period, passing mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this briefing draft: it has a What's New section with four bullets (a load test, a webhook migration, a failing batch job, and an unrelated ticket-tracker label change) but no Why It Matters section anywhere, and it ends with 'we'll keep an eye on things and reconvene next week.' What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing Why It Matters pairing as the core defect — every What's New bullet is an orphan update with no stated implication — and flags the vague 'keep an eye on things' close as failing the What's Next / Asks requirement for a concrete action.",
+      "files": [],
+      "expectations": [
+        "Names the missing Why It Matters pairing as the central flaw, not a stylistic nitpick",
+        "Explains that every What's New bullet needs a paired implication so the reader can tell what matters from what doesn't",
+        "Flags 'keep an eye on things and reconvene next week' as failing the requirement for a concrete owner, date, or decision in What's Next / Asks",
+        "Notes the unrelated ticket-tracker item does not belong among the delta-relevant updates"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need to hand a new hire a longer written summary of our entire payments platform architecture and its migration history so far — something that stands alone and doesn't assume they were in any of the standups. Should this be a briefing?",
+      "expected_output": "Recommends exec-summary instead, explaining that a briefing assumes a recurring audience already holds context and reports only the delta since the last update, while a standalone summary for a reader with no prior context needs to re-establish background — which is exec-summary's job, not briefing's.",
+      "files": [],
+      "expectations": [
+        "Recommends exec-summary rather than the briefing genre for this request",
+        "Explains that briefing assumes a recurring audience and reports only the delta, never re-explaining standing background",
+        "Notes the new hire has no prior context, which is exactly the case briefing is not designed for"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write this week's briefing for the vector-database evaluation project. Period 2026-06-23 to 2026-06-30. Three updates: a benchmark result confirmed the new index is 3x faster (solid, verified); a vendor's pricing quote came in lower than expected but hasn't been confirmed in writing yet; and a migration-path finding from last week turned out to be based on a stale API doc and is no longer valid.",
+      "expected_output": "A briefing that includes the verified benchmark result stated as fact, flags the unconfirmed pricing quote inline with a qualifier such as 'reportedly' or 'pending written confirmation' rather than presenting it as settled, and excludes the finding that turned out to be invalid from What's New entirely rather than mentioning it as a correction.",
+      "files": [],
+      "expectations": [
+        "The verified benchmark result is stated without hedging language",
+        "The unconfirmed pricing quote carries an inline qualifier (e.g. 'reportedly', 'pending confirmation', 'unverified') rather than being presented as settled",
+        "The invalidated migration-path finding is excluded entirely from What's New, not mentioned even as a correction or retraction"
+      ]
+    }
+  ]
+}

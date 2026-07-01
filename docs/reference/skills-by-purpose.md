@@ -59,8 +59,8 @@ entity:
   name: mif-docs skills by purpose
   entity_type: reference-document
 extensions:
-  x-skill-count: 24
-  x-purpose-group-count: 9
+  x-skill-count: 41
+  x-purpose-group-count: 13
 ---
 
 # mif-docs skills by purpose
@@ -68,7 +68,7 @@ extensions:
 Every skill the **mif-docs** suite ships, grouped by the job it does rather than
 by the genre it emits. Where the [genre and CLI catalog](../genre-and-cli-catalog/)
 is the terse lookup for scripts, recipes, and exit codes, this reference is the
-**index** to the suite's 24 skills: a one-line orientation per skill, grouped by
+**index** to the suite's 41 skills: a one-line orientation per skill, grouped by
 the job it does, with each name linking to its own deep reference doc — what the
 document type is, how the skill produces it, when it is beneficial, and the
 verified provenance and citations behind it. Consult a section; do not read it
@@ -93,6 +93,10 @@ Each skill name links to its full reference doc.
 | Kiro spec set | [`kiro-requirements`](../skills/kiro-requirements/), [`kiro-design`](../skills/kiro-design/), [`kiro-tasks`](../skills/kiro-tasks/) | The AWS Kiro three-document feature workflow. |
 | Operations | [`sre-runbook`](../skills/sre-runbook/), [`playbook`](../skills/playbook/) | Drive response to a failure — one alert, or a class of incidents. |
 | Release history | [`changelog`](../skills/changelog/) | A human-curated, versioned record of what changed. |
+| Scholarly & scientific writing | [`academic`](../skills/academic/), [`systematic-review`](../skills/systematic-review/), [`computing-paper`](../skills/computing-paper/), [`humanities-mla`](../skills/humanities-mla/), [`humanities-chicago`](../skills/humanities-chicago/) | Formal research writing under a discipline's citation and structural conventions. |
+| Regulated & compliance reports | [`clinical-submission`](../skills/clinical-submission/), [`nist-sp`](../skills/nist-sp/), [`regulatory-disclosure`](../skills/regulatory-disclosure/), [`compliance-audit`](../skills/compliance-audit/), [`security-pentest`](../skills/security-pentest/), [`legal-memo`](../skills/legal-memo/) | Reports produced against an external regulatory, standards, or audit framework. |
+| Research & market intelligence | [`market-research-report`](../skills/market-research-report/), [`sustainability-report`](../skills/sustainability-report/), [`trend-analysis`](../skills/trend-analysis/), [`competitive-quadrant`](../skills/competitive-quadrant/) | Evidence-grounded reports characterizing a market, trend, or competitive landscape. |
+| Business communication | [`briefing`](../skills/briefing/), [`exec-summary`](../skills/exec-summary/) | Short, audience-facing updates and decision summaries. |
 
 ## Orchestrator
 
@@ -426,6 +430,248 @@ SemVer.
 - **Not this when:** writing a forward-looking roadmap, a marketing announcement,
   or dumping raw git log lines.
 - **MIF level / type:** L2, `semantic`.
+
+## Scholarly & scientific writing
+
+Formal research writing under a discipline's own citation and structural
+conventions — empirical, systematic, or argumentative, each with its own rules
+for what counts as evidence.
+
+### `academic`
+
+A peer-review-style IMRaD scholarly paper — Introduction, Methods, Results,
+Discussion — with a selectable citation style (author-date/APA or
+numbered/Vancouver-IMRaD).
+
+- **Authors:** an empirical or synthesis research paper.
+- **Reach for it when:** the deliverable is a scholarly write-up of a study,
+  experiment, or literature synthesis.
+- **Not this when:** the review requires a mandatory PRISMA flow diagram and
+  registered protocol (use `systematic-review`), or the deliverable is a design
+  narrative rather than a study (use `google-design-doc`).
+- **MIF level / type:** L3, `semantic`.
+
+### `systematic-review`
+
+A PRISMA systematic review and meta-analysis — search strategy, PRISMA flow
+diagram of identification/screening/inclusion, risk-of-bias assessment, and
+synthesis of results.
+
+- **Authors:** a systematic review or meta-analysis with a registered
+  protocol.
+- **Reach for it when:** synthesizing a body of literature under PRISMA's
+  reporting standard, with reproducible inclusion/exclusion counts.
+- **Not this when:** a general scholarly write-up with no mandatory flow
+  diagram or protocol (use `academic`).
+- **MIF level / type:** L3, `semantic`.
+
+### `computing-paper`
+
+An ACM/IEEE computing conference or journal paper — related work,
+approach/system design, evaluation, conclusion & future work — with IEEE
+numbered citations.
+
+- **Authors:** a systems/computing research paper with an empirical
+  evaluation section.
+- **Reach for it when:** the venue expects ACM/IEEE structure and
+  numbered citations.
+- **Not this when:** the citation convention is author-date/APA (use
+  `academic`), or the deliverable evaluates options rather than presents novel
+  research (use `engineering`).
+- **MIF level / type:** L3, `semantic`.
+
+### `humanities-mla`
+
+An MLA 9th-edition humanities paper — in-text parenthetical author-page
+citations, a Works Cited list, argumentative thesis-driven structure.
+
+- **Authors:** a literary or humanities argumentative essay.
+- **Reach for it when:** MLA is the required citation convention (author-page,
+  Works Cited).
+- **Not this when:** the convention is Chicago notes-bibliography (use
+  `humanities-chicago`), or the paper is empirical/IMRaD (use `academic`).
+- **MIF level / type:** L3, `semantic`.
+
+### `humanities-chicago`
+
+A Chicago Manual of Style humanities paper — notes-bibliography system
+(footnotes/endnotes) plus a Bibliography.
+
+- **Authors:** a historical or humanities essay citing via footnotes/endnotes.
+- **Reach for it when:** Chicago notes-bibliography is the required
+  convention.
+- **Not this when:** the convention is MLA author-page/Works Cited (use
+  `humanities-mla`).
+- **MIF level / type:** L3, `semantic`.
+
+## Regulated & compliance reports
+
+Reports produced against an external regulatory, standards, or audit
+framework, where the framework's own structure is non-negotiable.
+
+### `clinical-submission`
+
+A clinical study report / eCTD-aligned regulated submission — ICH E3 CSR
+structure within the CTD module frame, efficacy and safety kept distinct.
+
+- **Authors:** a clinical study report for regulatory submission.
+- **Reach for it when:** the deliverable must follow ICH E3 / CTD structure.
+- **Not this when:** the same trial is being written up as a peer-reviewed
+  journal manuscript (use `academic`).
+- **MIF level / type:** L3, `semantic`.
+
+### `nist-sp`
+
+A NIST Special Publication (e.g. SP 800-series) — normative numbered sections
+with explicit shall/should/may force, Definitions/Glossary, numbered
+References, lettered Appendices.
+
+- **Authors:** a normative technical-guidance publication.
+- **Reach for it when:** the deliverable must read as a NIST SP with
+  normative force.
+- **Not this when:** the deliverable is an audit finding against controls
+  (use `compliance-audit` or `security-pentest`), or a single decision record
+  (use `adr`).
+- **MIF level / type:** L3, `semantic`.
+
+### `regulatory-disclosure`
+
+An SEC-style annual disclosure report — Reg S-K / Form 10-K item order
+(Business, Risk Factors, Properties & Legal Proceedings, MD&A, Financial
+Statements, Controls & Procedures).
+
+- **Authors:** an SEC-style annual/periodic disclosure filing.
+- **Reach for it when:** the fixed Reg S-K item order is the required
+  structure.
+- **Not this when:** the deliverable is a SOC 2-style controls audit (use
+  `compliance-audit`) or an ESG/sustainability disclosure (use
+  `sustainability-report`).
+- **MIF level / type:** L3, `semantic`.
+
+### `compliance-audit`
+
+A compliance audit report (SOC 2-style) — management's assertion, system
+description, criteria/framework in scope, tests-of-controls & findings matrix
+with severity, remediation plan.
+
+- **Authors:** an internal-controls compliance audit report.
+- **Reach for it when:** assessing controls against a named framework (e.g.
+  SOC 2, ISO 27001) with a mandatory findings matrix.
+- **Not this when:** the assessment is an offensive security engagement (use
+  `security-pentest`), or a single decision record (use `adr`).
+- **MIF level / type:** L3, `semantic`.
+
+### `security-pentest`
+
+A penetration-test report (PTES/OWASP-style) — authorization & scope
+statement, dual-audience executive/technical structure, mandatory
+severity-ranked findings table with CVSS.
+
+- **Authors:** a penetration-test / offensive-security engagement report.
+- **Reach for it when:** reporting an authorized security assessment with
+  CVSS-scored findings.
+- **Not this when:** the assessment is a controls/framework audit (use
+  `compliance-audit` or `nist-sp`).
+- **MIF level / type:** L3, `semantic`.
+
+### `legal-memo`
+
+A predictive legal memorandum — IRAC (Issue, Rule, Application, Conclusion),
+Bluebook citation style.
+
+- **Authors:** a predictive legal analysis memo.
+- **Reach for it when:** answering a legal question under IRAC with cited
+  authority.
+- **Not this when:** recording an internal technical decision (use `adr`).
+- **MIF level / type:** L3, `semantic`.
+
+## Research & market intelligence
+
+Evidence-grounded reports characterizing a market, trend, or competitive
+landscape, each with its own required figure or table.
+
+### `market-research-report`
+
+A market research report — methodology/sampling/fieldwork disclosure,
+segmentation, findings, conclusions, ESOMAR/ISO 20252 convention.
+
+- **Authors:** a fieldwork-grounded market research study.
+- **Reach for it when:** the deliverable rests on disclosed sampling and
+  fieldwork methodology.
+- **Not this when:** the deliverable is forward-looking scenario/trajectory
+  analysis (use `trend-analysis`) or a vendor comparison (use
+  `competitive-quadrant`).
+- **MIF level / type:** L3, `semantic`.
+
+### `sustainability-report`
+
+A GRI-Standards sustainability/ESG report — GRI 1 Foundation, GRI 2 General
+Disclosures, GRI 3 Material Topics, GRI 200/300/400 topic standards, and a
+mandatory GRI Content Index.
+
+- **Authors:** a GRI-structured sustainability/ESG report.
+- **Reach for it when:** the deliverable must carry a GRI Content Index and
+  topic-standard disclosures.
+- **Not this when:** the deliverable is a SOC 2-style controls audit (use
+  `compliance-audit`) or an SEC filing (use `regulatory-disclosure`).
+- **MIF level / type:** L3, `semantic`.
+
+### `trend-analysis`
+
+A trajectory report — drivers and inhibitors, momentum indicators, scenarios
+projected over time, with a Mermaid scenario diagram.
+
+- **Authors:** a forward-looking trend/trajectory report.
+- **Reach for it when:** projecting a trend's direction and drivers/inhibitors
+  over time.
+- **Not this when:** the deliverable is a fieldwork-grounded market study
+  (use `market-research-report`) or a vendor comparison (use
+  `competitive-quadrant`).
+- **MIF level / type:** L3, `semantic`.
+
+### `competitive-quadrant`
+
+A two-axis competitive-quadrant report (Gartner Magic Quadrant-style) — a
+mandatory Mermaid quadrant chart, per-vendor Strengths/Cautions.
+
+- **Authors:** a two-axis vendor/product comparison.
+- **Reach for it when:** placing several vendors on two evaluation axes with
+  a required quadrant figure.
+- **Not this when:** the deliverable is a descriptive market survey with no
+  quadrant placement (use `market-research-report`).
+- **MIF level / type:** L3, `semantic`.
+
+## Business communication
+
+Short, audience-facing updates and decision summaries — not research
+artifacts, and not meant to be read end to end by a fresh reader without
+context.
+
+### `briefing`
+
+A one-page briefing or standup update — What's New, Why It Matters, What's
+Next.
+
+- **Authors:** a recurring status/stakeholder-sync update.
+- **Reach for it when:** a reader who already has context needs a short,
+  time-bound update.
+- **Not this when:** the reader needs a standalone summary with no prior
+  context (use `exec-summary`).
+- **MIF level / type:** L3, `episodic` (time-bound to its coverage period,
+  unlike most genres in this suite).
+
+### `exec-summary`
+
+A 1-2 page decision-oriented executive summary — BLUF (bottom line up
+front), key findings, recommendation, risks.
+
+- **Authors:** a standalone decision summary for a reader with no prior
+  context.
+- **Reach for it when:** a decision-maker needs the bottom line first, without
+  reading the full underlying report.
+- **Not this when:** the reader already has context and just needs a
+  recurring update (use `briefing`).
+- **MIF level / type:** L3, `semantic`.
 
 ## See also
 

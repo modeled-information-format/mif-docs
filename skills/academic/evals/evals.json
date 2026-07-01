@@ -1,0 +1,53 @@
+{
+  "skill_name": "academic",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a formal academic research report on 'energy efficiency of large language model inference' from these three sources: (1) Dao (2023), FlashAttention-2, reports reduced GPU memory bandwidth consumption on A100 hardware, https://arxiv.org/abs/2307.08691; (2) Jiang et al. (2024), a mixture-of-experts model, reports that routing activates only a fraction of total parameters per token, https://arxiv.org/abs/2401.04088; (3) a 2026 study arguing transformer inference energy scales roughly with sequence length. Use the default author-date (APA) citation style.",
+      "expected_output": "A complete academic report with all six IMRaD sections in order (Abstract, Background/Related Context, Method, Findings, Discussion, References), author-date in-text citations such as '(Dao, 2023)' resolving to a full References list, and every claim in Findings traceable to one of the three supplied sources.",
+      "files": [],
+      "expectations": [
+        "Contains all six required sections in order: Abstract, Background/Related Context, Method, Findings, Discussion, References",
+        "Uses author-date in-text citations (e.g. '(Dao, 2023)') rather than numbered markers, since author-date is the default mode",
+        "Every claim in Findings cites one of the three supplied sources; no orphan or uncited claims",
+        "The Discussion section states at least one genuine limitation, not merely a restatement of the Findings"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this academic-report draft: it has an Abstract, Background, Method, Findings, and Discussion section, all stating claims about dense retrieval and RAG evaluation as settled fact, and a Discussion that declares the topic 'a solved problem.' There is no References section and no citation of any kind anywhere in the document. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the total absence of citations and a References section as the core, load-bearing defect — the genre's central requirement that every claim trace to a real, verifiable source — and separately flags the unhedged 'solved problem' claim as a violation of the honesty/limitations rule, with concrete fixes for each.",
+      "files": [],
+      "expectations": [
+        "Names the complete absence of citations and a References section as the central, most load-bearing flaw, not a minor style note",
+        "Explains that every claim in an academic report must trace to a real, verifiable cited source, and that omitting a claim is preferable to fabricating a citation for it",
+        "Flags the unhedged 'solved problem' framing as a violation of the rule to state limitations honestly and hedge uncertain claims",
+        "Recommends adding a genuine References section with sources for every retained claim"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We're evaluating three candidate vector databases against our latency, cost, and durability requirements, and we want a comparison table that grounds a single recommendation. Should this be an academic report?",
+      "expected_output": "Recommends the engineering genre instead, explaining that a practitioner evaluation built around a mandatory options-vs-criteria comparison table is engineering's defining trait, whereas an academic report is a scholarly IMRaD write-up centered on cited evidence and method rather than a required trade-off matrix. Also distinguishes from google-design-doc's informal prose-driven alternatives.",
+      "files": [],
+      "expectations": [
+        "Recommends the engineering genre rather than academic for this request",
+        "Explains that engineering's defining trait is a mandatory options-vs-criteria comparison table, which this scenario needs and academic does not require",
+        "Notes that academic reports are scholarly IMRaD write-ups grounded in cited evidence and explicit method, not vendor/option comparisons",
+        "Distinguishes the scenario from google-design-doc, whose alternatives are discursive prose rather than a required table"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a formal academic research report on 'sleep duration and cognitive performance' from three sources — Walker (2023) on working-memory impairment under sleep restriction, Van Dongen (2024) on partial recovery of attention after chronic restriction, and Patanaik (2025) on individual differences in vulnerability to sleep loss — but use IMRaD/Vancouver mode: numbered in-text citations like [1], [2] resolving to a numerically ordered reference list, NOT author-date.",
+      "expected_output": "A complete academic report with all six IMRaD sections, using numbered Vancouver-style in-text citations ([1], [2], [3]) resolving to a numerically ordered References list, with no author-date parentheticals such as '(Walker, 2023)' anywhere in the document.",
+      "files": [],
+      "expectations": [
+        "Uses numbered in-text citation markers such as [1], [2], [3] consistently throughout, per the requested Vancouver/IMRaD mode",
+        "The References section is numerically ordered to match the in-text markers, not alphabetized by author",
+        "Contains no author-date parentheticals (e.g. '(Walker, 2023)') anywhere in the document, since the two citation modes must not be mixed",
+        "Still contains all six required IMRaD sections despite the change of citation style"
+      ]
+    }
+  ]
+}

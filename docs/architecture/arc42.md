@@ -133,13 +133,17 @@ auto-hydrates from `mif-spec.dev/schema` and records the resolved version in
 
 Level 1 decomposes mif-docs into four black boxes:
 
-- **`skills/`** — 20 genre skills (the four Diataxis quadrants, arc42-arch-doc,
+- **`skills/`** — 37 genre skills (the four Diataxis quadrants, arc42-arch-doc,
   c4-model-diagram, google-design-doc, engineering, adr, rust-rfc, python-pep,
-  changelog, sre-runbook, playbook, prd, feature-spec, ai-architecture-doc, and
-  the three Kiro skills) plus 3 substrate skills (mif-frontmatter L1–L3,
-  ears-acceptance-criteria, mif-validate) and `doc-set-planner` (engine plus the
-  diataxis, ai-spec, kiro, and architecture recipes). Each genre ships
-  `good-l1.md`, `good.md`, `bad.md`, and `evals/evals.json`.
+  changelog, sre-runbook, playbook, prd, feature-spec, ai-architecture-doc, the
+  three Kiro skills, five scholarly/scientific-writing genres, six
+  regulated/compliance-report genres, four research/market-intelligence
+  genres, and two business-communication genres — see
+  [skills by purpose](../reference/skills-by-purpose/) for the full grouping)
+  plus 3 substrate skills (mif-frontmatter L1–L3, ears-acceptance-criteria,
+  mif-validate) and `doc-set-planner` (engine plus the diataxis, ai-spec,
+  kiro, and architecture recipes). Each genre ships `good-l1.md`, `good.md`,
+  `bad.md`, and `evals/evals.json`.
 - **`scripts/`** — the deterministic tooling: `mif-validate`, `mif-convert`
   (`emit-jsonld` | `emit-markdown` | `roundtrip`), `hydrate-schema`,
   `hydrate-ontology`, `validate-ontology`, `validate-plugin`, `check-exemplars`,

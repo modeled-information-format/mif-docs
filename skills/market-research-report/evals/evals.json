@@ -1,0 +1,51 @@
+{
+  "skill_name": "market-research-report",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a full market research report on SMB adoption of AI bookkeeping tools. Survey basis: a stratified random sample of n=620 SMB finance owners, online fieldwork 2026-04-02 to 2026-04-19. Findings: cost was the leading adoption driver (cited by 58% of adopters); trust in automated ledgers was the dominant barrier among non-adopters. Include all required sections in order and a technical appendix.",
+      "expected_output": "A market research report with Background & Objectives, Methodology, Findings, Conclusions & Recommendations, and a Technical Appendix, in that order. The Methodology section discloses the sample frame/method/size (stratified random, n=620) and the fieldwork basis (online, 2026-04-02 to 2026-04-19). The report states the ESOMAR/ICC convention-not-standard caveat rather than claiming ESOMAR conformance.",
+      "files": [],
+      "expectations": [
+        "Has all five sections in order: Background & Objectives, Methodology, Findings, Conclusions & Recommendations, Technical Appendix",
+        "The Methodology section discloses the sample frame, method, and size, plus the fieldwork mode and dates — this disclosure is mandatory, not optional",
+        "States the ESOMAR/ICC convention-not-standard caveat and does not claim ESOMAR conformance",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this market research report draft: it presents a specific adoption percentage and a feature-preference claim as Findings, then jumps straight to Conclusions & Recommendations. There is no Methodology section, no sampling or fieldwork disclosure, and no Technical Appendix anywhere in the document. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing Methodology sampling and fieldwork disclosure as the central defect — not a stylistic nitpick — and explains that an undisclosed sample basis makes the quantified findings unverifiable. Also flags the missing Technical Appendix and recommends adding both.",
+      "files": [],
+      "expectations": [
+        "Names the missing Methodology sampling/fieldwork disclosure as the core defect, not a minor omission",
+        "Explains that a quantified finding with no disclosed sample frame, method, size, or fieldwork basis cannot be trusted by the reader",
+        "Flags the missing Technical Appendix and recommends adding sampling/weighting detail, a fieldwork log, and data-quality notes"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We want to understand where the electric-bike market is heading over the next three years — the signals driving growth, the forces that could accelerate or slow it, and a few plausible forward scenarios. Should this be a market-research-report?",
+      "expected_output": "Recommends trend-analysis instead, explaining that a forward-looking trajectory-and-scenarios deliverable belongs to trend-analysis, while a market-research-report is a point-in-time client study anchored in disclosed sampling and fieldwork rather than a forecast over a time horizon.",
+      "files": [],
+      "expectations": [
+        "Recommends trend-analysis rather than market-research-report for this request",
+        "Explains that market-research-report's defining trait is a disclosed sampling/fieldwork study of a market at a point in time, not a trajectory-and-scenarios forecast",
+        "Distinguishes this from competitive-quadrant (vendor ranking on two axes), which also does not fit a forecasting request"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a market research report on consumer demand for plant-based dairy. The finding set includes: (1) a survived finding that 41% of surveyed consumers purchased a plant-based dairy product in the last 30 days, (2) a falsified finding claiming plant-based dairy will reach 100% household penetration within three years, and (3) a weakened finding that price parity with conventional dairy is the single decisive switching factor. Handle each according to the genre's verification rules.",
+      "expected_output": "A report that excludes the falsified 100%-penetration claim entirely from Findings (naming it only in Methodology as excluded, if at all), includes the weakened price-parity finding with an explicit uncertainty qualifier rather than as settled fact, and presents the survived 41% purchase-incidence finding as normal evidence — all within the full five-section structure plus technical appendix.",
+      "files": [],
+      "expectations": [
+        "The falsified 100%-household-penetration claim does not appear as evidence in the Findings section",
+        "The weakened price-parity finding is presented with an explicit uncertainty qualifier (e.g. 'weakened evidence suggests', 'contested'), not with the same confidence as the survived finding",
+        "The survived 41% purchase-incidence finding is presented as settled evidence",
+        "The Methodology section states the verification policy: falsified findings are excluded, weakened findings are retained with annotation"
+      ]
+    }
+  ]
+}

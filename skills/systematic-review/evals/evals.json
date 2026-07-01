@@ -1,0 +1,52 @@
+{
+  "skill_name": "systematic-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a PRISMA 2020 systematic review on 'the effectiveness of nurse-led smoking-cessation interventions in primary care'. Databases MEDLINE and CENTRAL were searched, yielding 2,140 records identified, 412 duplicates removed, 1,728 screened, 1,520 excluded at title/abstract, 208 reports sought, 6 not retrieved, 202 assessed for eligibility, 187 excluded with reasons, and 15 studies included. Include all required PRISMA sections and a PRISMA flow diagram with these stage counts.",
+      "expected_output": "A PRISMA 2020 systematic review with all required sections in order: structured Abstract, Introduction (rationale, objectives), Methods (eligibility criteria, information sources, search strategy, selection process, data items, risk-of-bias assessment), Results (study selection with a Mermaid PRISMA flow diagram reconciling every given stage count, a risk-of-bias table, and synthesis of results), Discussion (limitations, conclusions), Registration & Protocol, and References.",
+      "files": [],
+      "expectations": [
+        "Includes a Mermaid flowchart (flowchart TD) PRISMA flow diagram showing records identified, screened, excluded, and included with the exact stage counts given",
+        "The flow diagram's counts reconcile at every stage: 2,140 identified minus 412 duplicates equal 1,728 screened; 1,728 minus 1,520 excluded equal 208 sought; 208 minus 6 not retrieved equal 202 assessed; 202 minus 187 excluded with reasons equal 15 included",
+        "The Methods section states all six required sub-elements: eligibility criteria, information sources, search strategy, selection process, data items, and risk-of-bias assessment",
+        "Includes a structured Abstract, a Registration & Protocol section, and a References section"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this systematic-review draft: it claims '9 studies met our criteria' after one sentence describing a PubMed search, with no PRISMA flow diagram, no risk-of-bias table, and no Discussion or References sections. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing PRISMA flow diagram as the core defect, flags that the Methods section collapses all six required sub-elements into one sentence, notes the missing risk-of-bias table, Discussion, and References, and explains how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing PRISMA flow diagram as the central, load-bearing flaw, not a stylistic nitpick",
+        "Explains that a bare study count ('9 studies met our criteria') is unaudited without stage-by-stage counts of records identified, screened, excluded, and included",
+        "Flags that Methods must separately state eligibility criteria, information sources, search strategy, selection process, data items, and risk-of-bias assessment",
+        "Notes the missing risk-of-bias table, Discussion/limitations section, and References list"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want a scholarly write-up summarizing the current research on intermittent fasting and metabolic health, with an abstract, background, method, findings, and discussion. I don't have a registered protocol and I'm not trying to produce a PRISMA flow diagram — I just want a well-cited research report. Should this be a systematic-review?",
+      "expected_output": "Recommends the academic genre instead, explaining that a scholarly research report without a mandatory PRISMA flow diagram or a reproducible, multi-stage registered search protocol belongs in academic, while systematic-review exists specifically to require that reconciled flow diagram and reproducible selection process.",
+      "files": [],
+      "expectations": [
+        "Recommends the academic genre rather than systematic-review for this request",
+        "Explains that systematic-review's defining trait is the mandatory PRISMA flow diagram and reproducible multi-stage search/selection process, which this request explicitly does not want",
+        "Notes that academic still requires citations, method, and discussion, just without the PRISMA-specific flow diagram and protocol registration requirements"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a PRISMA 2020 systematic review on 'wearable-sensor fall detection accuracy in older adults'. Of the 3 candidate studies appraised for risk of bias, one was rated overall 'High' risk of bias due to unblinded outcome assessment and an unvalidated ground-truth fall log, one was rated 'Some concerns', and one was rated 'Low'. Show how the risk-of-bias appraisal affects the synthesis: the flow diagram should record 3 identified, 3 screened, 0 excluded at screening, and reflect how the 'High' risk-of-bias study is handled in the Results and Discussion. Write the full review.",
+      "expected_output": "A PRISMA systematic review whose risk-of-bias table reports all three appraisal verdicts (High, Some concerns, Low) across the RoB 2 domains, whose Synthesis of Results and Discussion explicitly flag the 'High' risk-of-bias study as a driver of caution rather than treating it with the same confidence as the 'Low' risk-of-bias study, and whose PRISMA flow diagram still shows all 3 studies as included (risk-of-bias appraisal is not the same gate as eligibility exclusion) with counts that reconcile.",
+      "files": [],
+      "expectations": [
+        "Includes a risk-of-bias table reporting all three studies' domain-level and overall RoB 2 verdicts (High, Some concerns, Low)",
+        "The Synthesis of Results or Discussion explicitly treats the 'High' risk-of-bias study's evidence with less confidence than the 'Low' risk-of-bias study, rather than presenting them identically",
+        "The PRISMA flow diagram still shows all 3 studies as included in the review, distinguishing risk-of-bias appraisal (a quality signal on included studies) from PRISMA eligibility exclusion (a different flow stage)",
+        "The flow diagram's counts reconcile: 3 identified, 3 screened, 0 excluded at screening, 3 included"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "skill_name": "regulatory-disclosure",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an SEC-style annual disclosure report for a mid-cap cloud-infrastructure company's fiscal year. Facts: the company operates a multi-tenant cloud platform serving 1,400 enterprise customers across three regions; the top ten customers account for 38% of recurring revenue; operating margin expanded 420 basis points year over year on improved infrastructure utilization. Include all required sections in Reg S-K item order.",
+      "expected_output": "A disclosure report with sections in Reg S-K item order: Business (Item 1), Risk Factors (Item 1A), Properties & Legal Proceedings, Selected Financial Data (heading present even if marked N/A), MD&A (Item 7), Financial Statements & Supplementary Data (Item 8), Controls & Procedures. Risk Factors precedes MD&A which precedes Financial Statements. The customer-concentration fact appears in Risk Factors, and the margin-expansion fact is analyzed (not merely restated) in MD&A.",
+      "files": [],
+      "expectations": [
+        "All seven items appear in the fixed Reg S-K order, with the Selected Financial Data heading always emitted even if marked N/A",
+        "Risk Factors names the customer-concentration risk and MD&A analyzes results of operations and trends rather than restating the Business section",
+        "The report states the scope caveat that it reproduces disclosure structure only, not legal/financial sufficiency or audit assurance",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this disclosure-report draft: it has Business, Properties & Legal Proceedings, Selected Financial Data, MD&A, Financial Statements, and Controls & Procedures — but no Risk Factors section anywhere, even though the MD&A mentions in passing that one customer is 57% of revenue and the sole aluminum supplier had a fire. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing Risk Factors (Item 1A) section as the core defect — a violation of the genre's fixed Reg S-K item order — and flags that the customer-concentration and single-supplier facts should have been disclosed as material risks rather than mentioned only in passing within MD&A.",
+      "files": [],
+      "expectations": [
+        "Names the missing Risk Factors (Item 1A) section as the central, load-bearing defect, not a stylistic nitpick",
+        "Explains that an undiscussed material risk (customer concentration, single-supplier exposure) is itself a defect under this genre's rules",
+        "Notes that MD&A is restating the Business section instead of serving as the analytical core",
+        "Explains that the fixed item order (Risk Factors before MD&A before Financial Statements) is not optional for this genre"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We just finished a SOC 2 Type II internal-controls assessment for our SaaS platform and need to write it up with our findings on access-control gaps and remediation status. Should this be a regulatory-disclosure report?",
+      "expected_output": "Recommends compliance-audit instead, explaining that a control-framework conformance review with findings and remediation status has no Reg S-K item order or investor-facing MD&A, while regulatory-disclosure exists specifically to reproduce the fixed Business/Risk Factors/MD&A/Controls structure of a public-company annual filing.",
+      "files": [],
+      "expectations": [
+        "Recommends compliance-audit rather than regulatory-disclosure for this request",
+        "Explains that regulatory-disclosure's defining trait is the fixed Reg S-K item order and MD&A analytical core, which a control-framework assessment doesn't need",
+        "Distinguishes this from sustainability-report (voluntary ESG/impact narrative, no statutory item order)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Produce a disclosure report on a fintech lender's annual disclosure from these findings: the lender originated $2.1 billion in consumer loans (survived); a press release claim that the company faces zero credit risk because all loans are fully government-guaranteed (falsified by review); a claim that charge-off rates may rise if unemployment exceeds 6%, though the elasticity estimate is contested (weakened).",
+      "expected_output": "A disclosure report that excludes the falsified zero-credit-risk claim entirely, includes the weakened charge-off-sensitivity finding in Risk Factors with an explicit uncertainty qualifier (e.g. 'contested' or 'weakened evidence suggests'), and uses the survived origination figure in Business/MD&A — keeping Reg S-K item ordering throughout.",
+      "files": [],
+      "expectations": [
+        "The falsified zero-credit-risk claim does not appear as a stated fact or disclosed risk anywhere in the report",
+        "The weakened charge-off-sensitivity finding appears in Risk Factors carrying an explicit uncertainty qualifier, not asserted with the confidence of a survived finding",
+        "The survived origination figure is used in Business and/or MD&A",
+        "Fixed Reg S-K item order is preserved throughout"
+      ]
+    }
+  ]
+}

@@ -39,7 +39,11 @@ reconcile the cross-document MIF `relationships[]` graph.
 
 Singletons have no member set and are invoked directly: `adr`, `changelog`,
 `sre-runbook`, `playbook`, `rust-rfc`, `python-pep`, `google-design-doc`,
-`engineering`.
+`engineering`, `academic`, `systematic-review`, `computing-paper`,
+`humanities-mla`, `humanities-chicago`, `clinical-submission`, `nist-sp`,
+`regulatory-disclosure`, `compliance-audit`, `security-pentest`,
+`legal-memo`, `market-research-report`, `sustainability-report`,
+`trend-analysis`, `competitive-quadrant`, `briefing`, `exec-summary`.
 
 ## Link-completeness check
 
