@@ -1,0 +1,55 @@
+{
+  "skill_name": "engineering",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an engineering report deciding which message-queue technology to adopt for our event pipeline. Decision drivers: throughput above 1M msg/s, at-least-once delivery, operational simplicity, a cloud-managed option available. Candidates: Apache Kafka (self-managed, benchmarks at 2M msg/s on a 3-broker cluster but needs ~0.5 FTE/cluster to operate), AWS SQS FIFO (managed, but capped at 3,000 TPS per queue), and Redpanda Cloud (managed, Kafka-API compatible, no ZooKeeper dependency).",
+      "expected_output": "An engineering report with Problem/Context, Options Considered, a required Trade-offs comparison table mapping the three candidates against the four decision drivers, a Decision naming one option and citing the table, Implementation Notes, and Consequences.",
+      "files": [],
+      "expectations": [
+        "Has a Problem/Context section stating the decision drivers",
+        "Options Considered describes all three candidates neutrally before judging them",
+        "Includes a Markdown Trade-offs comparison table mapping the candidates against the stated decision drivers — this table is mandatory, not optional",
+        "The Decision names exactly one option and ties the choice to evidence from the comparison table, not a bare preference",
+        "Implementation Notes name at least one concrete, actionable step (a dependency, migration step, or rollout action)",
+        "Emits MIF frontmatter with type: semantic and passes mif-validate --level 1"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this engineering-report draft: it names three caching options and picks Redis 'because it's the most popular choice,' with no comparison table and no Consequences section. What's wrong and how do I fix it?",
+      "expected_output": "Identifies the missing mandatory Trade-offs comparison table as the core defect, flags the ungrounded Decision and missing Consequences, and explains how to fix each.",
+      "files": [],
+      "expectations": [
+        "Names the missing Trade-offs comparison table as the central flaw, not a stylistic nitpick",
+        "Flags that the Decision is a bare preference rather than grounded in comparison-table evidence",
+        "Notes the missing Consequences section",
+        "Explains that the comparison table must map every option against the stated decision drivers"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We already picked Postgres over MySQL for our new service and just need that decision on record with its drivers. Should this be an engineering report?",
+      "expected_output": "Recommends an ADR instead, explaining that a single already-made, immutable decision with a driver-and-outcome shape belongs in adr (Structured MADR), while an engineering report exists to show a comparison table across options as part of reaching the decision.",
+      "files": [],
+      "expectations": [
+        "Recommends adr rather than the engineering genre for this request",
+        "Explains the engineering genre's defining trait is a mandatory options-vs-criteria comparison table, which a settled single-decision record doesn't need",
+        "Distinguishes this from google-design-doc (informal, prose-driven alternatives) and from prd/feature-spec (requirements, not evaluation)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write an engineering report evaluating observability backends (Grafana Tempo vs Datadog APM vs Honeycomb) for our microservices platform, formatted to formal ANSI/NISO Z39.18 technical-report conformance with a Report Documentation Page, distribution/STINFO marking, and Z39.18-ordered back matter (References before Appendix).",
+      "expected_output": "An engineering report retaining the default structure (Problem/Context, Options Considered, required Trade-offs table, Decision, Implementation Notes, Consequences) plus the additive Z39.18 elements: a Report Documentation Page, a distribution/STINFO marking, and back matter ordered References-then-Appendix.",
+      "files": [],
+      "expectations": [
+        "Retains all default sections including the required Trade-offs comparison table — Z39.18 elements are additive, not a replacement",
+        "Includes a Report Documentation Page as front matter",
+        "Includes a distribution statement or STINFO marking",
+        "Orders back matter with a References section before an Appendix section",
+        "Does not assert a specific Z39.18 or ISO/IEC Directives Part 2 revision as settled fact"
+      ]
+    }
+  ]
+}
