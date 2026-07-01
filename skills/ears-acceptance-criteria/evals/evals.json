@@ -98,8 +98,9 @@
       "files": [],
       "deterministic_checks": [
         {
-          "type": "shell_command",
-          "command": "python3 -c \"import re; t=open('transcript.md').read(); c=len(re.findall(r'(?i)\\\\bshall\\\\b', t)); exit(0 if c>=3 else 1)\"",
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is:(?:.*?\\bshall\\b){3})",
           "description": "Produces at least three separate 'shall' statements, one per bullet"
         },
         {
@@ -193,8 +194,9 @@
           "description": "Produces at least one Event-driven When/shall criterion"
         },
         {
-          "type": "shell_command",
-          "command": "python3 -c \"import re; t=open('transcript.md').read(); c=len(re.findall(r'(?i)\\\\bshall\\\\b', t)); exit(0 if c>=2 else 1)\"",
+          "type": "regex_match",
+          "file": "transcript.md",
+          "pattern": "(?is:(?:.*?\\bshall\\b){2})",
           "description": "Splits the compound requirement into at least two separate 'shall' statements"
         },
         {
