@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "prepare": "lefthook install",
     "validate-plugin": "node scripts/validate-plugin.mjs",
     "mif-validate": "node scripts/mif-validate.mjs",
     "mif-convert": "node scripts/mif-convert.mjs",
@@ -21,6 +22,7 @@
     "js-yaml": "5.2.0"
   },
   "devDependencies": {
+    "lefthook": "2.1.9",
     "markdownlint-cli2": "0.23.0"
   }
 }
