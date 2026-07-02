@@ -1,0 +1,46 @@
+# Local mirror of the fast subset of .github/workflows/ci.yml's "validate" job.
+# Skips network-dependent steps (hydrate-schema, ontology validation) since
+# schema/.cache/ is committed and the ontology lives in a private sibling repo.
+# Bypass in an emergency: git commit/push --no-verify.
+pre-commit:
+  parallel: true
+  commands:
+    # markdownlint-cli2's own config globs **/*.md regardless of CLI args, so
+    # this always lints the whole tree (fast: ~1s over 277 files) rather than
+    # only staged files — matches CI's lint:md gate exactly.
+    lint-md:
+      run: npm run --silent lint:md
+    mif-validate:
+      glob: "*.md"
+      run: for f in {staged_files}; do bash scripts/hooks/mif-validate-file.sh "$f"; done
+
+pre-push:
+  parallel: true
+  commands:
+    validate-plugin:
+      run: npm run --silent validate-plugin
+    mif-validate-templates:
+      run: |
+        for f in skills/*/templates/good.md; do
+          [ -f "$f" ] || continue
+          [ "$f" = "skills/adr/templates/good.md" ] && continue
+          node scripts/mif-validate.mjs "$f" --level 1
+        done
+    mif-validate-docs:
+      run: |
+        for f in docs/adr/*.md docs/architecture/*.md docs/runbooks/*.md docs/reference/*.md docs/explanation/*.md; do
+          [ -f "$f" ] || continue
+          node scripts/mif-validate.mjs "$f" --level 3
+        done
+        for f in docs/tutorials/*.md docs/how-to/*.md CHANGELOG.md; do
+          [ -f "$f" ] || continue
+          node scripts/mif-validate.mjs "$f" --level 2
+        done
+    check-exemplars:
+      run: node scripts/check-exemplars.mjs
+    planner-check:
+      run: node scripts/planner-check.mjs
+    test-hook:
+      run: npm run --silent test:hook
+    lint-md:
+      run: npm run --silent lint:md
